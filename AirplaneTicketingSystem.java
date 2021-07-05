@@ -10,50 +10,102 @@ public class AirplaneTicketingSystem
 	public AirplaneTicketingSystem()
 	{   
 		//Create right and left panel to split main panel
-		JPanel splitToRight = new JPanel();
-		splitToRight.setLayout(new BorderLayout());
-		JPanel splitToLeft = new JPanel();
-		splitToLeft.setLayout(new BorderLayout());
+		JPanel rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout());
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BorderLayout());
 		
 		//JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, right, left);
         
 		//Creates the main panel
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(splitToRight, BorderLayout.EAST);
-        panel.add(splitToLeft, BorderLayout.WEST);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(rightPanel, BorderLayout.CENTER);
+        mainPanel.add(leftPanel, BorderLayout.WEST);
         
-        //Creates the left panel
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        splitToLeft.add(leftPanel, BorderLayout.NORTH);
         
-        //Creates the components
-        String[] airlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"};
-        addComponent("Choose Airline", leftPanel, airlineChoices);
-        String[] tripTypeChoices = {"One-Way Trip", "Round Trip"};
-        addComponent("Choose Trip Type", leftPanel, tripTypeChoices);
-        String[] scheduleChoices = {"EMPTY"};
-        addComponent("Set Schedule", leftPanel, scheduleChoices);
+        //Creates the first panel to the left
+        JPanel firstPanel = new JPanel(new BorderLayout());
+        //firstPanel.setBounds(0, 0, -20, -20);
+        firstPanel.setLayout(new BoxLayout(firstPanel, BoxLayout.Y_AXIS));
+        leftPanel.add(firstPanel, BorderLayout.NORTH);
+        
+        //Creates the second panel to the right
+        JPanel secondPanel = new JPanel(new BorderLayout());
+        secondPanel.setLayout(new BoxLayout(secondPanel, BoxLayout.Y_AXIS));
+        rightPanel.add(secondPanel, BorderLayout.CENTER);
+        
+        JTextArea leftTextArea = new JTextArea();
+        
+        addComponent(leftTextArea, null,secondPanel, true, null, false);
+        
+        JButton submitButton = new JButton("Submit");
+        rightPanel.add(submitButton, BorderLayout.SOUTH);
+        
+        
+        //Creates the first panel components
+        JComboBox<String> airlineBox, tripTypeBox, scheduleBox, flightTypeBox, originBox, 
+        destinationBox, classTypeBox, passengerTypeBox, paymentBox;
+        JTextArea numberOfPassengers = new JTextArea();
+        
         String[] flightTypeChoices = {"International", "Local"};
-        addComponent("Choose Flight Type", leftPanel, flightTypeChoices);
+        flightTypeBox = new JComboBox<String>(flightTypeChoices);
+        addComponent(flightTypeBox,"Choose Flight Type", firstPanel);
+        
+        String[] airlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"};
+        airlineBox = new JComboBox<String>(airlineChoices);
+        addComponent(airlineBox,"Choose Airline", firstPanel);
+        
+        String[] tripTypeChoices = {"One-Way Trip", "Round Trip"};
+        tripTypeBox = new JComboBox<String>(tripTypeChoices);
+        addComponent(tripTypeBox,"Choose Trip Type", firstPanel);
+        
         String[] originChoices = {"EMPTY"};
-        addComponent("Set Origin", leftPanel, originChoices);
+        originBox = new JComboBox<String>(originChoices);
+        addComponent(originBox,"Set Origin", firstPanel);
+        
         String[] destinationChoices = {"EMPTY"};
-        addComponent("Set Destination", leftPanel, destinationChoices);
+        destinationBox = new JComboBox<String>(destinationChoices);
+        addComponent(destinationBox,"Set Destination", firstPanel);
+        
+        String[] scheduleChoices = {"EMPTY"};
+        scheduleBox = new JComboBox<String>(scheduleChoices);
+        addComponent(scheduleBox,"Set Schedule", firstPanel);
+        
         String[] classTypeChoices = {"Business", "Economy", "Premium"};
-        addComponent("Choose Class Type", leftPanel, classTypeChoices);
-        addComponent("Number Of Passengers", leftPanel, true, "Input number of passengers");
+        classTypeBox = new JComboBox<String>(classTypeChoices);
+        addComponent(classTypeBox,"Choose Class Type", firstPanel);
+        
+        addComponent(numberOfPassengers,"Number Of Passengers", firstPanel, true, "Input number of passengers", true);
+        
         String[] passengerType = {"Adult","Infant", "Senior Citizen"};
-        addComponent("Passenger Type", leftPanel, passengerType);
-        String[] modeOfPayment = {"Credit","Debit", "Cash"};
-        addComponent("Mode of Payment", leftPanel, modeOfPayment);
+        passengerTypeBox = new JComboBox<String>(passengerType);
+        addComponent(passengerTypeBox,"Passenger Type", firstPanel);
+        
+        String[] modeOfPayment = {"Credit","Debit", "GCash"};
+        paymentBox = new JComboBox<String>(modeOfPayment);
+        addComponent(paymentBox,"Mode of Payment", firstPanel);
         //TODO: Bank details, Change flight, Cancel flight, UI
+        
+        submitButton.addActionListener((e) -> {
+        	String details  = flightTypeBox.getItemAt(flightTypeBox.getSelectedIndex()) + System.lineSeparator() + 
+        	airlineBox.getItemAt(airlineBox.getSelectedIndex()) + System.lineSeparator() + 
+        	tripTypeBox.getItemAt(tripTypeBox.getSelectedIndex()) +System.lineSeparator()+
+        	originBox.getItemAt(originBox.getSelectedIndex()) + System.lineSeparator() + 
+        	destinationBox.getItemAt(destinationBox.getSelectedIndex()) + System.lineSeparator() +  
+        	scheduleBox.getItemAt(scheduleBox.getSelectedIndex()) + System.lineSeparator() +  
+        	classTypeBox.getItemAt(classTypeBox.getSelectedIndex()) + System.lineSeparator() + numberOfPassengers.getText() 
+        	+ System.lineSeparator() + passengerTypeBox.getItemAt(passengerTypeBox.getSelectedIndex()) + 
+        	System.lineSeparator() + paymentBox.getItemAt(paymentBox.getSelectedIndex());
+            
+        	leftTextArea.setText(details);  
+        });
+        
         
         //Creates the shell
 		JFrame frame = new JFrame();
 		frame.setTitle("Airplane Ticketing System");
 		frame.setLayout(new BorderLayout());
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(mainPanel, BorderLayout.CENTER);
         frame.setSize(new Dimension(800, 650));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -62,26 +114,27 @@ public class AirplaneTicketingSystem
         frame.setVisible(true);
         
 	}
-	private void addComponent(String description, Container container, String[] list)
+	
+	private void addComponent(JComboBox<String> box, String description, Container container)
 	{
 		JLabel label = new JLabel(description);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
 		container.add(label, BorderLayout.WEST);
-		JComboBox<String> box = new JComboBox<String>(list);
 		container.add(box, BorderLayout.WEST);
 	}
-	private void addComponent(String description, Container container, Boolean needsInput, String placeholder)
+	private void addComponent(JTextArea textArea, String description, Container container, Boolean needsInput, String placeholder, Boolean editable)
 	{
 		JLabel label = new JLabel(description);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
 		container.add(label, BorderLayout.WEST);
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		
 		if (needsInput)
 		{
-			JTextArea textArea = new JTextArea();
+			//textArea = new JTextArea(1,1);
 			textArea.setText(placeholder);
 			textArea.addFocusListener(new FocusListener()
 					{
-
 						@Override
 						public void focusGained(FocusEvent e) {
 							// TODO Auto-generated method stub
@@ -90,7 +143,6 @@ public class AirplaneTicketingSystem
 								textArea.setText("");
 							}
 						}
-
 						@Override
 						public void focusLost(FocusEvent e) {
 							// TODO Auto-generated method stub
@@ -98,17 +150,16 @@ public class AirplaneTicketingSystem
 							{
 								textArea.setText(placeholder);
 							}
-						}
-				
+						}		
 					});
 			
 	        textArea.setLineWrap(true);
 	        textArea.setWrapStyleWord(true);
 	        textArea.setBackground(new Color(241,241,241));
 	        textArea.setBorder(blackline);
-	        textArea.setEditable(true);
+	        textArea.setEditable(editable);
 	        textArea.setMargin(new Insets(5, 5, 5, 5));
-	        container.add(textArea, BorderLayout.WEST);
+	        container.add(textArea, BorderLayout.CENTER);
 		}
 	}
 }
