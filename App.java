@@ -50,8 +50,9 @@ public class App extends JFrame
 				   setNumberOfPassengerBoxLabel, setNumberOfAdultsLabel, setNumberOfInfantsLabel, setNumberOfSeniorCitizenLabel, setModeOfPaymentBoxLabel;
 	private JComboBox<String> setFlightTypeBox, setAirlineBox, setTripTypeBox, setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
 	private JTextField setBankAccountName, setNumberOfPassengersTextField, setNumberOfInfantsTextField, setNumberOfAdultsTextField, setNumberOfSeniorCitizensTextField;
-	private JButton backButton, nextButton;
+	private JButton backButton;
 	private int numberOfPassengers, numberOfInfants, numberOfAdults, numberOfSeniorCitizens;
+	private JButton nextButton;
 	private JTextArea rightTextArea;
 	
 	/**
@@ -117,7 +118,7 @@ public class App extends JFrame
 		mainPanel.setLayout(null);
 		
 		layeredPane = new JLayeredPane();
-		layeredPane.setBounds(5, 5, 280, 594);
+		layeredPane.setBounds(5, 5, 767, 594);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		mainPanel.add(layeredPane);
 		
@@ -132,46 +133,29 @@ public class App extends JFrame
 		//Labels
 		setClassTypeBoxLabel = new JLabel("Class Type");
 		setClassTypeBoxLabel.setLabelFor(setClassTypeBox);
-		setClassTypeBoxLabel.setBounds(12, 203, 62, 16);
 		
 		setFlightTypeBoxLabel = new JLabel("Flight Type  ");
-		setFlightTypeBoxLabel.setBounds(12, 16, 66, 16);
 		
 		setAirlineBoxLabel = new JLabel("Airlines");
-		setAirlineBoxLabel.setBounds(12, 47, 43, 16);
 		
 		setTripTypeBoxLabel = new JLabel("Trip Type");
-		setTripTypeBoxLabel.setBounds(12, 78, 52, 16);
 		
 		setOriginBoxLabel = new JLabel("Origin");
-		setOriginBoxLabel.setBounds(12, 109, 34, 16);
 		
 		setDestinationLabel = new JLabel("Destination");
-		setDestinationLabel.setBounds(12, 140, 64, 16);
 		
 		setScheduleBoxLabel = new JLabel("Schedule");
-		setScheduleBoxLabel.setBounds(12, 172, 53, 16);
 		
 		setNumberOfPassengerBoxLabel = new JLabel("Number Of Passengers");
 		setNumberOfPassengerBoxLabel.setLabelFor(setNumberOfPassengersTextField);
-		setNumberOfPassengerBoxLabel.setBounds(12, 231, 133, 16);
-		firstPanel.add(setNumberOfPassengerBoxLabel);
 		
 		setNumberOfAdultsLabel = new JLabel("Adults");
-		setNumberOfAdultsLabel.setBounds(108, 259, 55, 16);
-		firstPanel.add(setNumberOfAdultsLabel);
 		
 		setNumberOfInfantsLabel = new JLabel("Infants");
-		setNumberOfInfantsLabel.setBounds(23, 259, 55, 16);
-		firstPanel.add(setNumberOfInfantsLabel);
 		
 		setNumberOfSeniorCitizenLabel = new JLabel("Senior Citizen");
-		setNumberOfSeniorCitizenLabel.setBounds(180, 259, 83, 16);
-		firstPanel.add(setNumberOfSeniorCitizenLabel);
 		
 		setModeOfPaymentBoxLabel = new JLabel("Mode of Payment");
-		setModeOfPaymentBoxLabel.setBounds(12, 325, 105, 16);
-		firstPanel.add(setModeOfPaymentBoxLabel);
 		
 		setBankAccountNameLabel = new JLabel("Account Name");
 		setBankAccountNameLabel.setBounds(12, 12, 92, 16);
@@ -184,92 +168,211 @@ public class App extends JFrame
 		setClassTypeBox = new JComboBox<String>();
 		String[] classTypeChoices = {"Business", "Economy", "Premium"};
 		setClassTypeBox.setModel(new DefaultComboBoxModel<String>(classTypeChoices));
-		setClassTypeBox.setBounds(82, 199, 81, 25);
 		
 		setDestinationBox = new JComboBox<String>();
 		setDestinationLabel.setLabelFor(setDestinationBox);
 		String[] destinationChoices = {"EMPTY"};
 		setDestinationBox.setModel(new DefaultComboBoxModel<String>(destinationChoices));
-		setDestinationBox.setBounds(82, 136, 67, 25);
 		
 		setOriginBox = new JComboBox<String>();
 		setOriginBoxLabel.setLabelFor(setOriginBox);
 		String[] originChoices = {"EMPTY"};
 		setOriginBox.setModel(new DefaultComboBoxModel<String>(originChoices));
-		setOriginBox.setBounds(82, 105, 67, 25);
 		
 		setFlightTypeBox = new JComboBox<String>();
 		setFlightTypeBoxLabel.setLabelFor(setFlightTypeBox);
 		String[] flightTypeChoices = {"International", "Local"};
 		setFlightTypeBox.setModel(new DefaultComboBoxModel<String>(flightTypeChoices));
-		setFlightTypeBox.setBounds(82, 12, 99, 25);
 		
 		setAirlineBox = new JComboBox<String>();
 		setAirlineBoxLabel.setLabelFor(setAirlineBox);
 		setAirlineBox.setModel(new DefaultComboBoxModel<String>(internationalAirlineChoices));
-		setAirlineBox.setBounds(82, 43, 146, 25);
 		
 		setTripTypeBox = new JComboBox<String>();
 		setTripTypeBoxLabel.setLabelFor(setTripTypeBox);
 		String[] tripTypeChoices = {"One-Way Trip", "Round Trip"};
 		setTripTypeBox.setModel(new DefaultComboBoxModel<String>(tripTypeChoices));
-		setTripTypeBox.setBounds(82, 74, 105, 25);
 		
 		setScheduleBox = new JComboBox<String>();
 		setScheduleBoxLabel.setLabelFor(setScheduleBox);
 		String[] scheduleChoices = {"EMPTY"};
 		setScheduleBox.setModel(new DefaultComboBoxModel<String>(scheduleChoices));
-		setScheduleBox.setBounds(82, 168, 67, 25);
 		
 		setModeOfPaymentBox = new JComboBox<String>();
 		setModeOfPaymentBoxLabel.setLabelFor(setModeOfPaymentBox);
 		String[] modeOfPayment = {"Credit","Debit", "GCash"};
 		setModeOfPaymentBox.setModel(new DefaultComboBoxModel<String>(modeOfPayment));
-		setModeOfPaymentBox.setBounds(118, 321, 69, 25);
-		firstPanel.add(setModeOfPaymentBox);
-		
-		firstPanel.setLayout(null);
-		firstPanel.add(setFlightTypeBoxLabel);
-		firstPanel.add(setFlightTypeBox);
-		firstPanel.add(setAirlineBoxLabel);
-		firstPanel.add(setAirlineBox);
-		firstPanel.add(setTripTypeBoxLabel);
-		firstPanel.add(setTripTypeBox);
-		firstPanel.add(setOriginBoxLabel);
-		firstPanel.add(setOriginBox);
-		firstPanel.add(setDestinationLabel);
-		firstPanel.add(setDestinationBox);
-		firstPanel.add(setScheduleBoxLabel);
-		firstPanel.add(setScheduleBox);
-		firstPanel.add(setClassTypeBoxLabel);
-		firstPanel.add(setClassTypeBox);
 		
 		
 		//Text Fields
 		setNumberOfPassengersTextField = new JTextField();
-		
-		setNumberOfPassengersTextField.setBounds(154, 229, 114, 20);
-		
-		firstPanel.add(setNumberOfPassengersTextField);	
 		setNumberOfPassengersTextField.setColumns(10);
 	
 		setNumberOfInfantsTextField = new JTextField();
 		setNumberOfInfantsLabel.setLabelFor(setNumberOfInfantsTextField);
-		setNumberOfInfantsTextField.setBounds(12, 284, 66, 20);
-		firstPanel.add(setNumberOfInfantsTextField);
 		setNumberOfInfantsTextField.setColumns(10);
 		
 		setNumberOfAdultsTextField = new JTextField();
 		setNumberOfAdultsLabel.setLabelFor(setNumberOfAdultsTextField);
 		setNumberOfAdultsTextField.setColumns(10);
-		setNumberOfAdultsTextField.setBounds(97, 284, 66, 20);
-		firstPanel.add(setNumberOfAdultsTextField);
 		
 		setNumberOfSeniorCitizensTextField = new JTextField();
 		setNumberOfSeniorCitizenLabel.setLabelFor(setNumberOfSeniorCitizensTextField);
 		setNumberOfSeniorCitizensTextField.setColumns(10);
-		setNumberOfSeniorCitizensTextField.setBounds(185, 284, 66, 20);
-		firstPanel.add(setNumberOfSeniorCitizensTextField);
+		
+		nextButton = new JButton("Next");
+		
+		rightTextArea = new JTextArea();
+		rightTextArea.setWrapStyleWord(true);
+		rightTextArea.setLineWrap(false);
+		rightTextArea.setEditable(false);
+		rightTextArea.setBackground(new Color(241, 241, 241));
+		GroupLayout gl_firstPanel = new GroupLayout(firstPanel);
+		gl_firstPanel.setHorizontalGroup(
+			gl_firstPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_firstPanel.createSequentialGroup()
+					.addGap(12)
+					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setFlightTypeBoxLabel)
+							.addGap(36)
+							.addComponent(setFlightTypeBox, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setAirlineBoxLabel)
+							.addGap(59)
+							.addComponent(setAirlineBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setTripTypeBoxLabel)
+							.addGap(50)
+							.addComponent(setTripTypeBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setOriginBoxLabel)
+							.addGap(68)
+							.addComponent(setOriginBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setDestinationLabel)
+							.addGap(38)
+							.addComponent(setDestinationBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setScheduleBoxLabel)
+							.addGap(49)
+							.addComponent(setScheduleBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setClassTypeBoxLabel)
+							.addGap(40)
+							.addComponent(setClassTypeBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addComponent(setNumberOfPassengerBoxLabel)
+							.addGap(4)
+							.addComponent(setNumberOfPassengersTextField, GroupLayout.PREFERRED_SIZE, 161, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(19)
+							.addComponent(setNumberOfInfantsLabel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+							.addGap(37)
+							.addComponent(setNumberOfAdultsLabel, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+							.addGap(36)
+							.addComponent(setNumberOfSeniorCitizenLabel, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addComponent(setNumberOfInfantsTextField, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+							.addGap(22)
+							.addComponent(setNumberOfAdultsTextField, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+							.addGap(19)
+							.addComponent(setNumberOfSeniorCitizensTextField, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(setModeOfPaymentBoxLabel, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(setModeOfPaymentBox, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)))
+					.addGap(8)
+					.addComponent(rightTextArea, GroupLayout.PREFERRED_SIZE, 411, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_firstPanel.createSequentialGroup()
+					.addGap(633)
+					.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_firstPanel.setVerticalGroup(
+			gl_firstPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_firstPanel.createSequentialGroup()
+					.addGap(12)
+					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(4)
+									.addComponent(setFlightTypeBoxLabel))
+								.addComponent(setFlightTypeBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(6)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(4)
+									.addComponent(setAirlineBoxLabel))
+								.addComponent(setAirlineBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(3)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(4)
+									.addComponent(setTripTypeBoxLabel))
+								.addComponent(setTripTypeBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(4)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(9)
+									.addComponent(setOriginBoxLabel))
+								.addComponent(setOriginBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(6)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(9)
+									.addComponent(setDestinationLabel))
+								.addComponent(setDestinationBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(7)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(9)
+									.addComponent(setScheduleBoxLabel))
+								.addComponent(setScheduleBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(8)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(4)
+									.addComponent(setClassTypeBoxLabel))
+								.addComponent(setClassTypeBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(8)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(2)
+									.addComponent(setNumberOfPassengerBoxLabel))
+								.addComponent(setNumberOfPassengersTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(10)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(setNumberOfInfantsLabel)
+								.addComponent(setNumberOfAdultsLabel)
+								.addComponent(setNumberOfSeniorCitizenLabel))
+							.addGap(12)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(setNumberOfInfantsTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(setNumberOfAdultsTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(setNumberOfSeniorCitizensTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(14)
+							.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_firstPanel.createSequentialGroup()
+									.addGap(4)
+									.addComponent(setModeOfPaymentBoxLabel))
+								.addComponent(setModeOfPaymentBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(4)
+							.addComponent(rightTextArea, GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)))
+					.addGap(42)
+					.addComponent(nextButton)
+					.addGap(27))
+		);
+		firstPanel.setLayout(gl_firstPanel);
 		setBankAccountName = new JTextField();
 		setBankAccountName.setBounds(122, 10, 114, 20);
 		secondPanel.add(setBankAccountName);
@@ -283,134 +386,15 @@ public class App extends JFrame
 		
 		
 		Border blackline = BorderFactory.createLineBorder(Color.black);
-		rightTextArea = new JTextArea();
-		rightTextArea.setEditable(false);
-		rightTextArea.setLineWrap(false);
-		rightTextArea.setBackground(new Color(241,241,241));
-		rightTextArea.setWrapStyleWord(true);
-		rightTextArea.setBorder(blackline);
-		rightTextArea.setBounds(297, 5, 475, 542);
-		mainPanel.add(rightTextArea);
 		
 		//Buttons
 		backButton = new JButton("Back");
 		backButton.setBounds(47, 556, 98, 26);
 		secondPanel.add(backButton);
-		
-		nextButton = new JButton("Next");
-		
-		nextButton.setBounds(627, 559, 98, 26);
-		mainPanel.add(nextButton);
 	}
 	
 	private void createEvents()
 	{
-		nextButton.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				if(firstPanel.getParent() == layeredPane)
-				{
-					try
-					{
-						numberOfPassengers = Integer.parseInt(setNumberOfPassengersTextField.getText());
-						numberOfInfants = Integer.parseInt(setNumberOfInfantsTextField.getText());
-						numberOfAdults = Integer.parseInt(setNumberOfAdultsTextField.getText());
-						numberOfSeniorCitizens = Integer.parseInt(setNumberOfSeniorCitizensTextField.getText());
-						
-						int totalPassengers =  numberOfInfants + numberOfAdults + numberOfSeniorCitizens;
-					
-						if(numberOfPassengers > 200)
-						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not exceed 200");
-						}
-						else if (numberOfPassengers < 0)
-						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not be less than 0");
-						}
-						else if (numberOfPassengers == 0)
-						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not be set to 0");
-							
-						}
-						else if (totalPassengers != numberOfPassengers)
-						{
-							JOptionPane.showMessageDialog(null,"Total passengers error");
-						}
-						else 
-						{
-							rightTextArea.setText("Flight Type: "+ setFlightTypeBox.getSelectedItem() + "\n"+ "Airlines: " + setAirlineBox.getSelectedItem() + "\n" + "Trip Type: " + 
-						    setTripTypeBox.getSelectedItem() + "\n" + "Origin: " + setOriginBox.getSelectedItem() + "\n" + "Destination: " + setDestinationBox.getSelectedItem() + "\n" +
-							"Schedule: " + setScheduleBox.getSelectedItem() + "\n" + "Class Type: " + setClassTypeBox.getSelectedItem() + "\n" + "Number Of Passengers: " + 
-						    setNumberOfPassengersTextField.getText() + "\n" + "Infants: " + numberOfInfants + "\n" + "Adults: " + numberOfAdults + "\n" + "Senior Citizen: " + 
-							numberOfSeniorCitizens + "\n" + "Mode of Payment: " + setModeOfPaymentBox.getSelectedItem() + "\n"
-							);
-							numberOfInfants = 0;
-							numberOfAdults = 0;
-							numberOfSeniorCitizens = 0;
-							
-							switchPanels(secondPanel, layeredPane);
-						}
-						
-					}
-					catch(Exception NumberFormatException)
-					{
-	
-						if (NumberFormatException != null && checkStringForLetters(setNumberOfPassengersTextField.getText()) == true)
-						{
-							JOptionPane.showMessageDialog(null, "Number of Passengers must only contain numbers");
-						}
-						else if(NumberFormatException != null  && numberOfPassengers == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Number of Passengers should not be empty");
-						}
-						else if (NumberFormatException != null && checkStringForLetters(setNumberOfInfantsTextField.getText()) == true)
-						{
-							JOptionPane.showMessageDialog(null, "Number of Infants must only contain numbers");
-						}
-						else if (NumberFormatException != null  && numberOfInfants == 0 && setNumberOfInfantsTextField.getText() != "0")
-						{
-							JOptionPane.showMessageDialog(null, "Number of Infants should not be empty");
-						}
-						else if (NumberFormatException != null && checkStringForLetters(setNumberOfAdultsTextField.getText()) == true)
-						{
-							JOptionPane.showMessageDialog(null, "Number of Adults must only contain numbers");
-						}
-						else if (NumberFormatException != null  && numberOfAdults == 0 && setNumberOfAdultsTextField.getText() != "0")
-						{
-							JOptionPane.showMessageDialog(null, "Number of Adults should not be empty");
-						}
-						else if (NumberFormatException != null && checkStringForLetters(setNumberOfSeniorCitizensTextField.getText()) == true)
-						{
-							JOptionPane.showMessageDialog(null, "Number of Senior Citizens must only contain numbers");
-						}
-						else if (NumberFormatException != null  && numberOfSeniorCitizens == 0 && setNumberOfSeniorCitizensTextField.getText() != "0")
-						{
-							JOptionPane.showMessageDialog(null, "Number of Senior Citizen should not be empty");
-						}
-//						else if(NumberFormatException != null && Pattern.matches("[a-zA-Z0-9]{1,}", setNumberOfInfantsTextField.getText()) == true)
-//						{
-//							JOptionPane.showMessageDialog(null, "Number of Infants must only contain numbers");
-//						}
-//						else if(NumberFormatException != null && Pattern.matches("[a-zA-Z0-9]{1,}", setNumberOfSeniorCitizensTextField.getText()) == true)
-//						{
-//							JOptionPane.showMessageDialog(null, "Number of Senior Citizens must only contain numbers");
-//						}
-//							
-					}
-						
-					
-					//JOptionPane.showMessageDialog(null,textField.getText());
-					
-					
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null,"Could Not Switch Pane");
-				}
-					
-			}
-		});
 		
 		backButton.addActionListener(new ActionListener() 
 		{
