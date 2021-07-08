@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -20,6 +21,8 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Insets;
+
 import javax.swing.UIManager;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -58,6 +61,11 @@ public class App extends JFrame
 	private JButton backButton, nextButton;
 	private int numberOfPassengers, numberOfInfants, numberOfAdults, numberOfSeniorCitizens;
 	private JTextArea rightTextArea;
+	private JLabel bankDetailsLabel;
+	private JLabel setBankAccountNumberLabel;
+	private JTextField setBankAccountNumber;
+	private JTextField setBankAccountEmail;
+	private JTextField setBankAccountPhoneNumber;
 	
 	/**
 	 * Launch the application.
@@ -93,7 +101,7 @@ public class App extends JFrame
 	 * Create the frame.
 	 */
 	public App() 
-	{
+	{		
 		initializeComponent();
 		createEvents();
 	}
@@ -114,6 +122,7 @@ public class App extends JFrame
 		setIconImage(Toolkit.getDefaultToolkit().getImage(App.class.getResource("/resources/213569889_535845414403206_7341132822717748611_n.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
+		setMinimumSize(new Dimension(800, 650));
 		
 		//Panels
 		mainPanel = new JPanel();
@@ -151,7 +160,7 @@ public class App extends JFrame
 		setScheduleBoxLabel.setFont(new Font("Dialog", Font.BOLD, 17));
 		
 		setNumberOfPassengerBoxLabel = new JLabel("Number Of Passengers");
-		setNumberOfPassengerBoxLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+		setNumberOfPassengerBoxLabel.setFont(new Font("Dialog", Font.BOLD, 14));
 		setNumberOfPassengerBoxLabel.setLabelFor(setNumberOfPassengersTextField);
 		
 		setNumberOfAdultsLabel = new JLabel("Adults");
@@ -243,106 +252,112 @@ public class App extends JFrame
 		setNumberOfSeniorCitizenLabel.setLabelFor(setNumberOfSeniorCitizensTextField);
 		setNumberOfSeniorCitizensTextField.setColumns(10);
 		setBankAccountName = new JTextField();
+		setBankAccountNameLabel.setLabelFor(setBankAccountName);
 		setBankAccountName.setColumns(10);
 		
-		
-		
-		
-		
-		
-		
-		
 		Border blackline = BorderFactory.createLineBorder(Color.black);
+		Border margin = new EmptyBorder(20, 20, 20, 20);
 		rightTextArea = new JTextArea();
+		rightTextArea.setLineWrap(false);
 		rightTextArea.setFont(new Font("Dialog", Font.PLAIN, 17));
 		rightTextArea.setEditable(false);
-		rightTextArea.setLineWrap(false);
 		rightTextArea.setBackground(new Color(241,241,241));
 		rightTextArea.setWrapStyleWord(true);
-		rightTextArea.setBorder(blackline);
+		rightTextArea.setBorder(new CompoundBorder(blackline,margin));
 		
 		//Buttons
 		backButton = new JButton("Back");
 		layeredPane.setLayout(new CardLayout(0, 0));
 		layeredPane.add(firstPanel, "name_20276457840900");
+		
+		JLabel flightDetailsLabel = new JLabel("Flight Details");
+		flightDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));
 		GroupLayout gl_firstPanel = new GroupLayout(firstPanel);
 		gl_firstPanel.setHorizontalGroup(
-			gl_firstPanel.createParallelGroup(Alignment.LEADING)
+			gl_firstPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setFlightTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setFlightTypeBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
+					.addContainerGap()
+					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setFlightTypeBoxLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setFlightTypeBox, 0, 151, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setAirlineBoxLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setAirlineBox, 0, 151, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setTripTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setTripTypeBox, 0, 151, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setOriginBoxLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setOriginBox, 0, 151, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setDestinationLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setDestinationBox, 0, 151, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setScheduleBoxLabel, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setScheduleBox, 0, 151, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(21)
+							.addComponent(setNumberOfInfantsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(45)
+							.addComponent(setNumberOfAdultsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(34)
+							.addComponent(setNumberOfSeniorCitizenLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(10))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(21)
+							.addComponent(setNumberOfInfantsTextField, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setNumberOfAdultsTextField, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+							.addGap(25)
+							.addComponent(setNumberOfSeniorCitizensTextField, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+							.addGap(42))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(26)
+							.addComponent(setModeOfPaymentBoxLabel, GroupLayout.PREFERRED_SIZE, 142, Short.MAX_VALUE)
+							.addGap(15)
+							.addComponent(setModeOfPaymentBox, 0, 140, Short.MAX_VALUE))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addComponent(setNumberOfPassengerBoxLabel, GroupLayout.PREFERRED_SIZE, 163, Short.MAX_VALUE)
+							.addGap(12)
+							.addComponent(setNumberOfPassengersTextField, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+							.addGap(4))
+						.addGroup(gl_firstPanel.createSequentialGroup()
+							.addGap(46)
+							.addComponent(setClassTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(setClassTypeBox, 0, 149, Short.MAX_VALUE)
+							.addGap(6)))
+					.addContainerGap())
 				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setAirlineBoxLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setAirlineBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setTripTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setTripTypeBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setOriginBoxLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setOriginBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setDestinationLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setDestinationBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setScheduleBoxLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setScheduleBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(50)
-					.addComponent(setClassTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setClassTypeBox, 0, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(4)
-					.addComponent(setNumberOfPassengerBoxLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(11)
-					.addComponent(setNumberOfPassengersTextField, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-					.addGap(8))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(25)
-					.addComponent(setNumberOfInfantsLabel, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-					.addGap(45)
-					.addComponent(setNumberOfAdultsLabel, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-					.addGap(34)
-					.addComponent(setNumberOfSeniorCitizenLabel, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-					.addGap(14))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(25)
-					.addComponent(setNumberOfInfantsTextField, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setNumberOfAdultsTextField, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-					.addGap(25)
-					.addComponent(setNumberOfSeniorCitizensTextField, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
-					.addGap(46))
-				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(30)
-					.addComponent(setModeOfPaymentBoxLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(15)
-					.addComponent(setModeOfPaymentBox, 0, 160, Short.MAX_VALUE)
-					.addGap(4))
+					.addGap(98)
+					.addComponent(flightDetailsLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(75))
 		);
 		gl_firstPanel.setVerticalGroup(
 			gl_firstPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_firstPanel.createSequentialGroup()
-					.addGap(15)
+					.addGap(34)
+					.addComponent(flightDetailsLabel, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+					.addGap(50)
 					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(setFlightTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(setFlightTypeBox, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE))
@@ -367,18 +382,18 @@ public class App extends JFrame
 						.addComponent(setScheduleBoxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(setScheduleBox, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE))
 					.addGap(5)
-					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_firstPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(setClassTypeBoxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(setClassTypeBox, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE))
-					.addGap(5)
+					.addGap(6)
 					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(setNumberOfPassengerBoxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(setNumberOfPassengersTextField, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE))
 					.addGap(5)
 					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(setNumberOfInfantsLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(setNumberOfAdultsLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(setNumberOfSeniorCitizenLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+						.addComponent(setNumberOfInfantsLabel, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+						.addComponent(setNumberOfAdultsLabel, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+						.addComponent(setNumberOfSeniorCitizenLabel, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
 					.addGap(20)
 					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(setNumberOfInfantsTextField, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
@@ -388,35 +403,98 @@ public class App extends JFrame
 					.addGroup(gl_firstPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(setModeOfPaymentBoxLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 						.addComponent(setModeOfPaymentBox, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE))
-					.addGap(239))
+					.addGap(143))
 		);
 		firstPanel.setLayout(gl_firstPanel);
 		layeredPane.add(secondPanel, "name_20276470582800");
+		
+		bankDetailsLabel = new JLabel("Bank Details");
+		bankDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));
+		
+		setBankAccountNumberLabel = new JLabel("Account Number");
+		setBankAccountNumberLabel.setFont(new Font("Dialog", Font.BOLD, 17));
+		
+		setBankAccountNumber = new JTextField();
+		setBankAccountNumberLabel.setLabelFor(setBankAccountNumber);
+		setBankAccountNumber.setColumns(10);
+		
+		JLabel setBankAccountEmailLabel = new JLabel("Email Address");
+		setBankAccountEmailLabel.setFont(new Font("Dialog", Font.BOLD, 17));
+		
+		setBankAccountEmail = new JTextField();
+		setBankAccountEmailLabel.setLabelFor(setBankAccountEmail);
+		setBankAccountEmail.setColumns(10);
+		
+		JLabel setBankAccountPhoneNumberLabel = new JLabel("Phone Number");
+		setBankAccountPhoneNumberLabel.setFont(new Font("Dialog", Font.BOLD, 17));
+		
+		setBankAccountPhoneNumber = new JTextField();
+		setBankAccountPhoneNumberLabel.setLabelFor(setBankAccountPhoneNumber);
+		setBankAccountPhoneNumber.setColumns(10);
 		GroupLayout gl_secondPanel = new GroupLayout(secondPanel);
 		gl_secondPanel.setHorizontalGroup(
 			gl_secondPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_secondPanel.createSequentialGroup()
-					.addGap(40)
+					.addGap(98)
+					.addComponent(bankDetailsLabel, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+					.addGap(75))
+				.addGroup(gl_secondPanel.createSequentialGroup()
+					.addGap(86)
+					.addComponent(backButton, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+					.addGap(163))
+				.addGroup(gl_secondPanel.createSequentialGroup()
+					.addGap(24)
 					.addGroup(gl_secondPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_secondPanel.createSequentialGroup()
-							.addComponent(backButton, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-							.addGap(190))
+							.addComponent(setBankAccountPhoneNumberLabel, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(setBankAccountPhoneNumber, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
 						.addGroup(gl_secondPanel.createSequentialGroup()
-							.addComponent(setBankAccountNameLabel, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-							.addGap(12)
-							.addComponent(setBankAccountName, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
-					.addGap(8))
+							.addComponent(setBankAccountEmailLabel, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(setBankAccountEmail, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addComponent(setBankAccountNumberLabel, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(setBankAccountNumber, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addComponent(setBankAccountNameLabel, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
+							.addGap(8)
+							.addComponent(setBankAccountName, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_secondPanel.setVerticalGroup(
 			gl_secondPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_secondPanel.createSequentialGroup()
-					.addGap(15)
+					.addGap(34)
+					.addComponent(bankDetailsLabel, GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
+					.addGap(50)
+					.addGroup(gl_secondPanel.createParallelGroup(Alignment.BASELINE)
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addGap(2)
+							.addComponent(setBankAccountNameLabel, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addGap(2)
+							.addComponent(setBankAccountName, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
+					.addGap(18)
 					.addGroup(gl_secondPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(setBankAccountNameLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-						.addComponent(setBankAccountName, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
-					.addGap(504)
-					.addComponent(backButton, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-					.addGap(26))
+						.addComponent(setBankAccountNumber, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+						.addComponent(setBankAccountNumberLabel, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+					.addGap(18)
+					.addGroup(gl_secondPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addComponent(setBankAccountEmailLabel, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+							.addGap(2))
+						.addComponent(setBankAccountEmail, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+					.addGap(18)
+					.addGroup(gl_secondPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addComponent(setBankAccountPhoneNumberLabel, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+							.addGap(2))
+						.addComponent(setBankAccountPhoneNumber, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+					.addGap(267)
+					.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+					.addGap(29))
 		);
 		secondPanel.setLayout(gl_secondPanel);
 		
@@ -425,25 +503,29 @@ public class App extends JFrame
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
-					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-					.addGap(10)
-					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(rightTextArea, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_mainPanel.createSequentialGroup()
-							.addGap(237)
-							.addComponent(nextButton, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-							.addGap(72)))
-					.addGap(14))
+							.addGap(243)
+							.addComponent(nextButton, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+							.addGap(86))
+						.addGroup(gl_mainPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(rightTextArea, GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+							.addGap(14))))
 		);
 		gl_mainPanel.setVerticalGroup(
-			gl_mainPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(layeredPane)
+			gl_mainPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
-					.addGap(12)
+					.addContainerGap()
 					.addComponent(rightTextArea, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
 					.addGap(23)
 					.addComponent(nextButton, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
 					.addGap(26))
+				.addGroup(gl_mainPanel.createSequentialGroup()
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		mainPanel.setLayout(gl_mainPanel);
 	}
@@ -480,7 +562,7 @@ public class App extends JFrame
 						}
 						else if (totalPassengers != numberOfPassengers)
 						{
-							JOptionPane.showMessageDialog(null,"Total passengers error");
+							JOptionPane.showMessageDialog(null,"Total passengers error, Please recheck passenger allocation");
 						}
 						else 
 						{
@@ -490,9 +572,12 @@ public class App extends JFrame
 						    setNumberOfPassengersTextField.getText() + "\n" + "Infants: " + numberOfInfants + "\n" + "Adults: " + numberOfAdults + "\n" + "Senior Citizen: " + 
 							numberOfSeniorCitizens + "\n" + "Mode of Payment: " + setModeOfPaymentBox.getSelectedItem() + "\n"
 							);
-							numberOfInfants = 0;
-							numberOfAdults = 0;
-							numberOfSeniorCitizens = 0;
+//							numberOfInfants = 0;
+//							numberOfAdults = 0;
+//							numberOfSeniorCitizens = 0;
+//							setNumberOfInfantsTextField.setText("");
+//							setNumberOfAdultsTextField.setText("");
+//							setNumberOfSeniorCitizensTextField.setText("");
 							
 							switchPanels(secondPanel, layeredPane);
 						}
@@ -500,39 +585,44 @@ public class App extends JFrame
 					}
 					catch(Exception NumberFormatException)
 					{
-	
+						//setNumberOfInfantsTextField.setText(getName());
 						if (NumberFormatException != null && checkStringForLetters(setNumberOfPassengersTextField.getText()) == true)
 						{
 							JOptionPane.showMessageDialog(null, "Number of Passengers must only contain numbers");
 						}
-						else if(NumberFormatException != null  && numberOfPassengers == 0)
-						{
-							JOptionPane.showMessageDialog(null, "Number of Passengers should not be empty");
-						}
+//						else if(NumberFormatException != null  && setNumberOfPassengersTextField.getText() == "" )
+//						{
+//							JOptionPane.showMessageDialog(null, "Number of Passengers should not be empty");
+//						}
 						else if (NumberFormatException != null && checkStringForLetters(setNumberOfInfantsTextField.getText()) == true)
 						{
 							JOptionPane.showMessageDialog(null, "Number of Infants must only contain numbers");
 						}
-						else if (NumberFormatException != null  && numberOfInfants == 0 && setNumberOfInfantsTextField.getText() != "0")
-						{
-							JOptionPane.showMessageDialog(null, "Number of Infants should not be empty");
-						}
+//						 if (NumberFormatException != null  &&  setNumberOfInfantsTextField.getText() == ""  )
+//						{
+//							JOptionPane.showMessageDialog(null, "Number of Infants should not be empty");
+//						}
 						else if (NumberFormatException != null && checkStringForLetters(setNumberOfAdultsTextField.getText()) == true)
 						{
 							JOptionPane.showMessageDialog(null, "Number of Adults must only contain numbers");
 						}
-						else if (NumberFormatException != null  && numberOfAdults == 0 && setNumberOfAdultsTextField.getText() != "0")
-						{
-							JOptionPane.showMessageDialog(null, "Number of Adults should not be empty");
-						}
+//						if (NumberFormatException != null && setNumberOfAdultsTextField.getText() == "" )
+//						{
+//							JOptionPane.showMessageDialog(null, "Number of Adults should not be empty");
+//						}
 						else if (NumberFormatException != null && checkStringForLetters(setNumberOfSeniorCitizensTextField.getText()) == true)
 						{
 							JOptionPane.showMessageDialog(null, "Number of Senior Citizens must only contain numbers");
 						}
-						else if (NumberFormatException != null  && numberOfSeniorCitizens == 0 && setNumberOfSeniorCitizensTextField.getText() != "0")
+						else 
 						{
-							JOptionPane.showMessageDialog(null, "Number of Senior Citizen should not be empty");
+							JOptionPane.showMessageDialog(null, "Please enter required fields");
 						}
+						
+//						if (NumberFormatException != null  && setNumberOfSeniorCitizensTextField.getText() == "")
+//						{
+//							JOptionPane.showMessageDialog(null, "Number of Senior Citizen should not be empty");
+//						}
 //						else if(NumberFormatException != null && Pattern.matches("[a-zA-Z0-9]{1,}", setNumberOfInfantsTextField.getText()) == true)
 //						{
 //							JOptionPane.showMessageDialog(null, "Number of Infants must only contain numbers");
