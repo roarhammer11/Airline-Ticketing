@@ -36,6 +36,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.DropMode;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.HierarchyBoundsAdapter;
+import java.awt.event.HierarchyEvent;
 
 @SuppressWarnings("serial")
 public class App extends JFrame 
@@ -121,7 +125,6 @@ public class App extends JFrame
 		firstPanel = new JPanel();
 		
 		secondPanel = new JPanel();
-		secondPanel.setLayout(null);
 		
 		
 		//Labels
@@ -165,8 +168,6 @@ public class App extends JFrame
 		
 		setBankAccountNameLabel = new JLabel("Account Name");
 		setBankAccountNameLabel.setFont(new Font("Dialog", Font.BOLD, 17));
-		setBankAccountNameLabel.setBounds(40, 15, 122, 25);
-		secondPanel.add(setBankAccountNameLabel);
 		
 		
 		
@@ -190,6 +191,9 @@ public class App extends JFrame
 		setOriginBox.setModel(new DefaultComboBoxModel<String>(originChoices));
 		
 		setFlightTypeBox = new JComboBox<String>();
+		
+		
+		
 		setFlightTypeBox.setFont(new Font("Dialog", Font.BOLD, 17));
 		setFlightTypeBoxLabel.setLabelFor(setFlightTypeBox);
 		String[] flightTypeChoices = {"International", "Local"};
@@ -239,8 +243,6 @@ public class App extends JFrame
 		setNumberOfSeniorCitizenLabel.setLabelFor(setNumberOfSeniorCitizensTextField);
 		setNumberOfSeniorCitizensTextField.setColumns(10);
 		setBankAccountName = new JTextField();
-		setBankAccountName.setBounds(180, 15, 160, 25);
-		secondPanel.add(setBankAccountName);
 		setBankAccountName.setColumns(10);
 		
 		
@@ -261,8 +263,6 @@ public class App extends JFrame
 		
 		//Buttons
 		backButton = new JButton("Back");
-		backButton.setBounds(50, 559, 98, 26);
-		secondPanel.add(backButton);
 		layeredPane.setLayout(new CardLayout(0, 0));
 		layeredPane.add(firstPanel, "name_20276457840900");
 		GroupLayout gl_firstPanel = new GroupLayout(firstPanel);
@@ -334,9 +334,9 @@ public class App extends JFrame
 					.addGap(46))
 				.addGroup(gl_firstPanel.createSequentialGroup()
 					.addGap(30)
-					.addComponent(setModeOfPaymentBoxLabel, GroupLayout.PREFERRED_SIZE, 133, Short.MAX_VALUE)
+					.addComponent(setModeOfPaymentBoxLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(15)
-					.addComponent(setModeOfPaymentBox, 0, 162, Short.MAX_VALUE)
+					.addComponent(setModeOfPaymentBox, 0, 160, Short.MAX_VALUE)
 					.addGap(4))
 		);
 		gl_firstPanel.setVerticalGroup(
@@ -392,19 +392,46 @@ public class App extends JFrame
 		);
 		firstPanel.setLayout(gl_firstPanel);
 		layeredPane.add(secondPanel, "name_20276470582800");
+		GroupLayout gl_secondPanel = new GroupLayout(secondPanel);
+		gl_secondPanel.setHorizontalGroup(
+			gl_secondPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_secondPanel.createSequentialGroup()
+					.addGap(40)
+					.addGroup(gl_secondPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addComponent(backButton, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+							.addGap(190))
+						.addGroup(gl_secondPanel.createSequentialGroup()
+							.addComponent(setBankAccountNameLabel, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+							.addGap(12)
+							.addComponent(setBankAccountName, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)))
+					.addGap(8))
+		);
+		gl_secondPanel.setVerticalGroup(
+			gl_secondPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_secondPanel.createSequentialGroup()
+					.addGap(15)
+					.addGroup(gl_secondPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(setBankAccountNameLabel, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addComponent(setBankAccountName, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+					.addGap(504)
+					.addComponent(backButton, GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+					.addGap(26))
+		);
+		secondPanel.setLayout(gl_secondPanel);
 		
 		nextButton = new JButton("Next");
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
-					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+					.addComponent(layeredPane, GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
 					.addGap(10)
 					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(rightTextArea, GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+						.addComponent(rightTextArea, GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
 						.addGroup(gl_mainPanel.createSequentialGroup()
 							.addGap(237)
-							.addComponent(nextButton, GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+							.addComponent(nextButton, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
 							.addGap(72)))
 					.addGap(14))
 		);
