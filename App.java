@@ -50,20 +50,20 @@ public class App extends JFrame
 	//Instance Variables
 	private JPanel mainPanel, firstPanel, secondPanel;
 
-	String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
-    		"Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
-    		"Jeju Int'l. Airport", "Banyuwangi Int'l Airport", "Hang Nadim Int'l Airport"},
-			localAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"},
-			classTypeChoices = {"Business", "Economy", "Premium"},
-			flightTypeChoices = { "Local", "International"},
-			tripTypeChoices = {"One-Way Trip", "Round Trip"},
-			modeOfPayment = {"Credit","Debit", "GCash"};
+//	String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
+//    		"Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
+//    		"Jeju Int'l. Airport", "Banyuwangi Int'l Airport", "Hang Nadim Int'l Airport"},
+//			localAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"},
+//			classTypeChoices = {"Business", "Economy", "Premium"},
+//			flightTypeChoices = { "Local", "International"},
+//			tripTypeChoices = {"One-Way Trip", "Round Trip"},
+//			modeOfPayment = {"Credit","Debit", "GCash"};
 	String print = "", temp = "";
 	
 	private JLayeredPane layeredPane;
-	private JLabel setFlightTypeBoxLabel, setAirlineBoxLabel, setTripTypeBoxLabel, setOriginBoxLabel, setDestinationLabel, setScheduleBoxLabel, setClassTypeBoxLabel, setBankAccountNameLabel,
+	private JLabel   setOriginBoxLabel, setDestinationLabel, setScheduleBoxLabel, setClassTypeBoxLabel, 
 				   setNumberOfPassengerBoxLabel, setNumberOfAdultsLabel, setNumberOfInfantsLabel, setNumberOfSeniorCitizenLabel, setModeOfPaymentBoxLabel;
-	private JComboBox<String> setFlightTypeBox, setAirlineBox, setTripTypeBox, setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
+	private JComboBox<String>    setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
 	private JTextField setBankAccountName, setNumberOfPassengersTextField, setNumberOfInfantsTextField, setNumberOfAdultsTextField, setNumberOfSeniorCitizensTextField;
 	private JButton backButton, nextButton;
 	private int numberOfPassengers, numberOfInfants, numberOfAdults, numberOfSeniorCitizens;
@@ -76,6 +76,9 @@ public class App extends JFrame
 	private JLabel setBankAccountEmailLabel;
 	private JLabel setBankAccountPhoneNumberLabel;	
 	private JLabel flightDetailsLabel;
+	private Receipt receipt = new Receipt();
+	private FlightDetails flight = new FlightDetails();
+	private BankDetails bank = new BankDetails();
 	
 	/**
 	 * Launch the application.
@@ -135,23 +138,17 @@ public class App extends JFrame
 		firstPanel = new JPanel();		
 		secondPanel = new JPanel();
 		
+		flight.setFlightTypeBox();
+		flight.setAirlineBox();
+		flight.setTripTypeBox();
+		
 		//Labels
 		setClassTypeBoxLabel = new JLabel("Class Type");
 		setClassTypeBoxLabel.setBounds(12, 291, 110, 25);
 		setClassTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 17));
 		setClassTypeBoxLabel.setLabelFor(setClassTypeBox);
 		
-		setFlightTypeBoxLabel = new JLabel("Flight Type  ");
-		setFlightTypeBoxLabel.setBounds(12, 111, 97, 25);
-		setFlightTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 17));
 		
-		setAirlineBoxLabel = new JLabel("Airlines");
-		setAirlineBoxLabel.setBounds(12, 141, 97, 25);
-		setAirlineBoxLabel.setFont(new Font("Dialog", Font.BOLD, 17));
-		
-		setTripTypeBoxLabel = new JLabel("Trip Type");
-		setTripTypeBoxLabel.setBounds(12, 171, 97, 25);
-		setTripTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 17));
 		
 		setOriginBoxLabel = new JLabel("Origin");
 		setOriginBoxLabel.setBounds(12, 201, 97, 25);
@@ -186,16 +183,14 @@ public class App extends JFrame
 		setModeOfPaymentBoxLabel.setBounds(12, 433, 142, 25);
 		setModeOfPaymentBoxLabel.setFont(new Font("Dialog", Font.BOLD, 17));
 		
-		setBankAccountNameLabel = new JLabel("Account Name");
-		setBankAccountNameLabel.setBounds(24, 109, 133, 28);
-		setBankAccountNameLabel.setFont(new Font("Dialog", Font.BOLD, 17));
+		
 			
 		//Box
 		setClassTypeBox = new JComboBox<String>();
 		setClassTypeBox.setBounds(106, 291, 225, 25);
 		setClassTypeBox.setFont(new Font("Dialog", Font.BOLD, 17));
 		
-		setClassTypeBox.setModel(new DefaultComboBoxModel<String>(classTypeChoices));
+		setClassTypeBox.setModel(new DefaultComboBoxModel<String>(flight.getClassTypeChoices()));
 		
 		setDestinationBox = new JComboBox<String>();
 		setDestinationBox.setBounds(106, 231, 225, 25);
@@ -211,24 +206,11 @@ public class App extends JFrame
 		String[] originChoices = {"EMPTY"};
 		setOriginBox.setModel(new DefaultComboBoxModel<String>(originChoices));
 		
-		setFlightTypeBox = new JComboBox<String>();
-		setFlightTypeBox.setBounds(106, 111, 225, 25);
-				
-		setFlightTypeBox.setFont(new Font("Dialog", Font.BOLD, 17));
-		setFlightTypeBoxLabel.setLabelFor(setFlightTypeBox);
-		setFlightTypeBox.setModel(new DefaultComboBoxModel<String>(flightTypeChoices));
 		
-		setAirlineBox = new JComboBox<String>();
-		setAirlineBox.setBounds(106, 141, 225, 25);
-		setAirlineBox.setFont(new Font("Dialog", Font.BOLD, 16));
-		setAirlineBoxLabel.setLabelFor(setAirlineBox);
-		setAirlineBox.setModel(new DefaultComboBoxModel<String>(localAirlineChoices));
 		
-		setTripTypeBox = new JComboBox<String>();
-		setTripTypeBox.setBounds(106, 171, 225, 25);
-		setTripTypeBox.setFont(new Font("Dialog", Font.BOLD, 17));
-		setTripTypeBoxLabel.setLabelFor(setTripTypeBox);
-		setTripTypeBox.setModel(new DefaultComboBoxModel<String>(tripTypeChoices));
+		
+		
+		
 		
 		setScheduleBox = new JComboBox<String>();
 		setScheduleBox.setBounds(106, 261, 225, 25);
@@ -241,7 +223,7 @@ public class App extends JFrame
 		setModeOfPaymentBox.setBounds(157, 433, 174, 25);
 		setModeOfPaymentBox.setFont(new Font("Dialog", Font.BOLD, 17));
 		setModeOfPaymentBoxLabel.setLabelFor(setModeOfPaymentBox);
-		setModeOfPaymentBox.setModel(new DefaultComboBoxModel<String>(modeOfPayment));
+		setModeOfPaymentBox.setModel(new DefaultComboBoxModel<String>(flight.getmodeOfPaymentChoices()));
 			
 		//Text Fields
 		setNumberOfPassengersTextField = new JTextField();
@@ -266,10 +248,12 @@ public class App extends JFrame
 		setNumberOfSeniorCitizensTextField.setFont(new Font("Dialog", Font.PLAIN, 17));
 		setNumberOfSeniorCitizenLabel.setLabelFor(setNumberOfSeniorCitizensTextField);
 		setNumberOfSeniorCitizensTextField.setColumns(10);
-		setBankAccountName = new JTextField();
-		setBankAccountName.setBounds(165, 109, 170, 28);
-		setBankAccountNameLabel.setLabelFor(setBankAccountName);
-		setBankAccountName.setColumns(10);
+		
+//		setBankAccountName = new JTextField();
+//		setBankAccountName.setBounds(165, 109, 170, 28);
+//		setBankAccountNameLabel.setLabelFor(setBankAccountName);
+//		setBankAccountName.setColumns(10);
+		bank.setBankAccountNameField();
 		
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		Border margin = new EmptyBorder(20, 20, 20, 20);
@@ -292,12 +276,12 @@ public class App extends JFrame
 		flightDetailsLabel.setBounds(98, 34, 174, 35);
 		flightDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));
 		firstPanel.setLayout(null);
-		firstPanel.add(setFlightTypeBoxLabel);
-		firstPanel.add(setFlightTypeBox);
-		firstPanel.add(setAirlineBoxLabel);
-		firstPanel.add(setAirlineBox);
-		firstPanel.add(setTripTypeBoxLabel);
-		firstPanel.add(setTripTypeBox);
+		firstPanel.add(flight.getSetFlightTypeBoxLabel());
+		firstPanel.add(flight.getSetFlightTypeBox());	
+		firstPanel.add(flight.getSetAirlineBoxLabel());
+		firstPanel.add(flight.getSetAirlineBox());
+		firstPanel.add(flight.getSetTripTypeBoxLabel());
+		firstPanel.add(flight.getSetTripTypeBox());
 		firstPanel.add(setOriginBoxLabel);
 		firstPanel.add(setOriginBox);
 		firstPanel.add(setDestinationLabel);
@@ -357,8 +341,8 @@ public class App extends JFrame
 		secondPanel.add(setBankAccountEmail);
 		secondPanel.add(setBankAccountNumberLabel);
 		secondPanel.add(setBankAccountNumber);
-		secondPanel.add(setBankAccountNameLabel);
-		secondPanel.add(setBankAccountName);
+		secondPanel.add(bank.getSetBankAccountNameLabel());
+		secondPanel.add(bank.getSetBankAccountName());
 		secondPanel.add(backButton);
 		
 		nextButton = new JButton("Next");
@@ -424,21 +408,24 @@ public class App extends JFrame
 						
 						else 
 						{
-							toPrint("FLIGHT DETAILS", "");
-							toPrint("Flight Type: ", setFlightTypeBox.getSelectedItem());
-							toPrint("Airlines: ", setAirlineBox.getSelectedItem());
-							toPrint("Trip Type: ", setTripTypeBox.getSelectedItem());
-							toPrint("Origin: ", setOriginBox.getSelectedItem());
-							toPrint("Destination: ", setDestinationBox.getSelectedItem());
-							toPrint("Schedule: ", setScheduleBox.getSelectedItem());
-							toPrint("Class Type: ", setClassTypeBox.getSelectedItem());
-							toPrint("Number Of Passengers: ", setNumberOfPassengersTextField.getText());
-							toPrint("Infants: ", numberOfInfants);
-							toPrint("Adults: ", numberOfAdults);
-							toPrint("Senior Citizen: ", numberOfSeniorCitizens);
-							toPrint("Mode of Payment: ", setModeOfPaymentBox.getSelectedItem());
+//							toPrint("FLIGHT DETAILS", "");
+//							toPrint("Flight Type: ", setFlightTypeBox.getSelectedItem());
+//							toPrint("Airlines: ", setAirlineBox.getSelectedItem());
+//							toPrint("Trip Type: ", setTripTypeBox.getSelectedItem());
+//							toPrint("Origin: ", setOriginBox.getSelectedItem());
+//							toPrint("Destination: ", setDestinationBox.getSelectedItem());
+//							toPrint("Schedule: ", setScheduleBox.getSelectedItem());
+//							toPrint("Class Type: ", setClassTypeBox.getSelectedItem());
+//							toPrint("Number Of Passengers: ", setNumberOfPassengersTextField.getText());
+//							toPrint("Infants: ", numberOfInfants);
+//							toPrint("Adults: ", numberOfAdults);
+//							toPrint("Senior Citizen: ", numberOfSeniorCitizens);
+//							toPrint("Mode of Payment: ", setModeOfPaymentBox.getSelectedItem());
+							receipt.setReceipt("FLIGHT DETAILS", "");
+							receipt.setReceipt("Flight Type: ", flight.getSetFlightTypeBox().getSelectedItem());
+							receipt.setReceipt("Airlines: ", flight.getSetAirlineBox().getSelectedItem());
 							temp = print;
-							rightTextArea.setText(print);
+							rightTextArea.setText(receipt.getReceipt());
 							nextButton.setText("Submit");
 							switchPanels(secondPanel, layeredPane);
 						}				
@@ -525,26 +512,26 @@ public class App extends JFrame
 			}
 		});
 		
-		setFlightTypeBox.addActionListener(new ActionListener()
+		flight.getSetFlightTypeBox().addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (setFlightTypeBox.getSelectedItem() == "International")
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
 				{
-					setAirlineBox.setModel(new DefaultComboBoxModel<String>(internationalAirlineChoices));
+					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalAirlineChoices()));
 				}
-				if (setFlightTypeBox.getSelectedItem() == "Local")
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
 				{
-					setAirlineBox.setModel(new DefaultComboBoxModel<String>(localAirlineChoices));
+					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalAirlineChoices()));
 				}
 			}
 		});
 	}
 	
-	private void toPrint(String string, int number)
-	{
-		print += string + Integer.toString(number) + "\n";
-	}
+//	private void toPrint(String string, int number)
+//	{
+//		print += string + Integer.toString(number) + "\n";
+//	}
 	
 	private void toPrint(String string, Object object)
 	{
@@ -577,4 +564,3 @@ public class App extends JFrame
 	    return false;
 	}
 }
-//TODO swap origin and destination with airline
