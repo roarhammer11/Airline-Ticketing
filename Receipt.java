@@ -1,7 +1,7 @@
 
 public class Receipt 
 {
-	private String receipt = "";
+	private String receipt = "", temp = "";
 	
 	public void setReceipt(String string, int number)
 	{
@@ -16,6 +16,20 @@ public class Receipt
 	public String getReceipt()
 	{
 		return receipt;
+	}
+	
+	public String setReceiptToTemp()
+	{
+		return temp = receipt;
+	}
+	public String setTempToReceipt()
+	{	
+		return receipt = temp;
+	}
+	
+	public String resetReceipt()
+	{
+		return receipt = "";
 	}
 }
 
