@@ -21,7 +21,8 @@ public class App extends JFrame
 	private Receipt receipt = new Receipt();
 	private FlightDetails flight = new FlightDetails();
 	private BankDetails bank = new BankDetails();
-
+	private Database database = new Database();
+	private String toDatabase = "";
 	/**
 	 * Launch the application.
 	 */
@@ -41,11 +42,11 @@ public class App extends JFrame
 					App frame = new App();
 					frame.setSize(new Dimension(800, 650));
 					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);				
+					frame.setVisible(true);		
 				} 
 				catch (Exception e) 
 				{
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null,e);
 				}
 			}
 		});
@@ -58,6 +59,7 @@ public class App extends JFrame
 	{		
 		initializeComponents();
 		createEvents();
+		database.createTable();
 	}
 	
 	private void initializeComponents() 
@@ -94,7 +96,7 @@ public class App extends JFrame
 		flight.setDestinationBox();
 		flight.setScheduleBox();
 		flight.setClassTypeBox();
-		flight.setNumberOfPassengerTextField();
+		flight.setNumberOfPassengersTextField();
 		flight.setNumberOfInfantsTextField();
 		flight.setNumberOfAdultsTextField();
 		flight.setNumberOfSeniorCitizenTextField();
@@ -123,8 +125,8 @@ public class App extends JFrame
 		firstPanel.add(flight.getSetDestinationBox());
 		firstPanel.add(flight.getSetScheduleBoxLabel());
 		firstPanel.add(flight.getSetScheduleBox());
-		firstPanel.add(flight.getSetClassTypebBoxLabel());
-		firstPanel.add(flight.getSetClassTypebBox());
+		firstPanel.add(flight.getSetClassTypeBoxLabel());
+		firstPanel.add(flight.getSetClassTypeBox());
 		firstPanel.add(flight.getSetNumberOfPassengersTextFieldLabel());
 		firstPanel.add(flight.getSetNumberOfPassengersTextField());
 		firstPanel.add(flight.getSetNumberOfInfantsTextFieldLabel());
@@ -239,7 +241,7 @@ public class App extends JFrame
 								receipt.setReceipt("Origin: ", flight.getSetOriginBox().getSelectedItem());
 								receipt.setReceipt("Destination: ", flight.getSetDestinationBox().getSelectedItem());
 								receipt.setReceipt("Schedule: ", flight.getSetScheduleBox().getSelectedItem());
-								receipt.setReceipt("Class Type: ", flight.getSetClassTypebBox().getSelectedItem());
+								receipt.setReceipt("Class Type: ", flight.getSetClassTypeBox().getSelectedItem());
 								receipt.setReceipt("Number Of Passengers: ", flight.getSetNumberOfPassengersTextField().getText());
 								receipt.setReceipt("Infants: ", flight.getNumberOfInfants());
 								receipt.setReceipt("Adults: ", flight.getNumberOfAdults());
@@ -298,9 +300,30 @@ public class App extends JFrame
 						
 						if (confirmation == 0)
 						{
+							toDatabase(flight.getSetFlightTypeBox().getSelectedItem(), false);
+							toDatabase(flight.getSetOriginBox().getSelectedItem(), false);
+							toDatabase(flight.getSetDestinationBox().getSelectedItem(), false);
+							toDatabase(flight.getSetTripTypeBox().getSelectedItem(), false);
+							toDatabase(flight.getSetAirlineBox().getSelectedItem(), false);
+							toDatabase(flight.getSetScheduleBox().getSelectedItem(), false);
+							toDatabase(flight.getSetClassTypeBox().getSelectedItem(), false);
+							toDatabase(flight.getSetNumberOfPassengersTextField().getText(), false);
+							toDatabase(flight.getSetNumberOfInfantsTextField().getText(), false);
+							toDatabase(flight.getSetNumberOfAdultsTextField().getText(), false);
+							toDatabase(flight.getSetNumberOfSeniorCitizensTextField().getText(), false);
+							toDatabase(flight.getSetModeOfPaymentBox().getSelectedItem(), false);
+							toDatabase(bank.getSetBankAccountNameTextField().getText(), false);
+							toDatabase(bank.getSetBankAccountNumberTextField().getText(), false);
+							toDatabase(bank.getSetBankAccountEmailTextField().getText(), false);
+							toDatabase(bank.getSetBankAccountPhoneNumberTextField().getText(), true);
 							JOptionPane.showMessageDialog(null, "Thank you for purchasing");
 							switchPanels(firstPanel, layeredPane);
+							//database.insertToTable("(\"Flight Type\"\n)", "(\"1\");");
+							database.insertToTable(toDatabase);
+							//System.out.print(flight.getSetFlightTypeBox().getSelectedItem());
+							//JOptionPane.showMessageDialog(null, "VALUES("+flight.getSetFlightTypeBox().getSelectedItem()+"\"");
 							receipt.resetReceipt();
+							toDatabase = "";
 						}
 						else if (confirmation == 1)
 						{
@@ -341,6 +364,17 @@ public class App extends JFrame
 		pane.add(panel);
 		pane.repaint();
 		pane.revalidate();
-		
+	}
+	
+	private void toDatabase(Object object, Boolean last)
+	{
+		if(!last)
+		{
+			toDatabase += "'"+ object +"',";
+		}
+		else
+		{
+			toDatabase += "'"+ object +"'";
+		}
 	}
 }

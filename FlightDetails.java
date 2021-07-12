@@ -19,8 +19,8 @@ public class FlightDetails {
 	private JButton setNextButton;
 	
 	private String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
-    		"Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
-    		"Jeju Int'l. Airport", "Banyuwangi Int'l Airport", "Hang Nadim Int'l Airport"},
+    				 "Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
+    				 "Jeju Int'l. Airport", "Banyuwangi Int'l Airport", "Hang Nadim Int'l Airport"},
 					  localAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"},
 					  classTypeChoices = {"Business", "Economy", "Premium"},
 					  flightTypeChoices = { "Local", "International"},
@@ -33,20 +33,20 @@ public class FlightDetails {
 	public FlightDetails()
 	{
 		setFlightTypeBox = new JComboBox<String>();
-		setAirlineBox = new JComboBox<String>();
-		setTripTypeBox = new JComboBox<String>();
 		setOriginBox = new JComboBox<String>();
 		setDestinationBox = new JComboBox<String>();
+		setTripTypeBox = new JComboBox<String>();
+		setAirlineBox = new JComboBox<String>();
 		setScheduleBox = new JComboBox<String>();
 		setClassTypeBox = new JComboBox<String>();
 		setModeOfPaymentBox = new JComboBox<String>();
 		
 		setFlightDetailsLabel = new JLabel("Flight Details");
 		setFlightTypeBoxLabel = new JLabel("Flight Type");
-		setAirlineBoxLabel = new JLabel("Airlines");
-		setTripTypeBoxLabel = new JLabel("Trip Type");
 		setOriginBoxLabel = new JLabel("Origin");
 		setDestinationBoxLabel = new JLabel("Destination");
+		setTripTypeBoxLabel = new JLabel("Trip Type");
+		setAirlineBoxLabel = new JLabel("Airlines");
 		setScheduleBoxLabel = new JLabel("Schedule");
 		setClassTypeBoxLabel = new JLabel("Class Type");
 		setNumberOfPassengersTextFieldLabel = new JLabel("Number Of Passengers");
@@ -83,39 +83,16 @@ public class FlightDetails {
 		setFlightTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
 	}
 	
-	public void setAirlineBox()
-	{
-		setAirlineBox.setBounds(432, 141, 225, 30);
-		setAirlineBox.setFont(new Font("Dialog", Font.BOLD, 21));
-		setAirlineBox.setModel(new DefaultComboBoxModel<String>(localAirlineChoices));
-		
-		setAirlineBoxLabel.setLabelFor(setAirlineBox);
-		setAirlineBoxLabel.setBounds(130, 144, 97, 25);
-		setAirlineBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
-	}
-	
-	public void setTripTypeBox()
-	{
-		
-		setTripTypeBox.setBounds(432, 171, 225, 30);
-		setTripTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));
-		setTripTypeBox.setModel(new DefaultComboBoxModel<String>(tripTypeChoices));
-		
-		setTripTypeBoxLabel.setLabelFor(setTripTypeBox);
-		setTripTypeBoxLabel.setBounds(130, 174, 97, 25);
-		setTripTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
-	}
-	
 	public void setOriginBox()
 	{
 		String[] originChoices = {"EMPTY"};
 		
-		setOriginBox.setBounds(432, 201, 225, 30);
+		setOriginBox.setBounds(432, 141, 225, 30);
 		setOriginBox.setFont(new Font("Dialog", Font.BOLD, 21));
 		setOriginBox.setModel(new DefaultComboBoxModel<String>(originChoices));
 		
 		setOriginBoxLabel.setLabelFor(setOriginBox);
-		setOriginBoxLabel.setBounds(130, 204, 97, 25);
+		setOriginBoxLabel.setBounds(130, 144, 120, 25);
 		setOriginBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
 	}
 	
@@ -123,13 +100,36 @@ public class FlightDetails {
 	{
 		String[] destinationChoices = {"EMPTY"};
 		
-		setDestinationBox.setBounds(432, 231, 225, 30);
+		setDestinationBox.setBounds(432, 171, 225, 30);
 		setDestinationBox.setFont(new Font("Dialog", Font.BOLD, 21));	
 		setDestinationBox.setModel(new DefaultComboBoxModel<String>(destinationChoices));
 		
 		setDestinationBoxLabel.setLabelFor(setDestinationBox);
-		setDestinationBoxLabel.setBounds(130, 234, 120, 25);
+		setDestinationBoxLabel.setBounds(130, 174, 120, 25);
 		setDestinationBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+	}
+	
+	public void setTripTypeBox()
+	{
+		
+		setTripTypeBox.setBounds(432, 201, 225, 30);
+		setTripTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));
+		setTripTypeBox.setModel(new DefaultComboBoxModel<String>(tripTypeChoices));
+		
+		setTripTypeBoxLabel.setLabelFor(setTripTypeBox);
+		setTripTypeBoxLabel.setBounds(130, 204, 120, 25);
+		setTripTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+	}
+	
+	public void setAirlineBox()
+	{
+		setAirlineBox.setBounds(432, 231, 225, 30);
+		setAirlineBox.setFont(new Font("Dialog", Font.BOLD, 21));
+		setAirlineBox.setModel(new DefaultComboBoxModel<String>(localAirlineChoices));
+		
+		setAirlineBoxLabel.setLabelFor(setAirlineBox);
+		setAirlineBoxLabel.setBounds(130, 234, 120, 25);
+		setAirlineBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
 	}
 	
 	public void setScheduleBox()
@@ -141,7 +141,7 @@ public class FlightDetails {
 		setScheduleBox.setModel(new DefaultComboBoxModel<String>(scheduleChoices));
 		
 		setScheduleBoxLabel.setLabelFor(setScheduleBox);
-		setScheduleBoxLabel.setBounds(130, 264, 97, 25);
+		setScheduleBoxLabel.setBounds(130, 264, 120, 25);
 		setScheduleBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
 	}
 	
@@ -152,11 +152,11 @@ public class FlightDetails {
 		setClassTypeBox.setModel(new DefaultComboBoxModel<String>(classTypeChoices));
 		
 		setClassTypeBoxLabel.setLabelFor(setClassTypeBox);
-		setClassTypeBoxLabel.setBounds(130, 294, 128, 25);
+		setClassTypeBoxLabel.setBounds(130, 294, 120, 25);
 		setClassTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
 	}
 	
-	public void setNumberOfPassengerTextField()
+	public void setNumberOfPassengersTextField()
 	{	
 		setNumberOfPassengersTextField.setBounds(432, 321, 225, 30);
 		setNumberOfPassengersTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
@@ -249,7 +249,7 @@ public class FlightDetails {
 		return setScheduleBox;
 	}
 	
-	public JComboBox<String> getSetClassTypebBox()
+	public JComboBox<String> getSetClassTypeBox()
 	{
 		return setClassTypeBox;
 	}
@@ -315,7 +315,7 @@ public class FlightDetails {
 		return setScheduleBoxLabel;
 	}
 	
-	public JLabel getSetClassTypebBoxLabel()
+	public JLabel getSetClassTypeBoxLabel()
 	{
 		return setClassTypeBoxLabel;
 	}
