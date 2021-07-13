@@ -16,7 +16,7 @@ public class FlightDetails {
 	
 	private JComboBox<String> setFlightTypeBox, setAirlineBox, setTripTypeBox, setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
 	
-	private JButton setNextButton;
+	private JButton setNextButton, setCheckPricesButton;
 	
 	private String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
     				 "Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
@@ -61,6 +61,7 @@ public class FlightDetails {
 		setNumberOfSeniorCitizensTextField = new JTextField();
 		
 		setNextButton = new JButton("Next");
+		setCheckPricesButton = new JButton("Check Prices");
 	}
 	
 	// Initialization
@@ -213,9 +214,14 @@ public class FlightDetails {
 	
 	public void setNextButton()
 	{
-		
 		setNextButton.setFont(new Font("Dialog", Font.BOLD, 21));
 		setNextButton.setBounds(619, 550, 108, 26);
+	}
+	
+	public void setCheckPricesButton()
+	{
+		setCheckPricesButton.setFont(new Font("Dialog", Font.BOLD, 21));
+		setCheckPricesButton.setBounds(280, 550, 200, 26);
 	}
 	
 	// Get Generic String Boxes
@@ -349,6 +355,11 @@ public class FlightDetails {
 	public JButton getSetNextButton()
 	{
 		return setNextButton;
+	}
+	
+	public JButton getSetCheckPricesButton()
+	{
+		return setCheckPricesButton;
 	}
 	
 	// Get Array of Strings
