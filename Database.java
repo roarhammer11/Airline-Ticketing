@@ -1,5 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,10 +16,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 public class Database {
-	Connection database = null;
-	Statement statement = null;
-	String url = "jdbc:postgresql:", username = "", password = "";
+	private Connection database = null;
+	private Statement statement = null;
+	private String url = "jdbc:postgresql:", username = "", password = "";
+	private JSONObject credentials;
 	public void createTable()
 	{
 		try 
@@ -40,31 +50,13 @@ public class Database {
 				           "\"Bank Account Email\"	 		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Phone Number\"	VARCHAR(200)	          NOT NULL\n" +
 				           ")";
-//			String table = "CREATE TABLE IF NOT EXISTS \"Tickets\"(\n" +
-//			           "\"Customer ID\" 		  		SERIAL PRIMARY KEY     	  NOT NULL,\n" +
-//			           "\"Flight Type\"           		TEXT		  		  	  ,\n" +
-//			           "\"Origin\"            	  		VARCHAR(200)  		  	  ,\n" +
-//			           "\"Destination\"        	  		VARCHAR(200)			  ,\n" +
-//			           "\"Trip Type\"			  		VARCHAR(200)	          ,\n" +
-//			           "\"Airline\"			 	  		VARCHAR(200)	          ,\n" +
-//			           "\"Schedule\"			  		VARCHAR(200)	          ,\n" +
-//			           "\"Class Type\"			  		VARCHAR(200)	          ,\n" +
-//			           "\"Number Of Passengers\"  		VARCHAR(200)	          ,\n" +
-//			           "\"Number Of Infants\"	  		VARCHAR(200)	          ,\n" +
-//			           "\"Number Of Adults\"	  		VARCHAR(200)	          ,\n" +
-//			           "\"Number Of Senior Citizens\"	VARCHAR(200)	          ,\n" +
-//			           "\"Mode Of Payment\"	  			VARCHAR(200)	          ,\n" +
-//			           "\"Bank Account Name\"	  		VARCHAR(200)	          ,\n" +
-//			           "\"Bank Account Number\"	 		VARCHAR(200)	          ,\n" +
-//			           "\"Bank Account Email\"	 		VARCHAR(200)	          ,\n" +
-//			           "\"Bank Account Phone Number\"	VARCHAR(200)	          \n" +
-//			           ")";
+
 			statement.executeUpdate(table);
 		} 
 		catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,e);
+			JOptionPane.showMessageDialog(null,"5");
 			System.exit(0);
 		}
 		finally
@@ -78,7 +70,7 @@ public class Database {
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,e);
+					JOptionPane.showMessageDialog(null,"Create table"+e); 
 				}
 			}
 			if (database != null )
@@ -90,60 +82,83 @@ public class Database {
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,e);
+					JOptionPane.showMessageDialog(null,"Create table"+e); 
 				}
 			}
 		}   
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	public void connectToDatabase()
 	{
 		try 
 		{	
 			Class.forName("org.postgresql.Driver");
-		    database = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "123456");
-		    if (database != null)
-		    {
-		    	//JOptionPane.showMessageDialog(null,"Opened database successfully"); 
-		    }
-		    else
-		    {
-		    	JPanel panel = new JPanel(new BorderLayout(5, 5));
-
-		        JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
-		        label.add(new JLabel("Url", SwingConstants.RIGHT));
-		        label.add(new JLabel("Username", SwingConstants.RIGHT));
-		        label.add(new JLabel("Password", SwingConstants.RIGHT));
-		        panel.add(label, BorderLayout.WEST);
-
-		        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
-		        JTextField url = new JTextField();
-		        controls.add(url);
-		        JTextField username = new JTextField();
-		        controls.add(username);
-		        JTextField password = new JTextField();
-		        controls.add(password);
-		        panel.add(controls, BorderLayout.CENTER);
-		    	//JOptionPane.showMessageDialog(null,"Failed to open database");
-		    	int confirmation = JOptionPane.showConfirmDialog(null, panel, "Connect to Database", JOptionPane.OK_CANCEL_OPTION);
-	   	
-		    	if(confirmation == 0)
+		    //database = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "123456");
+			
+			JSONParser parser = new JSONParser();
+	    	File f = new File(".\\src\\credentials.json");
+			if (f.exists())
+			{
+				try (Reader reader = new FileReader(".\\src\\credentials.json")) 
 		    	{
-//		    		this.url = url.getText();
-//		    		this.username = username.getText();
-//		    		this.password = password.getText();
-		    		setupDatabase(url.getText(), username.getText(), password.getText());
-		    		connectToDatabase();
-		    	}
-		    	else if (confirmation == 1)
+
+		            JSONObject jsonObject = (JSONObject) parser.parse(reader);
+		            //System.out.println(jsonObject);
+
+		            this.url = (String) jsonObject.get("url");
+		           // System.out.println(this.url);
+
+		            this.username = (String) jsonObject.get("username");
+		            //System.out.println(this.username);
+		            
+		            this.password = (String) jsonObject.get("password");
+		            //System.out.println(this.password);
+
+		        } 
+		    	catch (IOException q) 
 		    	{
-		    		JOptionPane.showMessageDialog(null,"helo");
-		    	}
-		    } 
+		    		//JOptionPane.showMessageDialog(null,"IOException: "+q);
+		    		setupDatabase();
+		    		JOptionPane.showMessageDialog(null,"Connect to database4"+q); 
+		        } 
+		    	catch (ParseException q) 
+		    	{
+		    		//JOptionPane.showMessageDialog(null,"ParseException: "+q);
+		    		setupDatabase();
+		    		JOptionPane.showMessageDialog(null,"Connect to database3"+q); 
+		        }
+			}
+	    		
+			database = DriverManager.getConnection(url,username, password);
+//		    if (database != null)
+//		    {
+//		    	//JOptionPane.showMessageDialog(null,"Opened database successfully"); 
+//		    }
+//		    else
+//		    {
+//		    	
+//		    }
+			credentials = new JSONObject();
+    		credentials.clear();
+	    	credentials.put("url", url);
+	    	credentials.put("username", username);
+	    	credentials.put("password", password);
+	    	try (FileWriter file = new FileWriter(".\\src\\credentials.json")) 
+	    	{
+	            file.write(credentials.toJSONString());
+	        } 
+	    	catch (IOException e) {
+	            //q.printStackTrace();
+	            JOptionPane.showMessageDialog(null,"Connect to database1"+e);
+	        }
+			
 		} 
 		catch (Exception e) 
 		{	
-			JOptionPane.showMessageDialog(null,e);
+			setupDatabase();
+			//JOptionPane.showMessageDialog(null,"Connect to database2"+e); 
 		}
 	}
 	
@@ -151,7 +166,7 @@ public class Database {
 	{
 		try 
 		{
-			database = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "123456");
+			database = DriverManager.getConnection(url,username, password);
 			statement = database.createStatement();
 			//String toInsert = "INSERT INTO \"Tickets\" "+ tableArguments + "VALUES "+valueArguments;
 			String toInsert = "INSERT INTO \"Tickets\""+
@@ -176,7 +191,7 @@ public class Database {
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,e);
+					JOptionPane.showMessageDialog(null,"Insert to table"+e); 
 				}
 			}
 			if (database != null )
@@ -189,7 +204,7 @@ public class Database {
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,e);
+					JOptionPane.showMessageDialog(null,"Insert to table"+e); 
 				}
 			}
 		}
@@ -199,5 +214,72 @@ public class Database {
 		this.url += url;
 		this.username = username;
 		this.password = password;
+	}
+	
+	private void setupDatabase()
+	{
+		//JOptionPane.showMessageDialog(null,e);
+		url = "jdbc:postgresql:";
+		username = "";
+		password = "";
+		JPanel panel = new JPanel(new BorderLayout(5, 5));
+        JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+        label.add(new JLabel("Url", SwingConstants.RIGHT));
+        label.add(new JLabel("Username", SwingConstants.RIGHT));
+        label.add(new JLabel("Password", SwingConstants.RIGHT));
+        panel.add(label, BorderLayout.WEST);
+
+        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+        JTextField url = new JTextField();
+        controls.add(url);
+        JTextField username = new JTextField();
+        controls.add(username);
+        JTextField password = new JTextField();
+        controls.add(password);
+        panel.add(controls, BorderLayout.CENTER);
+    	//JOptionPane.showMessageDialog(null,"Failed to open database");
+        url.setText("//localhost:5432/postgres");
+    	int confirmation = JOptionPane.showConfirmDialog(null, panel, "Connect to Database", JOptionPane.OK_CANCEL_OPTION);
+    	//System.out.print(confirmation);
+    	
+    	
+    	if (confirmation == 0)
+    	{
+//    		this.url = url.getText();
+//    		this.username = username.getText();
+//    		this.password = password.getText();
+    		setupDatabase(url.getText(), username.getText(), password.getText());
+	    	connectToDatabase();
+    	}
+    	else if (confirmation == 2)
+    	{
+    		//JOptionPane.showMessageDialog(null,"helo");
+    		int anotherConfirmation = JOptionPane.showConfirmDialog(null, "Do you wish to exit?", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
+    		
+    		if (anotherConfirmation == 0)
+    		{
+    			System.exit(0);
+    		}
+    		else if (anotherConfirmation == 2)
+    		{
+    			connectToDatabase();
+    		}
+    		else
+    		{
+    			System.exit(0);
+    		}
+    	}
+    	else 
+    	{
+    		System.exit(0);
+    	}
+	}
+
+	public JSONObject getCredentials() {
+		return credentials;
+	}
+
+	public void setCredentials(JSONObject credentials) {
+		this.credentials = credentials;
 	}
 }

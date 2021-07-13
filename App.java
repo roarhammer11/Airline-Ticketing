@@ -102,6 +102,7 @@ public class App extends JFrame
 		flight.setNumberOfSeniorCitizenTextField();
 		flight.setModeOfPaymentBox();
 		flight.setNextButton();
+		flight.setCheckPricesButton();
 		
 		bank.setBankDetails(secondPanel);
 		bank.setBankAccountNameTextField();
@@ -138,6 +139,7 @@ public class App extends JFrame
 		firstPanel.add(flight.getSetModeOfPaymentBoxLabel());
 		firstPanel.add(flight.getSetModeOfPaymentBox());
 		firstPanel.add(flight.getSetNextButton());
+		firstPanel.add(flight.getSetCheckPricesButton());
 		
 		secondPanel.setLayout(null);
 		secondPanel.add(bank.getSetBankDetailsLabel());
