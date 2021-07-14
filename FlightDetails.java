@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class FlightDetails {
+public class FlightDetails 
+{
 	
 	private JLabel setFlightDetailsLabel, setFlightTypeBoxLabel, setAirlineBoxLabel, setTripTypeBoxLabel, setOriginBoxLabel, setDestinationBoxLabel, setScheduleBoxLabel, setClassTypeBoxLabel, 
 				   setNumberOfPassengersTextFieldLabel, setNumberOfInfantsTextFieldLabel, setNumberOfAdultsTextFieldLabel, setNumberOfSeniorCitizensTextFieldLabel, setModeOfPaymentBoxLabel;
@@ -16,7 +17,7 @@ public class FlightDetails {
 	
 	private JComboBox<String> setFlightTypeBox, setAirlineBox, setTripTypeBox, setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
 	
-	private JButton setNextButton, setCheckPricesButton;
+	private JButton setNextButton, setCheckPricesButton, setBackButton;
 	
 	private String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
     				 "Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
@@ -62,6 +63,7 @@ public class FlightDetails {
 		
 		setNextButton = new JButton("Next");
 		setCheckPricesButton = new JButton("Check Prices");
+		setBackButton = new JButton("Back");
 	}
 	
 	// Initialization
@@ -224,6 +226,12 @@ public class FlightDetails {
 		setCheckPricesButton.setBounds(280, 550, 200, 26);
 	}
 	
+	public void setBackButton()
+	{
+		setBackButton.setFont(new Font("Dialog", Font.BOLD, 21));
+		setBackButton.setBounds(58, 550, 98, 28);
+	}
+	
 	// Get Generic String Boxes
 	public JComboBox<String> getSetFlightTypeBox()
 	{
@@ -360,6 +368,11 @@ public class FlightDetails {
 	public JButton getSetCheckPricesButton()
 	{
 		return setCheckPricesButton;
+	}
+	
+	public JButton getSetBackButton()
+	{
+		return setBackButton;
 	}
 	
 	// Get Array of Strings

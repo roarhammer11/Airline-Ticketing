@@ -5,7 +5,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class BankDetails {
+public class BankDetails 
+{
 	private JTextField setBankAccountNameTextField, setBankAccountNumberTextField, setBankAccountEmailTextField, setBankAccountPhoneNumberTextField;
 	private JLabel setBankDetailsLabel, setBankAccountNumberTextFieldLabel,setBankAccountNameTextFieldLabel, setBankAccountEmailTextFieldLabel, setBankAccountPhoneNumberTextFieldLabel;
 	private JButton setBackButton, setSubmitButton;

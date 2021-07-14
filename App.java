@@ -1,4 +1,6 @@
 import java.awt.EventQueue;
+import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,18 +13,29 @@ import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+
 
 @SuppressWarnings("serial")
 public class App extends JFrame 
 {
 	//Instance Variables
-	private JPanel mainPanel, firstPanel, secondPanel;
+	private JPanel mainPanel, firstPanel, secondPanel, thirdPanel, fourthPanel;
 	private JLayeredPane layeredPane;
 	private Receipt receipt = new Receipt();
 	private FlightDetails flight = new FlightDetails();
 	private BankDetails bank = new BankDetails();
+	private MainMenu menu = new MainMenu();
 	private Database database = new Database();
+	private ManageTickets mTicket = new ManageTickets();
 	private String toDatabase = "";
+
+
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -60,6 +73,17 @@ public class App extends JFrame
 		initializeComponents();
 		createEvents();
 		database.createTable();
+		switchPanels(thirdPanel,layeredPane);
+		thirdPanel.setLayout(null);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	private void initializeComponents() 
@@ -79,14 +103,21 @@ public class App extends JFrame
 		
 		firstPanel = new JPanel();		
 		secondPanel = new JPanel();
-	
+		thirdPanel = new JPanel();
+		fourthPanel = new JPanel();
+		fourthPanel.setLayout(null);
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(5, 5, 777, 604);		
 		layeredPane.setLayout(new CardLayout(0, 0));
 		layeredPane.add(firstPanel, "name_20276457840900");
 		layeredPane.add(secondPanel, "name_20276470582800");
+		layeredPane.add(thirdPanel, "name_42503285724600");
+		layeredPane.add(fourthPanel, "name_44322440987300");
+		
 		
 		mainPanel.add(layeredPane);
+		
+		
 		
 		flight.setFlightDetails(firstPanel);
 		flight.setFlightTypeBox();
@@ -103,7 +134,7 @@ public class App extends JFrame
 		flight.setModeOfPaymentBox();
 		flight.setNextButton();
 		flight.setCheckPricesButton();
-		
+		flight.setBackButton();
 		bank.setBankDetails(secondPanel);
 		bank.setBankAccountNameTextField();
 		bank.setBankAcountNumberTextField();
@@ -111,6 +142,14 @@ public class App extends JFrame
 		bank.setBankAccountPhoneNumberTextField();
 		bank.setBackButton();
 		bank.setSubmitButton();
+		
+		menu.setManageTicketsButton();
+		menu.setBookTicketButton();
+		menu.setQuitButton();
+		
+		mTicket.setTicketIDTextFieldLabel();
+		mTicket.setTicketIDTextField();
+		mTicket.setBackButton();
 
 		firstPanel.setLayout(null);
 		firstPanel.add(flight.getFlightDetailsLabel());
@@ -140,6 +179,7 @@ public class App extends JFrame
 		firstPanel.add(flight.getSetModeOfPaymentBox());
 		firstPanel.add(flight.getSetNextButton());
 		firstPanel.add(flight.getSetCheckPricesButton());
+		firstPanel.add(flight.getSetBackButton());
 		
 		secondPanel.setLayout(null);
 		secondPanel.add(bank.getSetBankDetailsLabel());
@@ -153,6 +193,16 @@ public class App extends JFrame
 		secondPanel.add(bank.getSetBankAccountPhoneNumberTextField());
 		secondPanel.add(bank.getSetBackButton());
 		secondPanel.add(bank.getSetSubmitButton());
+		
+		
+		thirdPanel.add(menu.getSetManageTicketsButton());
+		thirdPanel.add(menu.getSetBookTicketButton());
+		thirdPanel.add(menu.getSetQuitButton());
+		
+		fourthPanel.add(mTicket.getSetTicketIDTextField());
+		fourthPanel.add(mTicket.getSetTicketIDTextFieldLabel());
+		fourthPanel.add(mTicket.getSetBackButton());
+		
 	}
 	
 	private void createEvents()
@@ -276,6 +326,29 @@ public class App extends JFrame
 			}
 		});
 		
+		flight.getSetFlightTypeBox().addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
+				{
+					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalAirlineChoices()));
+				}
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
+				{
+					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalAirlineChoices()));
+				}
+			}
+		});
+		
+		flight.getSetBackButton().addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				switchPanels(thirdPanel,layeredPane);
+			}
+		});
+		
 		bank.getSetBackButton().addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e)
@@ -319,7 +392,7 @@ public class App extends JFrame
 							toDatabase(bank.getSetBankAccountEmailTextField().getText(), false);
 							toDatabase(bank.getSetBankAccountPhoneNumberTextField().getText(), true);
 							JOptionPane.showMessageDialog(null, "Thank you for purchasing");
-							switchPanels(firstPanel, layeredPane);
+							switchPanels(thirdPanel, layeredPane);
 							//database.insertToTable("(\"Flight Type\"\n)", "(\"1\");");
 							database.insertToTable(toDatabase);
 							//System.out.print(flight.getSetFlightTypeBox().getSelectedItem());
@@ -344,18 +417,37 @@ public class App extends JFrame
 			}
 		});
 		
-		flight.getSetFlightTypeBox().addActionListener(new ActionListener()
+		
+		
+		menu.getSetManageTicketsButton().addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
-				{
-					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalAirlineChoices()));
-				}
-				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
-				{
-					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalAirlineChoices()));
-				}
+				switchPanels(fourthPanel,layeredPane);
+			}
+		});
+		
+		menu.getSetBookTicketButton().addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				switchPanels(firstPanel,layeredPane);
+			}
+		});
+		
+		menu.getSetQuitButton().addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		});
+		
+		mTicket.getSetBackButton().addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				switchPanels(thirdPanel,layeredPane);
 			}
 		});
 	}

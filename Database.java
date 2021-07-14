@@ -13,6 +13,7 @@ import java.sql.Statement;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -20,7 +21,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class Database {
+public class Database
+{
 	private Connection database = null;
 	private Statement statement = null;
 	private String url = "jdbc:postgresql:", username = "", password = "";
@@ -234,11 +236,12 @@ public class Database {
         controls.add(url);
         JTextField username = new JTextField();
         controls.add(username);
-        JTextField password = new JTextField();
+        JPasswordField password = new JPasswordField();
         controls.add(password);
         panel.add(controls, BorderLayout.CENTER);
     	//JOptionPane.showMessageDialog(null,"Failed to open database");
         url.setText("//localhost:5432/postgres");
+        username.setText("postgres");
     	int confirmation = JOptionPane.showConfirmDialog(null, panel, "Connect to Database", JOptionPane.OK_CANCEL_OPTION);
     	//System.out.print(confirmation);
     	
@@ -248,7 +251,8 @@ public class Database {
 //    		this.url = url.getText();
 //    		this.username = username.getText();
 //    		this.password = password.getText();
-    		setupDatabase(url.getText(), username.getText(), password.getText());
+    		String paswd = String.valueOf(password.getPassword());
+    		setupDatabase(url.getText(), username.getText(), paswd);
 	    	connectToDatabase();
     	}
     	else if (confirmation == 2)
@@ -274,12 +278,7 @@ public class Database {
     		System.exit(0);
     	}
 	}
+	
+	
 
-	public JSONObject getCredentials() {
-		return credentials;
-	}
-
-	public void setCredentials(JSONObject credentials) {
-		this.credentials = credentials;
-	}
 }
