@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.DefaultComboBoxModel;
@@ -6,28 +7,31 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import lombok.Getter;
 
-public class FlightDetails {
+@Getter
+public class FlightDetails 
+{
 	
-	private JLabel setFlightDetailsLabel, setFlightTypeBoxLabel, setAirlineBoxLabel, setTripTypeBoxLabel, setOriginBoxLabel, setDestinationBoxLabel, setScheduleBoxLabel, setClassTypeBoxLabel, 
+	private	 JLabel setFlightDetailsLabel, setFlightTypeBoxLabel, setAirlineBoxLabel, setTripTypeBoxLabel, setOriginBoxLabel, setDestinationBoxLabel, setScheduleBoxLabel, setClassTypeBoxLabel, 
 				   setNumberOfPassengersTextFieldLabel, setNumberOfInfantsTextFieldLabel, setNumberOfAdultsTextFieldLabel, setNumberOfSeniorCitizensTextFieldLabel, setModeOfPaymentBoxLabel;
 	
-	private JTextField setNumberOfPassengersTextField, setNumberOfInfantsTextField, setNumberOfAdultsTextField, setNumberOfSeniorCitizensTextField;
+	private  JTextField setNumberOfPassengersTextField, setNumberOfInfantsTextField, setNumberOfAdultsTextField, setNumberOfSeniorCitizensTextField;
 	
-	private JComboBox<String> setFlightTypeBox, setAirlineBox, setTripTypeBox, setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
+	private  JComboBox<String> setFlightTypeBox, setAirlineBox, setTripTypeBox, setOriginBox, setDestinationBox, setScheduleBox, setClassTypeBox, setModeOfPaymentBox;
 	
-	private JButton setNextButton, setCheckPricesButton;
+	private  JButton setNextButton, setCheckPricesButton, setBackButton, minimizeButton, exitButton;
 	
-	private String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
+	private  String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
     				 "Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
     				 "Jeju Int'l. Airport", "Banyuwangi Int'l Airport", "Hang Nadim Int'l Airport"},
 					  localAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"},
-					  classTypeChoices = {"Business", "Economy", "Premium"},
+					  classTypeChoices = {"Economy", "Premium", "Business"},
 					  flightTypeChoices = { "Local", "International"},
 					  tripTypeChoices = {"One-Way Trip", "Round Trip"},
 					  modeOfPaymentChoices = {"Credit","Debit", "GCash"};
 	
-	private int numberOfPassengers, numberOfInfants, numberOfAdults, numberOfSeniorCitizens;
+	private	int numberOfPassengers, numberOfInfants, numberOfAdults, numberOfSeniorCitizens;
 	
 	//Constructor
 	public FlightDetails()
@@ -62,6 +66,9 @@ public class FlightDetails {
 		
 		setNextButton = new JButton("Next");
 		setCheckPricesButton = new JButton("Check Prices");
+		setBackButton = new JButton("Back");
+		exitButton = new JButton();
+		minimizeButton = new JButton();	
 	}
 	
 	// Initialization
@@ -69,12 +76,12 @@ public class FlightDetails {
 	{
 		setFlightDetailsLabel.setLabelFor(component);
 		setFlightDetailsLabel.setBounds(304, 28, 174, 35);
-		setFlightDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));
-		
+		setFlightDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));	
 	}
 	
 	public void setFlightTypeBox()
 	{
+		setFlightTypeBox.setFocusable(false);
 		setFlightTypeBox.setBounds(432, 111, 225, 30);		
 		setFlightTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));
 		setFlightTypeBox.setModel(new DefaultComboBoxModel<String>(flightTypeChoices));
@@ -88,6 +95,7 @@ public class FlightDetails {
 	{
 		String[] originChoices = {"EMPTY"};
 		
+		setOriginBox.setFocusable(false);
 		setOriginBox.setBounds(432, 141, 225, 30);
 		setOriginBox.setFont(new Font("Dialog", Font.BOLD, 21));
 		setOriginBox.setModel(new DefaultComboBoxModel<String>(originChoices));
@@ -101,6 +109,7 @@ public class FlightDetails {
 	{
 		String[] destinationChoices = {"EMPTY"};
 		
+		setDestinationBox.setFocusable(false);
 		setDestinationBox.setBounds(432, 171, 225, 30);
 		setDestinationBox.setFont(new Font("Dialog", Font.BOLD, 21));	
 		setDestinationBox.setModel(new DefaultComboBoxModel<String>(destinationChoices));
@@ -111,8 +120,8 @@ public class FlightDetails {
 	}
 	
 	public void setTripTypeBox()
-	{
-		
+	{	
+		setTripTypeBox.setFocusable(false);
 		setTripTypeBox.setBounds(432, 201, 225, 30);
 		setTripTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));
 		setTripTypeBox.setModel(new DefaultComboBoxModel<String>(tripTypeChoices));
@@ -124,6 +133,7 @@ public class FlightDetails {
 	
 	public void setAirlineBox()
 	{
+		setAirlineBox.setFocusable(false);
 		setAirlineBox.setBounds(432, 231, 225, 30);
 		setAirlineBox.setFont(new Font("Dialog", Font.BOLD, 21));
 		setAirlineBox.setModel(new DefaultComboBoxModel<String>(localAirlineChoices));
@@ -137,6 +147,7 @@ public class FlightDetails {
 	{
 		String[] scheduleChoices = {"EMPTY"};
 		
+		setScheduleBox.setFocusable(false);
 		setScheduleBox.setBounds(432, 261, 225, 30);
 		setScheduleBox.setFont(new Font("Dialog", Font.BOLD, 21));		
 		setScheduleBox.setModel(new DefaultComboBoxModel<String>(scheduleChoices));
@@ -148,6 +159,7 @@ public class FlightDetails {
 	
 	public void setClassTypeBox()
 	{
+		setClassTypeBox.setFocusable(false);
 		setClassTypeBox.setBounds(432, 291, 225, 30);
 		setClassTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));	
 		setClassTypeBox.setModel(new DefaultComboBoxModel<String>(classTypeChoices));
@@ -203,6 +215,7 @@ public class FlightDetails {
 	
 	public void setModeOfPaymentBox()
 	{
+		setModeOfPaymentBox.setFocusable(false);
 		setModeOfPaymentBox.setBounds(432, 433, 225, 30);
 		setModeOfPaymentBox.setFont(new Font("Dialog", Font.BOLD, 21));
 		setModeOfPaymentBox.setModel(new DefaultComboBoxModel<String>(modeOfPaymentChoices));
@@ -214,221 +227,83 @@ public class FlightDetails {
 	
 	public void setNextButton()
 	{
+		setNextButton.setFocusPainted(false);
 		setNextButton.setFont(new Font("Dialog", Font.BOLD, 21));
 		setNextButton.setBounds(619, 550, 108, 26);
 	}
 	
 	public void setCheckPricesButton()
 	{
+		setCheckPricesButton.setFocusPainted(false);
 		setCheckPricesButton.setFont(new Font("Dialog", Font.BOLD, 21));
 		setCheckPricesButton.setBounds(280, 550, 200, 26);
 	}
 	
-	// Get Generic String Boxes
-	public JComboBox<String> getSetFlightTypeBox()
+	public void setBackButton()
 	{
-		return setFlightTypeBox;
+		setBackButton.setFocusPainted(false);
+		setBackButton.setFont(new Font("Dialog", Font.BOLD, 21));
+		setBackButton.setBounds(58, 550, 98, 28);
 	}
 	
-	public JComboBox<String> getSetAirlineBox()
+	public void setMinimizeButton()
 	{
-		return setAirlineBox;
+		minimizeButton.setFocusPainted(false);
+		minimizeButton.setBounds(719, 0, 40, 35);
+		minimizeButton.setOpaque(true);
+		minimizeButton.setContentAreaFilled(true);
+		minimizeButton.setBackground(Color.WHITE);
+		minimizeButton.setBorderPainted(false);
+		minimizeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/-.png")));	
 	}
 	
-	public JComboBox<String> getSetTripTypeBox()
+	public void setExitButton()
 	{
-		return setTripTypeBox;
+		exitButton.setFocusable(false);
+		exitButton.setFocusPainted(false);
+		exitButton.setBounds(760, 0, 40, 35);
+		exitButton.setOpaque(true);
+		exitButton.setContentAreaFilled(true);
+		exitButton.setBackground(Color.WHITE);
+		exitButton.setBorderPainted(false);
+		exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x.png")));	
 	}
 	
-	public JComboBox<String> getSetOriginBox()
+	public void setNumberOfPassengers(int numberOfPassengers)
 	{
-		return setOriginBox;
+		this.numberOfPassengers = numberOfPassengers;
 	}
 	
-	public JComboBox<String> getSetDestinationBox()
+	public void setNumberOfInfants(int numberOfInfants)
 	{
-		return setDestinationBox;
+		this.numberOfInfants = numberOfInfants;
 	}
 	
-	public JComboBox<String> getSetScheduleBox()
+	public void setNumberOfAdults(int numberOfAdults)
 	{
-		return setScheduleBox;
+		this.numberOfAdults = numberOfAdults;
 	}
 	
-	public JComboBox<String> getSetClassTypeBox()
+	public void setNumberOfSeniorCitizens(int numberOfSeniorCitizens)
 	{
-		return setClassTypeBox;
-	}
-	
-	public JComboBox<String> getSetModeOfPaymentBox()
-	{
-		return setModeOfPaymentBox;
-	}
-	
-	// Get TextFields
-	public JTextField getSetNumberOfPassengersTextField()
-	{
-		return setNumberOfPassengersTextField;
-	}
-	
-	public JTextField getSetNumberOfInfantsTextField()
-	{
-		return setNumberOfInfantsTextField;
-	}
-	
-	public JTextField getSetNumberOfAdultsTextField()
-	{
-		return setNumberOfAdultsTextField;
-	}
-	
-	public JTextField getSetNumberOfSeniorCitizensTextField()
-	{
-		return setNumberOfSeniorCitizensTextField;
-	}
-	
-	// Get Labels
-	public JLabel getFlightDetailsLabel()
-	{
-		return setFlightDetailsLabel;
-	}
-	
-	public JLabel getSetFlightTypeBoxLabel()
-	{
-		return setFlightTypeBoxLabel;
-	}
-	
-	public JLabel getSetAirlineBoxLabel()
-	{
-		return setAirlineBoxLabel;
-	}
-	
-	public JLabel getSetTripTypeBoxLabel()
-	{
-		return setTripTypeBoxLabel;
-	}
-	public JLabel getSetOriginBoxLabel()
-	{
-		return setOriginBoxLabel;
-	}
-	
-	public JLabel getSetDestinationBoxLabel()
-	{
-		return setDestinationBoxLabel;
-	}
-	
-	public JLabel getSetScheduleBoxLabel()
-	{
-		return setScheduleBoxLabel;
-	}
-	
-	public JLabel getSetClassTypeBoxLabel()
-	{
-		return setClassTypeBoxLabel;
-	}
-	
-	public JLabel getSetNumberOfPassengersTextFieldLabel()
-	{
-		return setNumberOfPassengersTextFieldLabel;
-	}
-	
-	public JLabel getSetNumberOfInfantsTextFieldLabel()
-	{
-		return setNumberOfInfantsTextFieldLabel;
-	}
-	
-	public JLabel getSetNumberOfAdultsTextFieldLabel()
-	{
-		return setNumberOfAdultsTextFieldLabel;
-	}
-	
-	public JLabel getSetNumberOfSeniorCitizensTextFieldLabel()
-	{
-		return setNumberOfSeniorCitizensTextFieldLabel;
-	}
-	
-	public JLabel getSetModeOfPaymentBoxLabel()
-	{
-		return setModeOfPaymentBoxLabel;
-	}
-	
-	// Get Buttons
-	public JButton getSetNextButton()
-	{
-		return setNextButton;
-	}
-	
-	public JButton getSetCheckPricesButton()
-	{
-		return setCheckPricesButton;
-	}
-	
-	// Get Array of Strings
-	public String[] getInternationalAirlineChoices()
-	{
-		return internationalAirlineChoices;
-	}
-	
-	public String[] getLocalAirlineChoices()
-	{
-		return localAirlineChoices;
-	}
-	
-	public String[] getClassTypeChoices()
-	{
-		return classTypeChoices;
-	}
-	
-	public String[] getFlightTypeChoices()
-	{
-		return flightTypeChoices;
-	}
-	
-	public String[] getTripTypeChoices()
-	{
-		return tripTypeChoices;
-	}
-	
-	public String[] getmodeOfPaymentChoices()
-	{
-		return modeOfPaymentChoices;
-	}
-	
-	// Get Integers
-	public int getNumberOfPassengers()
-	{
-		return numberOfPassengers;
-	}
-	
-	public int getNumberOfInfants()
-	{
-		return numberOfInfants;
-	}
-	
-	public int getNumberOfAdults()
-	{
-		return numberOfAdults;
-	}
-	
-	public int getNumberOfSeniorCitizens()
-	{
-		return numberOfSeniorCitizens;
+		this.numberOfSeniorCitizens = numberOfSeniorCitizens;
 	}
 	
 	// Other methods
-	public void parseNumberOfPassengersToInt()
+	public int parseNumberOfPassengersToInt()
 	{
 		try
 		{
 			numberOfPassengers = Integer.parseInt(setNumberOfPassengersTextField.getText());	
 		}
 		catch(Exception NumberFormatException)
-		{
-			
+		{	
 			if (NumberFormatException != null && setNumberOfPassengersTextField.getText().trim().isEmpty())
 			{
 				JOptionPane.showMessageDialog(null, "Number of Passengers is empty");
 			}
 		}
+		return numberOfPassengers;
 	}
 	
 	public void parseNumberOfInfantsToInt()

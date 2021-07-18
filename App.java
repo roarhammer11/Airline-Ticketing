@@ -1,28 +1,42 @@
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.InputMap;
 import javax.swing.UIManager;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class App extends JFrame 
 {
 	//Instance Variables
-	private JPanel mainPanel, firstPanel, secondPanel;
+	private JPanel mainPanel, firstPanel, secondPanel, thirdPanel, fourthPanel;
 	private JLayeredPane layeredPane;
 	private Receipt receipt = new Receipt();
 	private FlightDetails flight = new FlightDetails();
 	private BankDetails bank = new BankDetails();
+	private MainMenu menu = new MainMenu();
 	private Database database = new Database();
-	private String toDatabase = "";
+	private ManageTickets mTicket = new ManageTickets();
+	private String toDatabase = "", ticketNumber = "";
 	/**
 	 * Launch the application.
 	 */
@@ -60,17 +74,18 @@ public class App extends JFrame
 		initializeComponents();
 		createEvents();
 		database.createTable();
+		switchPanels(thirdPanel,layeredPane);
 	}
 	
 	private void initializeComponents() 
 	{
-		// TODO Auto-generated method stub
 		setResizable(false);
 		setTitle("Airplane Ticketing System");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(App.class.getResource("/resources/213569889_535845414403206_7341132822717748611_n.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 650);
 		setMinimumSize(new Dimension(800, 650));
+		setUndecorated(true);
 		
 		mainPanel = new JPanel();
 		mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,16 +93,25 @@ public class App extends JFrame
 		mainPanel.setLayout(null);
 		
 		firstPanel = new JPanel();		
+		firstPanel.setBackground(Color.WHITE);
 		secondPanel = new JPanel();
-	
+		secondPanel.setBackground(Color.WHITE);
+		thirdPanel = new JPanel();
+		thirdPanel.setLayout(null);
+		thirdPanel.setBackground(Color.WHITE);
+		fourthPanel = new JPanel();
+		fourthPanel.setBackground(Color.WHITE);
+		fourthPanel.setLayout(null);
 		layeredPane = new JLayeredPane();
-		layeredPane.setBounds(5, 5, 777, 604);		
+		layeredPane.setBounds(0, 0, 800, 650);		
 		layeredPane.setLayout(new CardLayout(0, 0));
 		layeredPane.add(firstPanel, "name_20276457840900");
 		layeredPane.add(secondPanel, "name_20276470582800");
+		layeredPane.add(thirdPanel, "name_42503285724600");
+		layeredPane.add(fourthPanel, "name_44322440987300");
 		
 		mainPanel.add(layeredPane);
-		
+			
 		flight.setFlightDetails(firstPanel);
 		flight.setFlightTypeBox();
 		flight.setAirlineBox();
@@ -103,6 +127,9 @@ public class App extends JFrame
 		flight.setModeOfPaymentBox();
 		flight.setNextButton();
 		flight.setCheckPricesButton();
+		flight.setBackButton();
+		flight.setExitButton();
+		flight.setMinimizeButton();
 		
 		bank.setBankDetails(secondPanel);
 		bank.setBankAccountNameTextField();
@@ -111,9 +138,26 @@ public class App extends JFrame
 		bank.setBankAccountPhoneNumberTextField();
 		bank.setBackButton();
 		bank.setSubmitButton();
-
+		bank.setExitButton();
+		bank.setMinimizeButton();
+		
+		menu.setManageTicketsButton();
+		menu.setBookTicketButton();
+		menu.setQuitButton();
+		menu.setExitButton();
+		menu.setMinimizeButton();
+		menu.setLeftSide();
+		
+		mTicket.setTicketNumberTextField();
+		mTicket.setBackButton();
+		mTicket.setExitButton();
+		mTicket.setMinimizeButton();
+		mTicket.setTicketTextArea();
+		mTicket.setEditTicketButton();
+		mTicket.setDeleteTicketButton();
+		
 		firstPanel.setLayout(null);
-		firstPanel.add(flight.getFlightDetailsLabel());
+		firstPanel.add(flight.getSetFlightDetailsLabel());
 		firstPanel.add(flight.getSetFlightTypeBoxLabel());
 		firstPanel.add(flight.getSetFlightTypeBox());	
 		firstPanel.add(flight.getSetAirlineBoxLabel());
@@ -140,7 +184,10 @@ public class App extends JFrame
 		firstPanel.add(flight.getSetModeOfPaymentBox());
 		firstPanel.add(flight.getSetNextButton());
 		firstPanel.add(flight.getSetCheckPricesButton());
-		
+		firstPanel.add(flight.getSetBackButton());
+		firstPanel.add(flight.getExitButton());
+		firstPanel.add(flight.getMinimizeButton());
+	
 		secondPanel.setLayout(null);
 		secondPanel.add(bank.getSetBankDetailsLabel());
 		secondPanel.add(bank.getSetBankAccountNameTextFieldLabel());
@@ -153,6 +200,28 @@ public class App extends JFrame
 		secondPanel.add(bank.getSetBankAccountPhoneNumberTextField());
 		secondPanel.add(bank.getSetBackButton());
 		secondPanel.add(bank.getSetSubmitButton());
+		secondPanel.add(bank.getExitButton());
+		secondPanel.add(bank.getMinimizeButton());
+		
+		thirdPanel.add(menu.getSetManageTicketsButton());
+		thirdPanel.add(menu.getSetBookTicketButton());
+		thirdPanel.add(menu.getSetQuitButton());
+		thirdPanel.add(menu.getExitButton());
+		thirdPanel.add(menu.getMinimizeButton());
+		thirdPanel.add(menu.getLeftSide());;
+		
+		fourthPanel.add(mTicket.getSetTicketNumberTextField());
+		fourthPanel.add(mTicket.getSetTicketNumberTextFieldLabel());
+		fourthPanel.add(mTicket.getSetBackButton());
+		fourthPanel.add(mTicket.getExitButton());
+		fourthPanel.add(mTicket.getMinimizeButton());
+		fourthPanel.add(mTicket.getSetTicketTextArea());
+		fourthPanel.add(mTicket.getEditTicketButton());
+		fourthPanel.add(mTicket.getDeleteTicketButton());
+		
+		InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
+		im.put(KeyStroke.getKeyStroke("pressed SPACE"), "none");
+		im.put(KeyStroke.getKeyStroke("released SPACE"), "none");
 	}
 	
 	private void createEvents()
@@ -181,20 +250,20 @@ public class App extends JFrame
 						}
 						
 						int totalPassengers = 0 ; 
-
+						flight.parseNumberOfPassengersToInt();
 						if (flight.getNumberOfPassengers() > 200)
 						{
 							JOptionPane.showMessageDialog(null,"Number of Passengers should not exceed 200");
 						}
 						
-						else if (flight.getNumberOfPassengers() < 0)
+						else if (flight.getNumberOfPassengers() < 1 && !flight.getSetNumberOfPassengersTextField().getText().isEmpty())
 						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not be less than 0");
+							JOptionPane.showMessageDialog(null,"Number of Passengers should not be less than 1");
 						}
 						
-						else if (flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()) == false)
+						else if (flight.getNumberOfPassengers() != 0 &&flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()) == false)
 						{
-							flight.parseNumberOfPassengersToInt();
+							
 							if (flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == false)
 							{
 								flight.parseNumberOfInfantsToInt();
@@ -254,11 +323,6 @@ public class App extends JFrame
 							}					
 						}
 						
-						else if (flight.getNumberOfPassengers() == 0 && flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()) == false)
-						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not be 0");
-						}
-						
 						else if(flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()))
 						{
 							JOptionPane.showMessageDialog(null, "Number of Passengers must only contain numbers");
@@ -275,6 +339,151 @@ public class App extends JFrame
 				}					
 			}
 		});
+		
+		flight.getSetFlightTypeBox().addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
+				{
+					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalAirlineChoices()));
+				}
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
+				{
+					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalAirlineChoices()));
+				}
+			}
+		});
+		
+		flight.getSetBackButton().addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (bank.getSetSubmitButton().getText() == "Edit Ticket")
+				{
+					int confirmation = JOptionPane.showConfirmDialog(null,"Would you like to stop editing your ticket? " , "Exit confirmation", 0);
+					
+					if (confirmation == 0)
+					{
+						flight.getSetFlightTypeBox().setSelectedIndex(0);
+						flight.getSetOriginBox().setSelectedItem("EMPTY");
+						flight.getSetDestinationBox().setSelectedItem("EMPTY");
+						flight.getSetTripTypeBox().setSelectedIndex(0);
+						flight.getSetAirlineBox().setSelectedIndex(0);
+						flight.getSetScheduleBox().setSelectedItem("EMPTY");
+						flight.getSetClassTypeBox().setSelectedIndex(0);
+						flight.getSetNumberOfPassengersTextField().setText("");
+						flight.getSetNumberOfInfantsTextField().setText("");
+						flight.getSetNumberOfAdultsTextField().setText("");
+						flight.getSetNumberOfSeniorCitizensTextField().setText("");
+						flight.getSetModeOfPaymentBox().setSelectedIndex(0);
+						flight.setNumberOfPassengers(0);
+						
+						toDatabase = "";
+						receipt.resetReceipt();
+						
+						bank.getSetBankAccountNameTextField().setText("");
+						bank.getSetBankAccountNumberTextField().setText("");
+						bank.getSetBankAccountEmailTextField().setText("");
+						bank.getSetBankAccountPhoneNumberTextField().setText("");
+						bank.getSetSubmitButton().setText("Submit");
+						
+						switchPanels(thirdPanel,layeredPane);					
+					}
+						
+			   }
+			   else
+			   {
+					flight.getSetFlightTypeBox().setSelectedIndex(0);
+					flight.getSetOriginBox().setSelectedItem("EMPTY");
+					flight.getSetDestinationBox().setSelectedItem("EMPTY");
+					flight.getSetTripTypeBox().setSelectedIndex(0);
+					flight.getSetAirlineBox().setSelectedIndex(0);
+					flight.getSetScheduleBox().setSelectedItem("EMPTY");
+					flight.getSetClassTypeBox().setSelectedIndex(0);
+					flight.getSetNumberOfPassengersTextField().setText("");
+					flight.getSetNumberOfInfantsTextField().setText("");
+					flight.getSetNumberOfAdultsTextField().setText("");
+					flight.getSetNumberOfSeniorCitizensTextField().setText("");
+					flight.getSetModeOfPaymentBox().setSelectedIndex(0);
+					flight.setNumberOfPassengers(0);
+					
+					toDatabase = "";
+					receipt.resetReceipt();
+					
+					bank.getSetBankAccountNameTextField().setText("");
+					bank.getSetBankAccountNumberTextField().setText("");
+					bank.getSetBankAccountEmailTextField().setText("");
+					bank.getSetBankAccountPhoneNumberTextField().setText("");
+					switchPanels(thirdPanel,layeredPane);
+				}
+				
+			}
+		});
+		
+		flight.getExitButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				System.exit(0);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				flight.getExitButton().setBackground(Color.RED);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				flight.getExitButton().setBackground(Color.WHITE);
+			}});
+		
+		flight.getMinimizeButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				setState(JFrame.ICONIFIED);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				flight.getMinimizeButton().setBackground(Color.LIGHT_GRAY);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				flight.getMinimizeButton().setBackground(Color.WHITE);
+			}});
 		
 		bank.getSetBackButton().addActionListener(new ActionListener() 
 		{
@@ -317,15 +526,107 @@ public class App extends JFrame
 							toDatabase(bank.getSetBankAccountNameTextField().getText(), false);
 							toDatabase(bank.getSetBankAccountNumberTextField().getText(), false);
 							toDatabase(bank.getSetBankAccountEmailTextField().getText(), false);
-							toDatabase(bank.getSetBankAccountPhoneNumberTextField().getText(), true);
-							JOptionPane.showMessageDialog(null, "Thank you for purchasing");
-							switchPanels(firstPanel, layeredPane);
-							//database.insertToTable("(\"Flight Type\"\n)", "(\"1\");");
-							database.insertToTable(toDatabase);
-							//System.out.print(flight.getSetFlightTypeBox().getSelectedItem());
-							//JOptionPane.showMessageDialog(null, "VALUES("+flight.getSetFlightTypeBox().getSelectedItem()+"\"");
-							receipt.resetReceipt();
-							toDatabase = "";
+							toDatabase(bank.getSetBankAccountPhoneNumberTextField().getText(), false);
+							
+							if (bank.getSetSubmitButton().getText() == "Submit")
+							{
+								ticketNumber = "";
+								ticketNumber = generateTicketNumber();
+								
+								while(database.findInDatabase(ticketNumber))
+								{
+									ticketNumber = generateTicketNumber();
+								}
+								
+								toDatabase(ticketNumber, true);		
+								
+								String[] options = {"OK"};
+								JPanel panel = new JPanel();
+								JLabel ticketNumberLabel = new JLabel("Ticket Number: ");
+								JTextField ticketNumberTextField = new JTextField(10);
+								ticketNumberTextField.setText(ticketNumber);
+								
+								panel.add(ticketNumberLabel);
+								panel.add(ticketNumberTextField);
+								
+								//ticketNumberTextField.au
+								ticketNumberTextField.addFocusListener(new FocusListener() 
+								{				            
+									@Override
+									public void focusGained(FocusEvent e) 
+									{
+										ticketNumberTextField.selectAll();
+									}
+									@Override
+									public void focusLost(FocusEvent e) 
+									{
+										;
+									}
+								});
+								
+								JOptionPane.showOptionDialog(null, panel, "Thank you for pruchasing", JOptionPane.NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options , options[0]);
+								switchPanels(thirdPanel, layeredPane);
+								
+								database.insertToTable(toDatabase);
+								receipt.resetReceipt();
+								toDatabase = "";
+								ticketNumber = "";
+								flight.getSetFlightTypeBox().setSelectedIndex(0);
+								flight.getSetOriginBox().setSelectedItem("EMPTY");
+								flight.getSetDestinationBox().setSelectedItem("EMPTY");
+								flight.getSetTripTypeBox().setSelectedIndex(0);
+								flight.getSetAirlineBox().setSelectedIndex(0);
+								flight.getSetScheduleBox().setSelectedItem("EMPTY");
+								flight.getSetClassTypeBox().setSelectedIndex(0);
+								flight.getSetNumberOfPassengersTextField().setText("");
+								flight.getSetNumberOfInfantsTextField().setText("");
+								flight.getSetNumberOfAdultsTextField().setText("");
+								flight.getSetNumberOfSeniorCitizensTextField().setText("");
+								flight.getSetModeOfPaymentBox().setSelectedIndex(0);
+								flight.setNumberOfPassengers(0);
+								
+								bank.getSetBankAccountNameTextField().setText("");
+								bank.getSetBankAccountNumberTextField().setText("");
+								bank.getSetBankAccountEmailTextField().setText("");
+								bank.getSetBankAccountPhoneNumberTextField().setText("");
+								bank.getSetSubmitButton().setText("Submit");
+							}
+							else
+							{
+								database.updateDatabase(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),  
+														flight.getSetTripTypeBox().getSelectedItem().toString(), flight.getSetAirlineBox().getSelectedItem().toString(), flight.getSetScheduleBox().getSelectedItem().toString(),  
+														flight.getSetClassTypeBox().getSelectedItem().toString(), flight.getSetNumberOfPassengersTextField().getText(), flight.getSetNumberOfInfantsTextField().getText(), 
+														flight.getSetNumberOfAdultsTextField().getText(), flight.getSetNumberOfSeniorCitizensTextField().getText(), flight.getSetModeOfPaymentBox().getSelectedItem().toString(), 
+														bank.getSetBankAccountNameTextField().getText(), bank.getSetBankAccountNumberTextField().getText(), bank.getSetBankAccountEmailTextField().getText(),
+														bank.getSetBankAccountPhoneNumberTextField().getText(), ticketNumber);
+								
+								JOptionPane.showMessageDialog(null, "Your ticket with Ticket Number: " + ticketNumber +" has been successfully edited");
+								ticketNumber = "";
+								toDatabase = "";
+								receipt.resetReceipt();
+								flight.getSetFlightTypeBox().setSelectedIndex(0);
+								flight.getSetOriginBox().setSelectedItem("EMPTY");
+								flight.getSetDestinationBox().setSelectedItem("EMPTY");
+								flight.getSetTripTypeBox().setSelectedIndex(0);
+								flight.getSetAirlineBox().setSelectedIndex(0);
+								flight.getSetScheduleBox().setSelectedItem("EMPTY");
+								flight.getSetClassTypeBox().setSelectedIndex(0);
+								flight.getSetNumberOfPassengersTextField().setText("");
+								flight.getSetNumberOfInfantsTextField().setText("");
+								flight.getSetNumberOfAdultsTextField().setText("");
+								flight.getSetNumberOfSeniorCitizensTextField().setText("");
+								flight.getSetModeOfPaymentBox().setSelectedIndex(0);
+								flight.setNumberOfPassengers(0);
+								
+								bank.getSetBankAccountNameTextField().setText("");
+								bank.getSetBankAccountNumberTextField().setText("");
+								bank.getSetBankAccountEmailTextField().setText("");
+								bank.getSetBankAccountPhoneNumberTextField().setText("");
+								bank.getSetSubmitButton().setText("Submit");
+								
+								switchPanels(thirdPanel, layeredPane);
+							}
+							
 						}
 						else if (confirmation == 1)
 						{
@@ -344,18 +645,375 @@ public class App extends JFrame
 			}
 		});
 		
-		flight.getSetFlightTypeBox().addActionListener(new ActionListener()
+		bank.getExitButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				System.exit(0);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				bank.getExitButton().setBackground(Color.RED);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				bank.getExitButton().setBackground(Color.WHITE);
+			}});
+			
+		bank.getMinimizeButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				setState(JFrame.ICONIFIED);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				bank.getMinimizeButton().setBackground(Color.LIGHT_GRAY);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				bank.getMinimizeButton().setBackground(Color.WHITE);
+			}});
+		
+		menu.getSetManageTicketsButton().addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
+				switchPanels(fourthPanel,layeredPane);
+			}
+		});
+		
+		menu.getSetBookTicketButton().addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				switchPanels(firstPanel,layeredPane);
+			}
+		});
+		
+		menu.getSetQuitButton().addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				System.exit(0);
+			}
+		});
+		
+		menu.getExitButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				System.exit(0);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				menu.getExitButton().setBackground(Color.RED);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				menu.getExitButton().setBackground(Color.WHITE);
+			}});
+		
+		menu.getMinimizeButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				setState(JFrame.ICONIFIED);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				menu.getMinimizeButton().setBackground(Color.LIGHT_GRAY);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				menu.getMinimizeButton().setBackground(Color.WHITE);
+			}});
+			
+		mTicket.getExitButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				System.exit(0);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				mTicket.getExitButton().setBackground(Color.RED);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				mTicket.getExitButton().setBackground(Color.WHITE);
+			}});
+		
+		
+		mTicket.getMinimizeButton().addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				setState(JFrame.ICONIFIED);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) 
+			{
+				mTicket.getMinimizeButton().setBackground(Color.LIGHT_GRAY);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) 
+			{
+				mTicket.getMinimizeButton().setBackground(Color.WHITE);
+			}});
+		
+		mTicket.getSetTicketNumberTextField().addKeyListener(new KeyListener()
+		{
+
+			@Override
+			public void keyTyped(KeyEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) 
+			{
+				;
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e)
+			{
+				if (database.findInDatabase(mTicket.getSetTicketNumberTextField().getText()))
 				{
-					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalAirlineChoices()));
+					receipt.setReceipt("FLIGHT DETAILS", "");
+					receipt.setReceipt("Flight Type: ", database.getFlightType());
+					receipt.setReceipt("Airlines: ",  database.getAirline());
+					receipt.setReceipt("Trip Type: ",  database.getTripType());
+					receipt.setReceipt("Origin: ",  database.getOrigin());
+					receipt.setReceipt("Destination: ",  database.getDestination());
+					receipt.setReceipt("Schedule: ", database.getSchedule());
+					receipt.setReceipt("Class Type: ",  database.getFlightType());
+					receipt.setReceipt("Number Of Passengers: ",  database.getNumberOfPassengers());
+					receipt.setReceipt("Infants: ",  database.getNumberOfInfants());
+					receipt.setReceipt("Adults: ",  database.getNumberOfAdults());
+					receipt.setReceipt("Senior Citizen: ",  database.getNumberOfSeniorCitizens());
+					receipt.setReceipt("Mode of Payment: ",  database.getModeOfPayment());
+					receipt.setReceipt("\nBANK DETAILS", "");
+					receipt.setReceipt("Account Name: ", database.getBankAccountName());
+					receipt.setReceipt("Account Number: ", database.getBankAccountNumber());
+					receipt.setReceipt("Account Email: ", database.getBankAccountEmail());
+					receipt.setReceipt("Phone Number: ", database.getBankAccountPhoneNumber());
+					mTicket.getSetTicketTextArea().setText(receipt.getReceipt());
+					receipt.resetReceipt();			
 				}
-				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
+				
+				else if (mTicket.getSetTicketNumberTextField().getText().trim().isEmpty())
 				{
-					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalAirlineChoices()));
+					mTicket.getSetTicketTextArea().setText("");
 				}
+				else
+				{
+					mTicket.getSetTicketTextArea().setText("Could not find your ticket");
+				}
+			}
+		});
+			
+		mTicket.getDeleteTicketButton().addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{		
+				if (!mTicket.getSetTicketNumberTextField().getText().trim().isEmpty() )
+				{				
+					if (database.findInDatabase(mTicket.getSetTicketNumberTextField().getText()))
+					{
+						int confirmation = JOptionPane.showConfirmDialog(null,"Do you wish to delete ticket with Ticket Number: " + mTicket.getSetTicketNumberTextField().getText(), 
+											"Confirm deletion of ticket", 0);
+						
+						if (confirmation == 0)
+						{	
+							database.deleteInDatabase(mTicket.getSetTicketNumberTextField().getText());	
+							
+							if (!database.findInDatabase(mTicket.getSetTicketNumberTextField().getText()))
+							{
+								JOptionPane.showMessageDialog(null, "Your ticket has successfully been deleted");
+								mTicket.getSetTicketTextArea().setText("Could not find ticket");
+							}
+						}
+					}
+					
+					else
+					{
+						JOptionPane.showMessageDialog(null, "The ticket you are trying to delete is not available");
+					}				
+				}
+				
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Ticket number should not be empty.");
+				}
+			}
+		});
+		
+		mTicket.getEditTicketButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				if (!mTicket.getSetTicketNumberTextField().getText().trim().isEmpty() )
+				{				
+					if (database.findInDatabase(mTicket.getSetTicketNumberTextField().getText()))
+					{
+						int confirmation = JOptionPane.showConfirmDialog(null,"Do you wish to edit ticket with Ticket Number: " + mTicket.getSetTicketNumberTextField().getText(), 
+											"Confirm edition of ticket", 0);
+						
+						if (confirmation == 0)
+						{	
+							switchPanels(firstPanel, layeredPane);
+							flight.getSetFlightTypeBox().setSelectedItem(database.getFlightType());
+							flight.getSetOriginBox().setSelectedItem(database.getOrigin());
+							flight.getSetDestinationBox().setSelectedItem(database.getDestination());
+							flight.getSetTripTypeBox().setSelectedItem(database.getTripType());
+							flight.getSetAirlineBox().setSelectedItem(database.getAirline());
+							flight.getSetScheduleBox().setSelectedItem(database.getSchedule());
+							flight.getSetClassTypeBox().setSelectedItem(database.getClass());
+							flight.getSetNumberOfPassengersTextField().setText(database.getNumberOfPassengers());
+							flight.getSetNumberOfInfantsTextField().setText(database.getNumberOfInfants());
+							flight.getSetNumberOfAdultsTextField().setText(database.getNumberOfAdults());
+							flight.getSetNumberOfSeniorCitizensTextField().setText(database.getNumberOfSeniorCitizens());
+							flight.getSetModeOfPaymentBox().setSelectedItem(database.getModeOfPayment());
+							
+							bank.getSetBankAccountNameTextField().setText(database.getBankAccountName());
+							bank.getSetBankAccountNumberTextField().setText(database.getBankAccountNumber());
+							bank.getSetBankAccountEmailTextField().setText(database.getBankAccountEmail());
+							bank.getSetBankAccountPhoneNumberTextField().setText(database.getBankAccountPhoneNumber());
+							bank.getSetSubmitButton().setText("Edit Ticket");
+							
+							ticketNumber = mTicket.getSetTicketNumberTextField().getText();
+							
+							mTicket.getSetTicketNumberTextField().setText("");
+							mTicket.getSetTicketTextArea().setText("");
+							
+						}
+					}
+					
+					else
+					{
+						JOptionPane.showMessageDialog(null, "The ticket you are trying to edit is not available");
+					}
+				}
+				
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Ticket Number should not be empty.");
+				}
+			}
+			
+		});
+		
+		mTicket.getSetBackButton().addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				mTicket.getSetTicketNumberTextField().setText("");
+				mTicket.getSetTicketTextArea().setText("");
+				switchPanels(thirdPanel,layeredPane);
 			}
 		});
 	}
@@ -378,5 +1036,17 @@ public class App extends JFrame
 		{
 			toDatabase += "'"+ object +"'";
 		}
+	}
+	
+	private String generateTicketNumber()
+	{
+		Random random = new Random();
+		
+		while (ticketNumber.length() != 13)
+		{
+			String rand = Integer.toString(random.nextInt(10));
+			ticketNumber += rand;
+		}
+		return ticketNumber;
 	}
 }

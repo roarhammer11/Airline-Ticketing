@@ -1,14 +1,17 @@
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import lombok.Getter;
 
-public class BankDetails {
+@Getter
+public class BankDetails 
+{
 	private JTextField setBankAccountNameTextField, setBankAccountNumberTextField, setBankAccountEmailTextField, setBankAccountPhoneNumberTextField;
 	private JLabel setBankDetailsLabel, setBankAccountNumberTextFieldLabel,setBankAccountNameTextFieldLabel, setBankAccountEmailTextFieldLabel, setBankAccountPhoneNumberTextFieldLabel;
-	private JButton setBackButton, setSubmitButton;
+	private JButton setBackButton, setSubmitButton, minimizeButton, exitButton;
 	
 	// Constructor
 	public BankDetails()
@@ -26,6 +29,8 @@ public class BankDetails {
 		
 		setBackButton = new JButton("Back");
 		setSubmitButton = new JButton("Submit");
+		minimizeButton = new JButton();
+		exitButton = new JButton();
 		
 	}
 	
@@ -82,74 +87,38 @@ public class BankDetails {
 	}
 	
 	public void setBackButton()
-	{
-		
+	{	
+		setBackButton.setFocusPainted(false);
 		setBackButton.setFont(new Font("Dialog", Font.BOLD, 21));
 		setBackButton.setBounds(58, 550, 98, 28);
 	}
 	
 	public void setSubmitButton()
 	{
+		setSubmitButton.setFocusPainted(false);
 		setSubmitButton.setFont(new Font("Dialog", Font.BOLD, 21));
 		setSubmitButton.setBounds(619, 550, 108, 26);
 	}
 	
-	// Get TextFields
-	public JTextField getSetBankAccountNameTextField()
+	public void setMinimizeButton()
 	{
-		return setBankAccountNameTextField;
+		minimizeButton.setFocusPainted(false);
+		minimizeButton.setBounds(719, 0, 40, 35);
+		minimizeButton.setOpaque(true);
+		minimizeButton.setContentAreaFilled(true);
+		minimizeButton.setBackground(Color.WHITE);
+		minimizeButton.setBorderPainted(false);
+		minimizeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/-.png")));	
 	}
 	
-	public JTextField getSetBankAccountNumberTextField()
+	public void setExitButton()
 	{
-		return setBankAccountNumberTextField;
-	}
-	
-	public JTextField getSetBankAccountEmailTextField()
-	{
-		return setBankAccountEmailTextField;
-	}
-	
-	public JTextField getSetBankAccountPhoneNumberTextField()
-	{
-		return setBankAccountPhoneNumberTextField;
-	}
-	
-	// Get Labels
-	public JLabel getSetBankDetailsLabel()
-	{
-		return setBankDetailsLabel;
-	}
-	
-	public JLabel getSetBankAccountNameTextFieldLabel()
-	{
-		return setBankAccountNameTextFieldLabel;
-	}
-	
-	public JLabel getSetBankAccountNumberTextFieldLabel()
-	{
-		return setBankAccountNumberTextFieldLabel;
-	}
-	
-	public JLabel getSetBankAccountEmailTextFieldLabel()
-	{
-		return setBankAccountEmailTextFieldLabel;
-	}
-	
-	public JLabel getSetBankAccountPhoneNumberTextFieldLabel()
-	{
-		return setBankAccountPhoneNumberTextFieldLabel;
-	}
-	
-	// Get Buttons
-	
-	public JButton getSetBackButton()
-	{
-		return setBackButton;
-	}
-	
-	public JButton getSetSubmitButton()
-	{
-		return setSubmitButton;
+		exitButton.setFocusPainted(false);
+		exitButton.setBounds(760, 0, 40, 35);
+		exitButton.setOpaque(true);
+		exitButton.setContentAreaFilled(true);
+		exitButton.setBackground(Color.WHITE);
+		exitButton.setBorderPainted(false);
+		exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x.png")));	
 	}
 }

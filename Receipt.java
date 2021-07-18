@@ -1,4 +1,6 @@
+import lombok.Getter;
 
+@Getter
 public class Receipt 
 {
 	private String receipt = "", temp = "";
@@ -11,11 +13,6 @@ public class Receipt
 	public void setReceipt(String string, Object object)
 	{
 		receipt += string + object + "\n";
-	}
-	
-	public String getReceipt()
-	{
-		return receipt;
 	}
 	
 	public String setReceiptToTemp()
