@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -21,12 +22,19 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import lombok.Getter;
+
 public class Database
 {
 	private Connection database = null;
 	private Statement statement = null;
+	private ResultSet resultSet = null;
 	private String url = "jdbc:postgresql:", username = "", password = "";
+	
+	private @Getter String flightType = "", origin = "", destination = "", tripType = "", airline = "", schedule = "", classType = "", numberOfPassengers = "", numberOfInfants = "", numberOfAdults = "",
+				   numberOfSeniorCitizens = "", modeOfPayment = "", bankAccountName = "", bankAccountNumber = "", bankAccountEmail = "", bankAccountPhoneNumber = "", ticketNumber = "";
 	private JSONObject credentials;
+	
 	public void createTable()
 	{
 		try 
@@ -50,15 +58,15 @@ public class Database
 				           "\"Bank Account Name\"	  		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Number\"	 		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Email\"	 		VARCHAR(200)	          NOT NULL,\n" +
-				           "\"Bank Account Phone Number\"	VARCHAR(200)	          NOT NULL\n" +
+				           "\"Bank Account Phone Number\"	VARCHAR(200)	          NOT NULL,\n" +
+				           "\"Ticket Number\"				BIGINT	         		  NOT NULL UNIQUE \n" +
 				           ")";
 
 			statement.executeUpdate(table);
 		} 
 		catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,"5");
+			JOptionPane.showMessageDialog(null,"Create table: " + e);
 			System.exit(0);
 		}
 		finally
@@ -72,7 +80,7 @@ public class Database
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,"Create table"+e); 
+					JOptionPane.showMessageDialog(null,"Create table: " + e); 
 				}
 			}
 			if (database != null )
@@ -84,11 +92,12 @@ public class Database
 				catch (SQLException e) 
 				{
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,"Create table"+e); 
+					JOptionPane.showMessageDialog(null,"Create table: " + e); 
 				}
 			}
 		}   
 	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -96,71 +105,55 @@ public class Database
 	{
 		try 
 		{	
-			Class.forName("org.postgresql.Driver");
-		    //database = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres", "123456");
-			
+			Class.forName("org.postgresql.Driver");  
 			JSONParser parser = new JSONParser();
-	    	File f = new File(".\\src\\credentials.json");
+	    	File f = new File(".\\credentials.json");
+	    	
 			if (f.exists())
 			{
-				try (Reader reader = new FileReader(".\\src\\credentials.json")) 
+				try (Reader reader = new FileReader(".\\credentials.json"))
 		    	{
+		            JSONObject jsonObject = (JSONObject) parser.parse(reader);		 
 
-		            JSONObject jsonObject = (JSONObject) parser.parse(reader);
-		            //System.out.println(jsonObject);
-
-		            this.url = (String) jsonObject.get("url");
-		           // System.out.println(this.url);
-
-		            this.username = (String) jsonObject.get("username");
-		            //System.out.println(this.username);
-		            
+		            this.url = (String) jsonObject.get("url");;
+		            this.username = (String) jsonObject.get("username");		            
 		            this.password = (String) jsonObject.get("password");
-		            //System.out.println(this.password);
-
 		        } 
 		    	catch (IOException q) 
 		    	{
-		    		//JOptionPane.showMessageDialog(null,"IOException: "+q);
 		    		setupDatabase();
-		    		JOptionPane.showMessageDialog(null,"Connect to database4"+q); 
+		    		JOptionPane.showMessageDialog(null,"Connect to database: " + q ); 
 		        } 
 		    	catch (ParseException q) 
 		    	{
-		    		//JOptionPane.showMessageDialog(null,"ParseException: "+q);
 		    		setupDatabase();
-		    		JOptionPane.showMessageDialog(null,"Connect to database3"+q); 
+		    		JOptionPane.showMessageDialog(null,"Connect to database: " + q); 
 		        }
 			}
-	    		
+	  		
 			database = DriverManager.getConnection(url,username, password);
-//		    if (database != null)
-//		    {
-//		    	//JOptionPane.showMessageDialog(null,"Opened database successfully"); 
-//		    }
-//		    else
-//		    {
-//		    	
-//		    }
+
 			credentials = new JSONObject();
     		credentials.clear();
 	    	credentials.put("url", url);
 	    	credentials.put("username", username);
 	    	credentials.put("password", password);
-	    	try (FileWriter file = new FileWriter(".\\src\\credentials.json")) 
+	    	
+	    	try (FileWriter file = new FileWriter(".\\credentials.json")) 
 	    	{
 	            file.write(credentials.toJSONString());
 	        } 
-	    	catch (IOException e) {
-	            //q.printStackTrace();
-	            JOptionPane.showMessageDialog(null,"Connect to database1"+e);
+	    	
+	    	catch (IOException e) 
+	    	{
+	            JOptionPane.showMessageDialog(null,"Connect to database: " + e);
 	        }
 			
 		} 
+		
 		catch (Exception e) 
 		{	
 			setupDatabase();
-			//JOptionPane.showMessageDialog(null,"Connect to database2"+e); 
 		}
 	}
 	
@@ -170,18 +163,20 @@ public class Database
 		{
 			database = DriverManager.getConnection(url,username, password);
 			statement = database.createStatement();
-			//String toInsert = "INSERT INTO \"Tickets\" "+ tableArguments + "VALUES "+valueArguments;
+	
 			String toInsert = "INSERT INTO \"Tickets\""+
 					 		"(\"Flight Type\", \"Origin\", \"Destination\", \"Trip Type\", \"Airline\", \"Schedule\", \"Class Type\", \"Number Of Passengers\", \"Number Of Infants\"," +
 							"\"Number Of Adults\", \"Number Of Senior Citizens\", \"Mode Of Payment\", \"Bank Account Name\", \"Bank Account Number\", \"Bank Account Email\","+
-							"\"Bank Account Phone Number\") "+ "VALUES ("+valueArguments +");";
+							"\"Bank Account Phone Number\", \"Ticket Number\") "+ "VALUES (" + valueArguments +");";
+			
 			statement.executeUpdate(toInsert);
 		} 
+		
 		catch (SQLException e) 
 		{
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null,e);
+			JOptionPane.showMessageDialog(null,"Insert to table: " + e);
 		}
+		
 		finally
 		{
 			if (statement != null)
@@ -192,25 +187,23 @@ public class Database
 				} 
 				catch (SQLException e) 
 				{
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,"Insert to table"+e); 
+					JOptionPane.showMessageDialog(null,"Insert to table: " + e); 
 				}
 			}
-			if (database != null )
+			if (database != null)
 			{
 				try 
 				{
-					//database.commit();
 					database.close();
 				} 
 				catch (SQLException e) 
 				{
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null,"Insert to table"+e); 
+					JOptionPane.showMessageDialog(null,"Insert to table: " + e); 
 				}
 			}
 		}
 	}
+	
 	public void setupDatabase(String url, String username, String password)
 	{
 		this.url += url;
@@ -220,17 +213,16 @@ public class Database
 	
 	private void setupDatabase()
 	{
-		//JOptionPane.showMessageDialog(null,e);
 		url = "jdbc:postgresql:";
 		username = "";
 		password = "";
+		
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
         JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
         label.add(new JLabel("Url", SwingConstants.RIGHT));
         label.add(new JLabel("Username", SwingConstants.RIGHT));
         label.add(new JLabel("Password", SwingConstants.RIGHT));
         panel.add(label, BorderLayout.WEST);
-
         JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
         JTextField url = new JTextField();
         controls.add(url);
@@ -239,25 +231,19 @@ public class Database
         JPasswordField password = new JPasswordField();
         controls.add(password);
         panel.add(controls, BorderLayout.CENTER);
-    	//JOptionPane.showMessageDialog(null,"Failed to open database");
         url.setText("//localhost:5432/postgres");
         username.setText("postgres");
+        
     	int confirmation = JOptionPane.showConfirmDialog(null, panel, "Connect to Database", JOptionPane.OK_CANCEL_OPTION);
-    	//System.out.print(confirmation);
-    	
     	
     	if (confirmation == 0)
     	{
-//    		this.url = url.getText();
-//    		this.username = username.getText();
-//    		this.password = password.getText();
     		String paswd = String.valueOf(password.getPassword());
     		setupDatabase(url.getText(), username.getText(), paswd);
 	    	connectToDatabase();
     	}
     	else if (confirmation == 2)
     	{
-    		//JOptionPane.showMessageDialog(null,"helo");
     		int anotherConfirmation = JOptionPane.showConfirmDialog(null, "Do you wish to exit?", "Confirmation", JOptionPane.OK_CANCEL_OPTION);
     		
     		if (anotherConfirmation == 0)
@@ -279,6 +265,208 @@ public class Database
     	}
 	}
 	
-	
+	public boolean findInDatabase(String ticketNumber)
+	{
+		try 
+		{
+			String x = "";
+			database = DriverManager.getConnection(url,username, password);
+			statement = database.createStatement();
+		    resultSet = statement.executeQuery("Select * FROM \"Tickets\" Where \"Ticket Number\" = " + ticketNumber + ";");
+			while(resultSet.next())
+			{
+	            x = resultSet.getString("Trip Type");	            
+	            setFields(resultSet.getString("Flight Type"), resultSet.getString("Origin"), resultSet.getString("Destination"), resultSet.getString("Trip Type"), resultSet.getString("Airline"), 
+	            		resultSet.getString("Schedule"), resultSet.getString("Class Type"), resultSet.getString("Number Of Passengers"), resultSet.getString("Number Of Infants"), 
+	            		resultSet.getString("Number Of Adults"), resultSet.getString("Number Of Senior Citizens"), resultSet.getString("Mode Of Payment"), resultSet.getString("Bank Account Name"), 
+	            		resultSet.getString("Bank Account Number"), resultSet.getString("Bank Account Email"), resultSet.getString("Bank Account Phone Number"), resultSet.getString("Ticket Number"));
+	        }
 
+			switch(x)
+			{
+				case "Round Trip":
+					return true;
+				case "One-Way Trip":
+					return true;
+				default:
+					return false;
+			}
+		} 
+		
+		catch (SQLException e) 
+		{
+			//JOptionPane.showMessageDialog(null,"Find in database: " + e); 
+			return false;
+		}
+		
+		finally
+		{
+			if (resultSet != null)
+			{
+				try 
+				{
+					resultSet.close();
+				} 
+				
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Find in database: " + e); 
+				}
+			}
+			
+			if (statement != null)
+			{
+				try 
+				{
+					statement.close();
+				} 
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Find in database: " + e); 
+				}
+			}
+			
+			if (database != null )
+			{
+				try 
+				{
+					database.close();
+				} 
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Find in database: " + e); 
+				}
+			}
+		}
+	}
+	
+	public void updateDatabase(String flightType, String origin, String destination, String tripType, String airline, String schedule, String classType, String numberOfPassengers, String numberOfInfants, String numberOfAdults,
+			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String ticketNumber)
+	{
+		try 
+		{
+			database = DriverManager.getConnection(url,username, password);
+			statement = database.createStatement();
+			//System.out.print(flightType);
+	
+			String toUpdate = " UPDATE \"Tickets\" \n SET \"Flight Type\" = " + "\'"+ flightType + "\'" + ", \"Origin\" = " + "\'"+ origin + "\'"+ ", \"Destination\" = " + "\'"+ destination  + "\'" + ", \"Trip Type\" = " + "\'"+ tripType + "\'" + 
+			", \"Airline\" = " + "\'"+ airline  + "\'" + ", \"Schedule\" = " + "\'"+ schedule + "\'"+ ", \"Class Type\" = " + "\'"+ classType  + "\'" + ", \"Number Of Passengers\" = " + "\'"+ numberOfPassengers + "\'" + 
+			", \"Number Of Infants\" = " + "\'"+ numberOfInfants  + "\'" + ", \"Number Of Adults\" = " + "\'"+ numberOfAdults + "\'"+ ", \"Number Of Senior Citizens\" = " + "\'"+ numberOfSeniorCitizens  + "\'" + 
+			", \"Mode Of Payment\" = " + "\'"+ modeOfPayment + "\'" + ", \"Bank Account Name\" = " + "\'"+ bankAccountName  + "\'" + ", \"Bank Account Number\" = " + "\'"+ bankAccountNumber + "\'"+ 
+			", \"Bank Account Email\" = " + "\'"+ bankAccountEmail  + "\'" + ", \"Bank Account Phone Number\" = " + "\'" + bankAccountPhoneNumber + "\'" +"WHERE \"Ticket Number\" = " + ticketNumber +";";
+			
+			statement.executeUpdate(toUpdate);
+		} 
+		
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null,"Update Database: " + e); 
+		}
+		
+		finally
+		{
+			if (resultSet != null)
+			{
+				try 
+				{
+					resultSet.close();
+				} 
+				
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Update Database: " + e); 
+				}
+			}
+			
+			if (statement != null)
+			{
+				try 
+				{
+					statement.close();
+				} 
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Update Database: " + e); 
+				}
+			}
+			
+			if (database != null )
+			{
+				try 
+				{
+					database.close();
+				} 
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Update Database: " + e); 
+				}
+			}
+		}
+	}
+	
+	
+	
+	public void deleteInDatabase(String ticketNumber)
+	{
+		try 
+		{
+			database = DriverManager.getConnection(url,username, password);
+			statement = database.createStatement();
+			String toDelete = "DELETE from \"Tickets\" where \"Ticket Number\" = " + ticketNumber + ";";
+			statement.executeUpdate(toDelete);
+		} 
+		catch (SQLException e) 
+		{
+			JOptionPane.showMessageDialog(null,"Delete in database: " + e); 
+		}
+		
+		finally
+		{
+			if (statement != null)
+			{
+				try 
+				{
+					statement.close();
+				} 
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Delete in database: " + e); 
+				}
+			}
+			
+			if (database != null )
+			{
+				try 
+				{
+					database.close();
+				} 
+				catch (SQLException e) 
+				{
+					JOptionPane.showMessageDialog(null,"Delete in database: " + e); 
+				}
+			}
+		}
+	}
+	
+	public void setFields(String flightType, String origin, String destination, String tripType, String airline, String schedule, String classType, String numberOfPassengers, String numberOfInfants, String numberOfAdults,
+			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String ticketNumber)
+	{
+		this.flightType = flightType;
+		this.origin = origin;
+		this.destination = destination;
+		this.tripType = tripType;
+		this.airline = airline;
+		this.schedule = schedule;
+		this.classType = classType;
+		this.numberOfPassengers = numberOfPassengers;
+		this.numberOfInfants = numberOfInfants;
+		this.numberOfAdults = numberOfAdults;
+		this.numberOfSeniorCitizens = numberOfSeniorCitizens;
+		this.modeOfPayment = modeOfPayment;
+		this.bankAccountName = bankAccountName;
+		this.bankAccountNumber = bankAccountNumber;
+		this.bankAccountEmail = bankAccountEmail;
+		this.bankAccountPhoneNumber = bankAccountPhoneNumber;
+		this.ticketNumber = ticketNumber;
+	}
 }
