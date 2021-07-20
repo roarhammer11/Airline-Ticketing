@@ -32,7 +32,7 @@ public class Database
 	private String url = "jdbc:postgresql:", username = "", password = "";
 	
 	private @Getter String flightType = "", origin = "", destination = "", tripType = "", airline = "", schedule = "", classType = "", numberOfPassengers = "", numberOfInfants = "", numberOfAdults = "",
-				   numberOfSeniorCitizens = "", modeOfPayment = "", bankAccountName = "", bankAccountNumber = "", bankAccountEmail = "", bankAccountPhoneNumber = "", ticketNumber = "";
+				   numberOfSeniorCitizens = "", modeOfPayment = "", bankAccountName = "", bankAccountNumber = "", bankAccountEmail = "", bankAccountPhoneNumber = "", totalPrice = "", ticketNumber = "";
 	private JSONObject credentials;
 	
 	public void createTable()
@@ -59,6 +59,7 @@ public class Database
 				           "\"Bank Account Number\"	 		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Email\"	 		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Phone Number\"	VARCHAR(200)	          NOT NULL,\n" +
+				           "\"Total Price\"					VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Ticket Number\"				BIGINT	         		  NOT NULL UNIQUE \n" +
 				           ")";
 
@@ -109,6 +110,7 @@ public class Database
 			JSONParser parser = new JSONParser();
 	    	File f = new File(".\\credentials.json");
 	    	
+	    	//Checks if cretendials.json is already created and automatically sets url, username and password for database connection
 			if (f.exists())
 			{
 				try (Reader reader = new FileReader(".\\credentials.json"))
@@ -131,8 +133,9 @@ public class Database
 		        }
 			}
 	  		
+			//If application has connection to database, saves the url username and password to credentials.json, else calls setupDatabase()
 			database = DriverManager.getConnection(url,username, password);
-
+			
 			credentials = new JSONObject();
     		credentials.clear();
 	    	credentials.put("url", url);
@@ -167,7 +170,7 @@ public class Database
 			String toInsert = "INSERT INTO \"Tickets\""+
 					 		"(\"Flight Type\", \"Origin\", \"Destination\", \"Trip Type\", \"Airline\", \"Schedule\", \"Class Type\", \"Number Of Passengers\", \"Number Of Infants\"," +
 							"\"Number Of Adults\", \"Number Of Senior Citizens\", \"Mode Of Payment\", \"Bank Account Name\", \"Bank Account Number\", \"Bank Account Email\","+
-							"\"Bank Account Phone Number\", \"Ticket Number\") "+ "VALUES (" + valueArguments +");";
+							"\"Bank Account Phone Number\", \"Total Price\", \"Ticket Number\") "+ "VALUES (" + valueArguments +");";
 			
 			statement.executeUpdate(toInsert);
 		} 
@@ -211,6 +214,7 @@ public class Database
 		this.password = password;
 	}
 	
+	//Sets up database and tries to connect to database with the given url, username and password
 	private void setupDatabase()
 	{
 		url = "jdbc:postgresql:";
@@ -279,7 +283,7 @@ public class Database
 	            setFields(resultSet.getString("Flight Type"), resultSet.getString("Origin"), resultSet.getString("Destination"), resultSet.getString("Trip Type"), resultSet.getString("Airline"), 
 	            		resultSet.getString("Schedule"), resultSet.getString("Class Type"), resultSet.getString("Number Of Passengers"), resultSet.getString("Number Of Infants"), 
 	            		resultSet.getString("Number Of Adults"), resultSet.getString("Number Of Senior Citizens"), resultSet.getString("Mode Of Payment"), resultSet.getString("Bank Account Name"), 
-	            		resultSet.getString("Bank Account Number"), resultSet.getString("Bank Account Email"), resultSet.getString("Bank Account Phone Number"), resultSet.getString("Ticket Number"));
+	            		resultSet.getString("Bank Account Number"), resultSet.getString("Bank Account Email"), resultSet.getString("Bank Account Phone Number"), resultSet.getString("Total Price"), resultSet.getString("Ticket Number"));
 	        }
 
 			switch(x)
@@ -295,7 +299,6 @@ public class Database
 		
 		catch (SQLException e) 
 		{
-			//JOptionPane.showMessageDialog(null,"Find in database: " + e); 
 			return false;
 		}
 		
@@ -341,19 +344,19 @@ public class Database
 	}
 	
 	public void updateDatabase(String flightType, String origin, String destination, String tripType, String airline, String schedule, String classType, String numberOfPassengers, String numberOfInfants, String numberOfAdults,
-			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String ticketNumber)
+			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String totalPrice, String ticketNumber)
 	{
 		try 
 		{
 			database = DriverManager.getConnection(url,username, password);
 			statement = database.createStatement();
-			//System.out.print(flightType);
-	
+
 			String toUpdate = " UPDATE \"Tickets\" \n SET \"Flight Type\" = " + "\'"+ flightType + "\'" + ", \"Origin\" = " + "\'"+ origin + "\'"+ ", \"Destination\" = " + "\'"+ destination  + "\'" + ", \"Trip Type\" = " + "\'"+ tripType + "\'" + 
 			", \"Airline\" = " + "\'"+ airline  + "\'" + ", \"Schedule\" = " + "\'"+ schedule + "\'"+ ", \"Class Type\" = " + "\'"+ classType  + "\'" + ", \"Number Of Passengers\" = " + "\'"+ numberOfPassengers + "\'" + 
 			", \"Number Of Infants\" = " + "\'"+ numberOfInfants  + "\'" + ", \"Number Of Adults\" = " + "\'"+ numberOfAdults + "\'"+ ", \"Number Of Senior Citizens\" = " + "\'"+ numberOfSeniorCitizens  + "\'" + 
 			", \"Mode Of Payment\" = " + "\'"+ modeOfPayment + "\'" + ", \"Bank Account Name\" = " + "\'"+ bankAccountName  + "\'" + ", \"Bank Account Number\" = " + "\'"+ bankAccountNumber + "\'"+ 
-			", \"Bank Account Email\" = " + "\'"+ bankAccountEmail  + "\'" + ", \"Bank Account Phone Number\" = " + "\'" + bankAccountPhoneNumber + "\'" +"WHERE \"Ticket Number\" = " + ticketNumber +";";
+			", \"Bank Account Email\" = " + "\'"+ bankAccountEmail  + "\'" + ", \"Bank Account Phone Number\" = " + "\'" + bankAccountPhoneNumber + "\'" + ", \"Total Price\" = " + "\'" + totalPrice + "\'" +
+			"WHERE \"Ticket Number\" = " + ticketNumber +";";
 			
 			statement.executeUpdate(toUpdate);
 		} 
@@ -449,7 +452,7 @@ public class Database
 	}
 	
 	public void setFields(String flightType, String origin, String destination, String tripType, String airline, String schedule, String classType, String numberOfPassengers, String numberOfInfants, String numberOfAdults,
-			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String ticketNumber)
+			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String totalPrice, String ticketNumber)
 	{
 		this.flightType = flightType;
 		this.origin = origin;
@@ -467,6 +470,7 @@ public class Database
 		this.bankAccountNumber = bankAccountNumber;
 		this.bankAccountEmail = bankAccountEmail;
 		this.bankAccountPhoneNumber = bankAccountPhoneNumber;
+		this.totalPrice = totalPrice;
 		this.ticketNumber = ticketNumber;
 	}
 }

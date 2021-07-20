@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,7 +12,7 @@ import javax.swing.JTextField;
 import lombok.Getter;
 
 @Getter
-public class FlightDetails 
+public class FlightDetails extends Schedule
 {
 	
 	private	 JLabel setFlightDetailsLabel, setFlightTypeBoxLabel, setAirlineBoxLabel, setTripTypeBoxLabel, setOriginBoxLabel, setDestinationBoxLabel, setScheduleBoxLabel, setClassTypeBoxLabel, 
@@ -22,16 +24,17 @@ public class FlightDetails
 	
 	private  JButton setNextButton, setCheckPricesButton, setBackButton, minimizeButton, exitButton;
 	
-	private  String[] internationalAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia", "Kansai Intl. Airport", 
-    				 "Hiroshima Airport", "Dunhuang Airport", "Beijing Capital Intl. Airport", "Taipei Songshan Airport", "Tainan Airport", "Daegu Int'l. Airport", 
-    				 "Jeju Int'l. Airport", "Banyuwangi Int'l Airport", "Hang Nadim Int'l Airport"},
-					  localAirlineChoices = {"Philippine Airline", "Air Asia", "Cebu Pacific", "Quatar Airways", "Saudia"},
+	private  String[] airlineChoices = {"Philippine Airlines", "AirAsia Philippines", "Cebu Pacific", "Qatar Airways", "Saudi Airlines Saudia"},
+					  localOriginDestinationChoices = {"NAIA", "MCIA", "DIA"},
+					  internationalOriginDestinationChoices = {"KIA", "HA", "D Int'l Airport", "Jeju Int'l Airport", "TSA", "TA"},
 					  classTypeChoices = {"Economy", "Premium", "Business"},
 					  flightTypeChoices = { "Local", "International"},
 					  tripTypeChoices = {"One-Way Trip", "Round Trip"},
 					  modeOfPaymentChoices = {"Credit","Debit", "GCash"};
 	
 	private	int numberOfPassengers, numberOfInfants, numberOfAdults, numberOfSeniorCitizens;
+	
+	//private Schedule schedule = new Schedule();
 	
 	//Constructor
 	public FlightDetails()
@@ -76,173 +79,170 @@ public class FlightDetails
 	{
 		setFlightDetailsLabel.setLabelFor(component);
 		setFlightDetailsLabel.setBounds(304, 28, 174, 35);
-		setFlightDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));	
+		setFlightDetailsLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 27));	
 	}
 	
 	public void setFlightTypeBox()
 	{
 		setFlightTypeBox.setFocusable(false);
 		setFlightTypeBox.setBounds(432, 111, 225, 30);		
-		setFlightTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));
+		setFlightTypeBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 		setFlightTypeBox.setModel(new DefaultComboBoxModel<String>(flightTypeChoices));
 		
 		setFlightTypeBoxLabel.setLabelFor(setFlightTypeBox);
 		setFlightTypeBoxLabel.setBounds(130, 114, 120, 25);
-		setFlightTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setFlightTypeBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setOriginBox()
 	{
-		String[] originChoices = {"EMPTY"};
-		
 		setOriginBox.setFocusable(false);
 		setOriginBox.setBounds(432, 141, 225, 30);
-		setOriginBox.setFont(new Font("Dialog", Font.BOLD, 21));
-		setOriginBox.setModel(new DefaultComboBoxModel<String>(originChoices));
+		setOriginBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
+		setOriginBox.setModel(new DefaultComboBoxModel<String>(localOriginDestinationChoices));
 		
 		setOriginBoxLabel.setLabelFor(setOriginBox);
 		setOriginBoxLabel.setBounds(130, 144, 120, 25);
-		setOriginBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setOriginBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setDestinationBox()
 	{
-		String[] destinationChoices = {"EMPTY"};
-		
 		setDestinationBox.setFocusable(false);
 		setDestinationBox.setBounds(432, 171, 225, 30);
-		setDestinationBox.setFont(new Font("Dialog", Font.BOLD, 21));	
-		setDestinationBox.setModel(new DefaultComboBoxModel<String>(destinationChoices));
+		setDestinationBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));	
+		setDestinationBox.setModel(new DefaultComboBoxModel<String>(localOriginDestinationChoices));
+		setDestinationBox.setSelectedIndex(1);
 		
 		setDestinationBoxLabel.setLabelFor(setDestinationBox);
 		setDestinationBoxLabel.setBounds(130, 174, 120, 25);
-		setDestinationBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setDestinationBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setTripTypeBox()
 	{	
 		setTripTypeBox.setFocusable(false);
 		setTripTypeBox.setBounds(432, 201, 225, 30);
-		setTripTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));
+		setTripTypeBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 		setTripTypeBox.setModel(new DefaultComboBoxModel<String>(tripTypeChoices));
 		
 		setTripTypeBoxLabel.setLabelFor(setTripTypeBox);
 		setTripTypeBoxLabel.setBounds(130, 204, 120, 25);
-		setTripTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setTripTypeBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setAirlineBox()
 	{
 		setAirlineBox.setFocusable(false);
 		setAirlineBox.setBounds(432, 231, 225, 30);
-		setAirlineBox.setFont(new Font("Dialog", Font.BOLD, 21));
-		setAirlineBox.setModel(new DefaultComboBoxModel<String>(localAirlineChoices));
+		setAirlineBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
+		setAirlineBox.setModel(new DefaultComboBoxModel<String>(airlineChoices));
 		
 		setAirlineBoxLabel.setLabelFor(setAirlineBox);
 		setAirlineBoxLabel.setBounds(130, 234, 120, 25);
-		setAirlineBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setAirlineBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setScheduleBox()
 	{
-		String[] scheduleChoices = {"EMPTY"};
 		
 		setScheduleBox.setFocusable(false);
 		setScheduleBox.setBounds(432, 261, 225, 30);
-		setScheduleBox.setFont(new Font("Dialog", Font.BOLD, 21));		
-		setScheduleBox.setModel(new DefaultComboBoxModel<String>(scheduleChoices));
+		setScheduleBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 17));		
+		String [] schedule = new String[] {"DAILY 8:00AM - 9:20AM"} ;	
+		setScheduleBox.setModel(new DefaultComboBoxModel<String>(schedule));
 		
 		setScheduleBoxLabel.setLabelFor(setScheduleBox);
 		setScheduleBoxLabel.setBounds(130, 264, 120, 25);
-		setScheduleBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setScheduleBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setClassTypeBox()
 	{
 		setClassTypeBox.setFocusable(false);
 		setClassTypeBox.setBounds(432, 291, 225, 30);
-		setClassTypeBox.setFont(new Font("Dialog", Font.BOLD, 21));	
+		setClassTypeBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));	
 		setClassTypeBox.setModel(new DefaultComboBoxModel<String>(classTypeChoices));
 		
 		setClassTypeBoxLabel.setLabelFor(setClassTypeBox);
 		setClassTypeBoxLabel.setBounds(130, 294, 120, 25);
-		setClassTypeBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setClassTypeBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setNumberOfPassengersTextField()
 	{	
 		setNumberOfPassengersTextField.setBounds(432, 321, 225, 30);
-		setNumberOfPassengersTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		setNumberOfPassengersTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 21));
 		setNumberOfPassengersTextField.setColumns(10);
 		
 		setNumberOfPassengersTextFieldLabel.setLabelFor(setNumberOfPassengersTextField);
 		setNumberOfPassengersTextFieldLabel.setBounds(130, 324, 243, 25);
-		setNumberOfPassengersTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setNumberOfPassengersTextFieldLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setNumberOfInfantsTextField()
 	{
 		setNumberOfInfantsTextField.setBounds(161, 388, 101, 30);
-		setNumberOfInfantsTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		setNumberOfInfantsTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 21));
 		setNumberOfInfantsTextField.setColumns(10);
 		
 		setNumberOfInfantsTextFieldLabel.setLabelFor(setNumberOfInfantsTextField);
 		setNumberOfInfantsTextFieldLabel.setBounds(173, 351, 77, 24);
-		setNumberOfInfantsTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setNumberOfInfantsTextFieldLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setNumberOfAdultsTextField()
 	{
 		setNumberOfAdultsTextField.setBounds(304, 388, 97, 30);
-		setNumberOfAdultsTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		setNumberOfAdultsTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 21));
 		setNumberOfAdultsTextField.setColumns(10);
 		
 		setNumberOfAdultsTextFieldLabel.setLabelFor(setNumberOfAdultsTextField);
 		setNumberOfAdultsTextFieldLabel.setBounds(321, 352, 65, 24);
-		setNumberOfAdultsTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setNumberOfAdultsTextFieldLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setNumberOfSeniorCitizenTextField()
 	{
 		setNumberOfSeniorCitizensTextField.setBounds(452, 388, 110, 30);
-		setNumberOfSeniorCitizensTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		setNumberOfSeniorCitizensTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 21));
 		setNumberOfSeniorCitizensTextField.setColumns(10);
 		
 		setNumberOfSeniorCitizensTextFieldLabel.setLabelFor(setNumberOfSeniorCitizensTextField);
 		setNumberOfSeniorCitizensTextFieldLabel.setBounds(442, 351, 151, 24);
-		setNumberOfSeniorCitizensTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setNumberOfSeniorCitizensTextFieldLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setModeOfPaymentBox()
 	{
 		setModeOfPaymentBox.setFocusable(false);
 		setModeOfPaymentBox.setBounds(432, 433, 225, 30);
-		setModeOfPaymentBox.setFont(new Font("Dialog", Font.BOLD, 21));
+		setModeOfPaymentBox.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 		setModeOfPaymentBox.setModel(new DefaultComboBoxModel<String>(modeOfPaymentChoices));
 		
 		setModeOfPaymentBoxLabel.setLabelFor(setModeOfPaymentBox);
 		setModeOfPaymentBoxLabel.setBounds(130, 433, 183, 25);
-		setModeOfPaymentBoxLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setModeOfPaymentBoxLabel.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 	}
 	
 	public void setNextButton()
 	{
 		setNextButton.setFocusPainted(false);
-		setNextButton.setFont(new Font("Dialog", Font.BOLD, 21));
+		setNextButton.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 		setNextButton.setBounds(619, 550, 108, 26);
 	}
 	
 	public void setCheckPricesButton()
 	{
 		setCheckPricesButton.setFocusPainted(false);
-		setCheckPricesButton.setFont(new Font("Dialog", Font.BOLD, 21));
+		setCheckPricesButton.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 		setCheckPricesButton.setBounds(280, 550, 200, 26);
 	}
 	
 	public void setBackButton()
 	{
 		setBackButton.setFocusPainted(false);
-		setBackButton.setFont(new Font("Dialog", Font.BOLD, 21));
+		setBackButton.setFont(new Font("Malgun gothic semilight", Font.BOLD, 21));
 		setBackButton.setBounds(58, 550, 98, 28);
 	}
 	
@@ -319,6 +319,21 @@ public class FlightDetails
 	public void parseNumberOfSeniorCitizensToInt()
 	{		
 		numberOfSeniorCitizens = Integer.parseInt(setNumberOfSeniorCitizensTextField.getText());				
+	}
+	
+	public int parseNumberOfInfantsToInt(String numberOfInfantsTextField)
+	{
+		return Integer.parseInt(numberOfInfantsTextField);		
+	}
+	
+	public int parseNumberOfAdultsToInt(String numberOfAdultsTextField)
+	{		
+		return Integer.parseInt(numberOfAdultsTextField);				
+	}
+	
+	public int parseNumberOfSeniorCitizensToInt(String numberOfSeniorCitizensTextField)
+	{		
+		return Integer.parseInt(numberOfSeniorCitizensTextField);				
 	}
 	
 	protected boolean checkStringForLetters(String s) 

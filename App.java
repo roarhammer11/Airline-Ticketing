@@ -1,19 +1,12 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-import javax.swing.border.EmptyBorder;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.InputMap;
-import javax.swing.UIManager;
-import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -22,7 +15,23 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
-import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import resources.ImagePanel;
 
 @SuppressWarnings("serial")
 public class App extends JFrame 
@@ -37,9 +46,7 @@ public class App extends JFrame
 	private Database database = new Database();
 	private ManageTickets mTicket = new ManageTickets();
 	private String toDatabase = "", ticketNumber = "";
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args)
 	{
 		try {
@@ -65,10 +72,7 @@ public class App extends JFrame
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public App() 
 	{		
 		initializeComponents();
@@ -92,8 +96,14 @@ public class App extends JFrame
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
 		
+		//TODO add banks BPI , CHINABANK , LANDBANK, and implement ui design  apply new fonts, redesign ui
+		
+//		firstPanel = new ImagePanel(new ImageIcon(getClass()
+//                .getResource("/resources/1.png"))
+//                .getImage())
 		firstPanel = new JPanel();		
 		firstPanel.setBackground(Color.WHITE);
+		;
 		secondPanel = new JPanel();
 		secondPanel.setBackground(Color.WHITE);
 		thirdPanel = new JPanel();
@@ -208,7 +218,8 @@ public class App extends JFrame
 		thirdPanel.add(menu.getSetQuitButton());
 		thirdPanel.add(menu.getExitButton());
 		thirdPanel.add(menu.getMinimizeButton());
-		thirdPanel.add(menu.getLeftSide());;
+		thirdPanel.add(menu.getLeftSide());
+		//thirdPanel.paintComponents(menu.getLeftSide());
 		
 		fourthPanel.add(mTicket.getSetTicketNumberTextField());
 		fourthPanel.add(mTicket.getSetTicketNumberTextFieldLabel());
@@ -228,135 +239,188 @@ public class App extends JFrame
 	{
 		flight.getSetNextButton().addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
-				if(firstPanel.getParent() == layeredPane)
+				if (flight.getSetOriginBox().getSelectedItem() != flight.getSetDestinationBox().getSelectedItem())
 				{
-					try
+					if(firstPanel.getParent() == layeredPane)
 					{
-						if (flight.getSetNumberOfInfantsTextField().getText().trim().isEmpty())
+						try
 						{
-							flight.getSetNumberOfInfantsTextField().setText("0");
-						}
-						
-						if (flight.getSetNumberOfAdultsTextField().getText().trim().isEmpty())
-						{
-							flight.getSetNumberOfAdultsTextField().setText("0");
-						}
-						
-						if (flight.getSetNumberOfSeniorCitizensTextField().getText().trim().isEmpty())
-						{
-							flight.getSetNumberOfSeniorCitizensTextField().setText("0");
-						}
-						
-						int totalPassengers = 0 ; 
-						flight.parseNumberOfPassengersToInt();
-						if (flight.getNumberOfPassengers() > 200)
-						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not exceed 200");
-						}
-						
-						else if (flight.getNumberOfPassengers() < 1 && !flight.getSetNumberOfPassengersTextField().getText().isEmpty())
-						{
-							JOptionPane.showMessageDialog(null,"Number of Passengers should not be less than 1");
-						}
-						
-						else if (flight.getNumberOfPassengers() != 0 &&flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()) == false)
-						{
-							
-							if (flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == false)
+							if (flight.getSetNumberOfInfantsTextField().getText().trim().isEmpty())
 							{
-								flight.parseNumberOfInfantsToInt();
-								totalPassengers += flight.getNumberOfInfants();
+								flight.getSetNumberOfInfantsTextField().setText("0");
 							}
 							
-							if (flight.checkStringForLetters(flight.getSetNumberOfAdultsTextField().getText()) == false)
+							if (flight.getSetNumberOfAdultsTextField().getText().trim().isEmpty())
 							{
-								flight.parseNumberOfAdultsToInt();
-								totalPassengers += flight.getNumberOfAdults();
+								flight.getSetNumberOfAdultsTextField().setText("0");
 							}
 							
-							if (flight.checkStringForLetters(flight.getSetNumberOfSeniorCitizensTextField().getText()) == false)
+							if (flight.getSetNumberOfSeniorCitizensTextField().getText().trim().isEmpty())
 							{
-								flight.parseNumberOfSeniorCitizensToInt();
-								totalPassengers += flight.getNumberOfSeniorCitizens();
+								flight.getSetNumberOfSeniorCitizensTextField().setText("0");
 							}
 							
-							if (flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == true)
+							int totalPassengers = 0; 
+							flight.parseNumberOfPassengersToInt();
+							if (flight.getNumberOfPassengers() > 200)
 							{
-								JOptionPane.showMessageDialog(null,"Number of Infants must only contain numbers");
+								JOptionPane.showMessageDialog(null,"Number of Passengers should not exceed 200");
 							}
 							
-							else if (flight.checkStringForLetters(flight.getSetNumberOfAdultsTextField().getText()) == true)
+							else if (flight.getNumberOfPassengers() < 1 && !flight.getSetNumberOfPassengersTextField().getText().isEmpty() && 
+									 flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()) == false)
 							{
-								JOptionPane.showMessageDialog(null,"Number of Adults must only contain numbers");
+								JOptionPane.showMessageDialog(null,"Number of Passengers should not be less than 1");
 							}
 							
-							else if (flight.checkStringForLetters(flight.getSetNumberOfSeniorCitizensTextField().getText()) == true)
+							else if (flight.getNumberOfPassengers() != 0 && flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()) == false)
 							{
-								JOptionPane.showMessageDialog(null,"Number of Senior Citizens must only contain numbers");
-							}
-											
-							else if (totalPassengers != flight.getNumberOfPassengers())
-							{
-								JOptionPane.showMessageDialog(null,"Total passengers error, Please recheck passenger allocation");
-							}
 								
-							else if(flight.getNumberOfPassengers() != 0 && flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == false && 
-								totalPassengers == flight.getNumberOfPassengers())
-							{		
-								receipt.setReceipt("FLIGHT DETAILS", "");
-								receipt.setReceipt("Flight Type: ", flight.getSetFlightTypeBox().getSelectedItem());
-								receipt.setReceipt("Airlines: ", flight.getSetAirlineBox().getSelectedItem());
-								receipt.setReceipt("Trip Type: ", flight.getSetTripTypeBox().getSelectedItem());
-								receipt.setReceipt("Origin: ", flight.getSetOriginBox().getSelectedItem());
-								receipt.setReceipt("Destination: ", flight.getSetDestinationBox().getSelectedItem());
-								receipt.setReceipt("Schedule: ", flight.getSetScheduleBox().getSelectedItem());
-								receipt.setReceipt("Class Type: ", flight.getSetClassTypeBox().getSelectedItem());
-								receipt.setReceipt("Number Of Passengers: ", flight.getSetNumberOfPassengersTextField().getText());
-								receipt.setReceipt("Infants: ", flight.getNumberOfInfants());
-								receipt.setReceipt("Adults: ", flight.getNumberOfAdults());
-								receipt.setReceipt("Senior Citizen: ", flight.getNumberOfSeniorCitizens());
-								receipt.setReceipt("Mode of Payment: ", flight.getSetModeOfPaymentBox().getSelectedItem());
-								receipt.setReceiptToTemp();
-								switchPanels(secondPanel, layeredPane);
-							}					
+								if (flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == false)
+								{
+									flight.parseNumberOfInfantsToInt();
+									totalPassengers += flight.getNumberOfInfants();
+								}
+								
+								if (flight.checkStringForLetters(flight.getSetNumberOfAdultsTextField().getText()) == false)
+								{
+									flight.parseNumberOfAdultsToInt();
+									totalPassengers += flight.getNumberOfAdults();
+								}
+								
+								if (flight.checkStringForLetters(flight.getSetNumberOfSeniorCitizensTextField().getText()) == false)
+								{
+									flight.parseNumberOfSeniorCitizensToInt();
+									totalPassengers += flight.getNumberOfSeniorCitizens();
+								}
+								
+								if (flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == true)
+								{
+									JOptionPane.showMessageDialog(null,"Number of Infants must only contain numbers");
+								}
+								
+								else if (flight.checkStringForLetters(flight.getSetNumberOfAdultsTextField().getText()) == true)
+								{
+									JOptionPane.showMessageDialog(null,"Number of Adults must only contain numbers");
+								}
+								
+								else if (flight.checkStringForLetters(flight.getSetNumberOfSeniorCitizensTextField().getText()) == true)
+								{
+									JOptionPane.showMessageDialog(null,"Number of Senior Citizens must only contain numbers");
+								}
+												
+								else if (totalPassengers != flight.getNumberOfPassengers())
+								{
+									JOptionPane.showMessageDialog(null,"Total passengers error, Please recheck passenger allocation");
+								}
+									
+								else if(flight.getNumberOfPassengers() != 0 && flight.checkStringForLetters(flight.getSetNumberOfInfantsTextField().getText()) == false && 
+									totalPassengers == flight.getNumberOfPassengers())
+								{		
+									receipt.setReceipt("FLIGHT DETAILS", "");
+									receipt.setReceipt("Flight Type: ", flight.getSetFlightTypeBox().getSelectedItem());
+									receipt.setReceipt("Airlines: ", flight.getSetAirlineBox().getSelectedItem());
+									receipt.setReceipt("Trip Type: ", flight.getSetTripTypeBox().getSelectedItem());
+									receipt.setReceipt("Origin: ", flight.getSetOriginBox().getSelectedItem());
+									receipt.setReceipt("Destination: ", flight.getSetDestinationBox().getSelectedItem());
+									receipt.setReceipt("Schedule: ", flight.getSetScheduleBox().getSelectedItem());
+									receipt.setReceipt("Class Type: ", flight.getSetClassTypeBox().getSelectedItem());
+									receipt.setReceipt("Number Of Passengers: ", flight.getSetNumberOfPassengersTextField().getText());
+									receipt.setReceipt("Infants: ", flight.getNumberOfInfants());
+									receipt.setReceipt("Adults: ", flight.getNumberOfAdults());
+									receipt.setReceipt("Senior Citizen: ", flight.getNumberOfSeniorCitizens());
+									receipt.setReceipt("Mode of Payment: ", flight.getSetModeOfPaymentBox().getSelectedItem());
+									receipt.setReceiptToTemp();
+									switchPanels(secondPanel, layeredPane);
+								}					
+							}
+							
+							else if(flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()))
+							{
+								JOptionPane.showMessageDialog(null, "Number of Passengers must only contain numbers");
+							}				
 						}
 						
-						else if(flight.checkStringForLetters(flight.getSetNumberOfPassengersTextField().getText()))
-						{
-							JOptionPane.showMessageDialog(null, "Number of Passengers must only contain numbers");
-						}				
+						catch(Exception NumberFormatException)
+						{	
+							JOptionPane.showMessageDialog(null, "Error");
+						}		
 					}
-					catch(Exception NumberFormatException)
-					{	
-						JOptionPane.showMessageDialog(null, "Error");
-					}		
+					
+					else
+					{
+						JOptionPane.showMessageDialog(null,"Could Not Switch Pane");
+					}					
 				}
-				else
+				
+				else 
 				{
-					JOptionPane.showMessageDialog(null,"Could Not Switch Pane");
-				}					
+					JOptionPane.showMessageDialog(null, "Origin and Destination must not be the same");
+				}
+			}
+		});
+		
+		flight.getSetOriginBox().addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{
+				if (flight.getSetOriginBox().getSelectedItem() != flight.getSetDestinationBox().getSelectedItem())
+				{
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+							   flight.getSetTripTypeBox().getSelectedItem().toString(), flight.getSetAirlineBox().getSelectedItem().toString(), flight.getSetClassTypeBox().getSelectedItem().toString(), 0, 0, 0);
+					
+					String [] schedule = new String[] {flight.getSchedule()} ;	
+					flight.getSetScheduleBox().setModel(new DefaultComboBoxModel<String>(schedule));
+				}
+			}
+		});
+		
+		flight.getSetDestinationBox().addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{	
+				if (flight.getSetOriginBox().getSelectedItem() != flight.getSetDestinationBox().getSelectedItem())
+				{
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+									   flight.getSetTripTypeBox().getSelectedItem().toString(), flight.getSetAirlineBox().getSelectedItem().toString(), flight.getSetClassTypeBox().getSelectedItem().toString(), 0, 0, 0);
+					
+					String [] schedule = new String[] {flight.getSchedule()} ;	
+					flight.getSetScheduleBox().setModel(new DefaultComboBoxModel<String>(schedule));
+				}
 			}
 		});
 		
 		flight.getSetFlightTypeBox().addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
 				{
-					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalAirlineChoices()));
+					flight.getSetOriginBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalOriginDestinationChoices()));
+					flight.getSetDestinationBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalOriginDestinationChoices()));
+					flight.getSetDestinationBox().setSelectedIndex(1);
 				}
+				
 				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
 				{
-					flight.getSetAirlineBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalAirlineChoices()));
+					flight.getSetOriginBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalOriginDestinationChoices()));
+					flight.getSetDestinationBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalOriginDestinationChoices()));
+					flight.getSetDestinationBox().setSelectedIndex(1);
 				}
 			}
 		});
 		
 		flight.getSetBackButton().addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				if (bank.getSetSubmitButton().getText() == "Edit Ticket")
@@ -390,8 +454,8 @@ public class App extends JFrame
 						
 						switchPanels(thirdPanel,layeredPane);					
 					}
-						
 			   }
+				
 			   else
 			   {
 					flight.getSetFlightTypeBox().setSelectedIndex(0);
@@ -485,8 +549,88 @@ public class App extends JFrame
 				flight.getMinimizeButton().setBackground(Color.WHITE);
 			}});
 		
+		flight.getSetCheckPricesButton().addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e) 
+			{			
+				if (flight.getSetOriginBox().getSelectedItem() != flight.getSetDestinationBox().getSelectedItem())
+				{			
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+									   flight.getSetTripTypeBox().getSelectedItem().toString(), "Philippine Airlines", flight.getSetClassTypeBox().getSelectedItem().toString(), 1, 1, 1);
+					
+					String philippineAirlinesInfantPrice =  Double.toString(flight.getInfantPrice());
+					String philippineAirlinesAdultPrice =  Double.toString(flight.getAdultPrice());
+					String philippineAirlinesSeniorCitizenPrice =  Double.toString(flight.getSeniorCitizenPrice());
+					
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+							   flight.getSetTripTypeBox().getSelectedItem().toString(), "AirAsia Philippines", flight.getSetClassTypeBox().getSelectedItem().toString(), 1, 1, 1);
+			
+					String airAsiaPhilippinesInfantPrice =  Double.toString(flight.getInfantPrice());
+					String airAsiaPhilippinesAdultPrice =  Double.toString(flight.getAdultPrice());
+					String airAsiaPhilippinesSeniorCitizenPrice =  Double.toString(flight.getSeniorCitizenPrice());
+					
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+							   flight.getSetTripTypeBox().getSelectedItem().toString(), "Cebu Pacific", flight.getSetClassTypeBox().getSelectedItem().toString(), 1, 1, 1);
+			
+					String cebuPacificInfantPrice =  Double.toString(flight.getInfantPrice());
+					String cebuPacificAdultPrice =  Double.toString(flight.getAdultPrice());
+					String cebuPacificSeniorCitizenPrice =  Double.toString(flight.getSeniorCitizenPrice());
+					
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+							   flight.getSetTripTypeBox().getSelectedItem().toString(), "Qatar Airways", flight.getSetClassTypeBox().getSelectedItem().toString(), 1, 1, 1);
+			
+					String qatarAirwaysInfantPrice =  Double.toString(flight.getInfantPrice());
+					String qatarAirwaysAdultPrice =  Double.toString(flight.getAdultPrice());
+					String qatarAirwaysSeniorCitizenPrice =  Double.toString(flight.getSeniorCitizenPrice());
+					
+					flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+							   flight.getSetTripTypeBox().getSelectedItem().toString(), "Saudi Airlines Saudia", flight.getSetClassTypeBox().getSelectedItem().toString(), 1, 1, 1);
+			
+					String saudiAirlinesSaudiaInfantPrice =  Double.toString(flight.getInfantPrice());
+					String saudiAirlinesSaudiaAdultPrice =  Double.toString(flight.getAdultPrice());
+					String saudiAirlinesSaudiaSeniorCitizenPrice =  Double.toString(flight.getSeniorCitizenPrice());
+					
+					Object[][] rows = 
+						{
+						    {"Infant Price", "                   " + philippineAirlinesInfantPrice, "                   " + airAsiaPhilippinesInfantPrice, "                   " + cebuPacificInfantPrice, "                   " + qatarAirwaysInfantPrice, "                   " + saudiAirlinesSaudiaInfantPrice},
+						    {"Adult Price" , "                   " + philippineAirlinesAdultPrice, "                   " + airAsiaPhilippinesAdultPrice, "                   " + cebuPacificAdultPrice, "                   " + qatarAirwaysAdultPrice, "                   " + saudiAirlinesSaudiaAdultPrice},
+						    {"Senior Citizen Price", "                   " + philippineAirlinesSeniorCitizenPrice, "                   " + airAsiaPhilippinesSeniorCitizenPrice, "                   " + cebuPacificSeniorCitizenPrice, "                   " + qatarAirwaysSeniorCitizenPrice, "                   " + saudiAirlinesSaudiaSeniorCitizenPrice}
+						};
+					
+					Object[] cols = 
+					{
+					    "","Philippine Airlines", "AirAsia Philippines", "Cebu Pacific", "Qatar Airways", "Saudi Airlines Saudia"
+					};
+					
+					JTable table = new JTable(rows, cols)
+					{
+					    @Override
+					    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) 
+					    {
+				           Component component = super.prepareRenderer(renderer, row, column);
+				           TableColumn tableColumn = getColumnModel().getColumn(column);
+				           tableColumn.setPreferredWidth(150);
+				           return component;
+					    }
+					};;
+					
+					table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					JScrollPane scrollPane = new JScrollPane(table);
+					scrollPane.setPreferredSize(new Dimension(903, 71));
+					JOptionPane.showMessageDialog(null, scrollPane);				
+				}
+				
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Origin and Destination must not be the same");
+				}
+			}
+		});
+		
 		bank.getSetBackButton().addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				receipt.resetReceipt();
@@ -496,17 +640,24 @@ public class App extends JFrame
 		
 		bank.getSetSubmitButton().addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				if (!bank.getSetBankAccountNameTextField().getText().trim().isEmpty() && !bank.getSetBankAccountNumberTextField().getText().trim().isEmpty() && 
 					!bank.getSetBankAccountEmailTextField().getText().trim().isEmpty() && !bank.getSetBankAccountPhoneNumberTextField().getText().trim().isEmpty())
 					{
+					
+						flight.setSchedule(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),
+										   flight.getSetTripTypeBox().getSelectedItem().toString(), flight.getSetAirlineBox().getSelectedItem().toString(), flight.getSetClassTypeBox().getSelectedItem().toString(), flight.getNumberOfInfants(), 
+										   flight.getNumberOfAdults(), flight.getNumberOfSeniorCitizens());
+					
 						receipt.setReceipt("\nBANK DETAILS", "");
 						receipt.setReceipt("Account Name: ", bank.getSetBankAccountNameTextField().getText());
 						receipt.setReceipt("Account Number: ", bank.getSetBankAccountNumberTextField().getText());
 						receipt.setReceipt("Account Email: ", bank.getSetBankAccountEmailTextField().getText());
 						receipt.setReceipt("Phone Number: ", bank.getSetBankAccountPhoneNumberTextField().getText());
-
+						receipt.setReceipt("\nTotal price: " , flight.getTotalPrice());
+						 
 						int confirmation = JOptionPane.showConfirmDialog(null, receipt.getReceipt(), "Confirm fields", 0);
 						
 						if (confirmation == 0)
@@ -527,12 +678,15 @@ public class App extends JFrame
 							toDatabase(bank.getSetBankAccountNumberTextField().getText(), false);
 							toDatabase(bank.getSetBankAccountEmailTextField().getText(), false);
 							toDatabase(bank.getSetBankAccountPhoneNumberTextField().getText(), false);
+							toDatabase(flight.getTotalPrice(), false);
 							
 							if (bank.getSetSubmitButton().getText() == "Submit")
 							{
+								
 								ticketNumber = "";
 								ticketNumber = generateTicketNumber();
 								
+								//If ticket number is already available in database, create another ticket
 								while(database.findInDatabase(ticketNumber))
 								{
 									ticketNumber = generateTicketNumber();
@@ -549,7 +703,6 @@ public class App extends JFrame
 								panel.add(ticketNumberLabel);
 								panel.add(ticketNumberTextField);
 								
-								//ticketNumberTextField.au
 								ticketNumberTextField.addFocusListener(new FocusListener() 
 								{				            
 									@Override
@@ -571,6 +724,7 @@ public class App extends JFrame
 								receipt.resetReceipt();
 								toDatabase = "";
 								ticketNumber = "";
+								
 								flight.getSetFlightTypeBox().setSelectedIndex(0);
 								flight.getSetOriginBox().setSelectedItem("EMPTY");
 								flight.getSetDestinationBox().setSelectedItem("EMPTY");
@@ -593,12 +747,13 @@ public class App extends JFrame
 							}
 							else
 							{
+								String totalPrice = Double.toString(flight.getTotalPrice());
 								database.updateDatabase(flight.getSetFlightTypeBox().getSelectedItem().toString(), flight.getSetOriginBox().getSelectedItem().toString(), flight.getSetDestinationBox().getSelectedItem().toString(),  
 														flight.getSetTripTypeBox().getSelectedItem().toString(), flight.getSetAirlineBox().getSelectedItem().toString(), flight.getSetScheduleBox().getSelectedItem().toString(),  
 														flight.getSetClassTypeBox().getSelectedItem().toString(), flight.getSetNumberOfPassengersTextField().getText(), flight.getSetNumberOfInfantsTextField().getText(), 
 														flight.getSetNumberOfAdultsTextField().getText(), flight.getSetNumberOfSeniorCitizensTextField().getText(), flight.getSetModeOfPaymentBox().getSelectedItem().toString(), 
-														bank.getSetBankAccountNameTextField().getText(), bank.getSetBankAccountNumberTextField().getText(), bank.getSetBankAccountEmailTextField().getText(),
-														bank.getSetBankAccountPhoneNumberTextField().getText(), ticketNumber);
+														bank.getSetBankAccountNameTextField().getText(), bank.getSetBankAccountNumberTextField().getText(), bank.getSetBankAccountEmailTextField().getText(), 
+														bank.getSetBankAccountPhoneNumberTextField().getText(), totalPrice, ticketNumber);
 								
 								JOptionPane.showMessageDialog(null, "Your ticket with Ticket Number: " + ticketNumber +" has been successfully edited");
 								ticketNumber = "";
@@ -645,7 +800,8 @@ public class App extends JFrame
 			}
 		});
 		
-		bank.getExitButton().addMouseListener(new MouseListener() {
+		bank.getExitButton().addMouseListener(new MouseListener() 
+		{
 
 			@Override
 			public void mouseClicked(MouseEvent e) 
@@ -711,6 +867,7 @@ public class App extends JFrame
 		
 		menu.getSetManageTicketsButton().addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				switchPanels(fourthPanel,layeredPane);
@@ -719,6 +876,7 @@ public class App extends JFrame
 		
 		menu.getSetBookTicketButton().addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				switchPanels(firstPanel,layeredPane);
@@ -727,6 +885,7 @@ public class App extends JFrame
 		
 		menu.getSetQuitButton().addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				System.exit(0);
@@ -864,7 +1023,6 @@ public class App extends JFrame
 		
 		mTicket.getSetTicketNumberTextField().addKeyListener(new KeyListener()
 		{
-
 			@Override
 			public void keyTyped(KeyEvent e) 
 			{
@@ -900,6 +1058,7 @@ public class App extends JFrame
 					receipt.setReceipt("Account Number: ", database.getBankAccountNumber());
 					receipt.setReceipt("Account Email: ", database.getBankAccountEmail());
 					receipt.setReceipt("Phone Number: ", database.getBankAccountPhoneNumber());
+					receipt.setReceipt("\nTotal price: " , database.getTotalPrice());
 					mTicket.getSetTicketTextArea().setText(receipt.getReceipt());
 					receipt.resetReceipt();			
 				}
@@ -917,6 +1076,7 @@ public class App extends JFrame
 			
 		mTicket.getDeleteTicketButton().addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e) 
 			{		
 				if (!mTicket.getSetTicketNumberTextField().getText().trim().isEmpty() )
@@ -951,8 +1111,8 @@ public class App extends JFrame
 			}
 		});
 		
-		mTicket.getEditTicketButton().addActionListener(new ActionListener() {
-
+		mTicket.getEditTicketButton().addActionListener(new ActionListener() 
+		{
 			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -1009,6 +1169,7 @@ public class App extends JFrame
 		
 		mTicket.getSetBackButton().addActionListener(new ActionListener() 
 		{
+			@Override
 			public void actionPerformed(ActionEvent e) 
 			{
 				mTicket.getSetTicketNumberTextField().setText("");
@@ -1048,5 +1209,15 @@ public class App extends JFrame
 			ticketNumber += rand;
 		}
 		return ticketNumber;
+	}
+	
+	protected void paintComponent(Graphics g) {
+	    g.setColor(new Color(5,5,5));
+	    g.fillRect(0,0,100,100);
+	    g.setColor(Color.GREEN);
+	    g.drawRoundRect(30,30,20,20,5,5);
+	    g.setColor(new Color(200,200,200));
+	    g.setFont(new Font("Eras Bold ITC", Font.BOLD, 150));
+	    g.drawString("hi",25,25);
 	}
 }

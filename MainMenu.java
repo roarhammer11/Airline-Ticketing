@@ -4,7 +4,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import lombok.Getter;
 
-
 @Getter
 public class MainMenu 
 {
