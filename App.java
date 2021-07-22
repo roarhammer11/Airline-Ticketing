@@ -392,14 +392,14 @@ public class App extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				if (flight.getSetFlightTypeBox().getSelectedItem() == "International")
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "INTERNATIONAL")
 				{
 					flight.getSetOriginBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalOriginDestinationChoices()));
 					flight.getSetDestinationBox().setModel(new DefaultComboBoxModel<String>(flight.getInternationalOriginDestinationChoices()));
 					flight.getSetDestinationBox().setSelectedIndex(1);
 				}
 				
-				if (flight.getSetFlightTypeBox().getSelectedItem() == "Local")
+				if (flight.getSetFlightTypeBox().getSelectedItem() == "LOCAL")
 				{
 					flight.getSetOriginBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalOriginDestinationChoices()));
 					flight.getSetDestinationBox().setModel(new DefaultComboBoxModel<String>(flight.getLocalOriginDestinationChoices()));
