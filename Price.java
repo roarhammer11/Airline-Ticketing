@@ -45,21 +45,21 @@ public class Price
 	{
 		switch(tripType)
 		{
-			case "Round Trip":
+			case "ROUND TRIP":
 			{
 				switch(classType)
 				{
-					case "Economy":
+					case "ECONOMY":
 					{
 						price = (price * 0.6) + price;
 						break;
 					}
-					case "Premium":
+					case "PREMIUM":
 					{
 						price = premiumClass(price, true);
 						break;
 					}
-					case "Business":
+					case "BUSINESS":
 					{						
 						price = businessClass(price, true);
 						break;
@@ -67,20 +67,20 @@ public class Price
 				}
 				break;
 			}
-			case "One-Way Trip":
+			case "ONE-WAY TRIP":
 			{
 				switch(classType)
 				{
-					case "Economy":
+					case "ECONOMY":
 					{
 						break;
 					}
-					case "Premium":
+					case "PREMIUM":
 					{
 						price = premiumClass(price, false);
 						break;
 					}
-					case "Business":
+					case "BUSINESS":
 					{						
 						price = businessClass(price, false);
 						break;

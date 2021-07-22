@@ -32,7 +32,7 @@ public class Database
 	private String url = "jdbc:postgresql:", username = "", password = "";
 	
 	private @Getter String flightType = "", origin = "", destination = "", tripType = "", airline = "", schedule = "", classType = "", numberOfPassengers = "", numberOfInfants = "", numberOfAdults = "",
-				   numberOfSeniorCitizens = "", modeOfPayment = "", bankAccountName = "", bankAccountNumber = "", bankAccountEmail = "", bankAccountPhoneNumber = "", totalPrice = "", ticketNumber = "";
+				   numberOfSeniorCitizens = "", modeOfPayment = "", bankCompany = "", bankAccountName = "", bankAccountNumber = "", bankAccountEmail = "", bankAccountPhoneNumber = "", totalPrice = "", ticketNumber = "";
 	private JSONObject credentials;
 	
 	public void createTable()
@@ -55,6 +55,7 @@ public class Database
 				           "\"Number Of Adults\"	  		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Number Of Senior Citizens\"	VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Mode Of Payment\"	  			VARCHAR(200)	          NOT NULL,\n" +
+				           "\"Bank Company\"	  			VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Name\"	  		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Number\"	 		VARCHAR(200)	          NOT NULL,\n" +
 				           "\"Bank Account Email\"	 		VARCHAR(200)	          NOT NULL,\n" +
@@ -169,7 +170,7 @@ public class Database
 	
 			String toInsert = "INSERT INTO \"Tickets\""+
 					 		"(\"Flight Type\", \"Origin\", \"Destination\", \"Trip Type\", \"Airline\", \"Schedule\", \"Class Type\", \"Number Of Passengers\", \"Number Of Infants\"," +
-							"\"Number Of Adults\", \"Number Of Senior Citizens\", \"Mode Of Payment\", \"Bank Account Name\", \"Bank Account Number\", \"Bank Account Email\","+
+							"\"Number Of Adults\", \"Number Of Senior Citizens\", \"Mode Of Payment\", \"Bank Company\", \"Bank Account Name\", \"Bank Account Number\", \"Bank Account Email\","+
 							"\"Bank Account Phone Number\", \"Total Price\", \"Ticket Number\") "+ "VALUES (" + valueArguments +");";
 			
 			statement.executeUpdate(toInsert);
@@ -282,15 +283,15 @@ public class Database
 	            x = resultSet.getString("Trip Type");	            
 	            setFields(resultSet.getString("Flight Type"), resultSet.getString("Origin"), resultSet.getString("Destination"), resultSet.getString("Trip Type"), resultSet.getString("Airline"), 
 	            		resultSet.getString("Schedule"), resultSet.getString("Class Type"), resultSet.getString("Number Of Passengers"), resultSet.getString("Number Of Infants"), 
-	            		resultSet.getString("Number Of Adults"), resultSet.getString("Number Of Senior Citizens"), resultSet.getString("Mode Of Payment"), resultSet.getString("Bank Account Name"), 
+	            		resultSet.getString("Number Of Adults"), resultSet.getString("Number Of Senior Citizens"), resultSet.getString("Mode Of Payment"), resultSet.getString("Bank Company"), resultSet.getString("Bank Account Name"), 
 	            		resultSet.getString("Bank Account Number"), resultSet.getString("Bank Account Email"), resultSet.getString("Bank Account Phone Number"), resultSet.getString("Total Price"), resultSet.getString("Ticket Number"));
 	        }
 
 			switch(x)
 			{
-				case "Round Trip":
+				case "ROUND TRIP":
 					return true;
-				case "One-Way Trip":
+				case "ONE-WAY TRIP":
 					return true;
 				default:
 					return false;
@@ -344,7 +345,7 @@ public class Database
 	}
 	
 	public void updateDatabase(String flightType, String origin, String destination, String tripType, String airline, String schedule, String classType, String numberOfPassengers, String numberOfInfants, String numberOfAdults,
-			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String totalPrice, String ticketNumber)
+			   String numberOfSeniorCitizens, String modeOfPayment, String bankCompany, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String totalPrice, String ticketNumber)
 	{
 		try 
 		{
@@ -354,7 +355,7 @@ public class Database
 			String toUpdate = " UPDATE \"Tickets\" \n SET \"Flight Type\" = " + "\'"+ flightType + "\'" + ", \"Origin\" = " + "\'"+ origin + "\'"+ ", \"Destination\" = " + "\'"+ destination  + "\'" + ", \"Trip Type\" = " + "\'"+ tripType + "\'" + 
 			", \"Airline\" = " + "\'"+ airline  + "\'" + ", \"Schedule\" = " + "\'"+ schedule + "\'"+ ", \"Class Type\" = " + "\'"+ classType  + "\'" + ", \"Number Of Passengers\" = " + "\'"+ numberOfPassengers + "\'" + 
 			", \"Number Of Infants\" = " + "\'"+ numberOfInfants  + "\'" + ", \"Number Of Adults\" = " + "\'"+ numberOfAdults + "\'"+ ", \"Number Of Senior Citizens\" = " + "\'"+ numberOfSeniorCitizens  + "\'" + 
-			", \"Mode Of Payment\" = " + "\'"+ modeOfPayment + "\'" + ", \"Bank Account Name\" = " + "\'"+ bankAccountName  + "\'" + ", \"Bank Account Number\" = " + "\'"+ bankAccountNumber + "\'"+ 
+			", \"Mode Of Payment\" = " + "\'"+ modeOfPayment + "\'" +  ", \"Bank Company\" = " + "\'"+ bankCompany + "\'" + ", \"Bank Account Name\" = " + "\'"+ bankAccountName  + "\'" + ", \"Bank Account Number\" = " + "\'"+ bankAccountNumber + "\'"+ 
 			", \"Bank Account Email\" = " + "\'"+ bankAccountEmail  + "\'" + ", \"Bank Account Phone Number\" = " + "\'" + bankAccountPhoneNumber + "\'" + ", \"Total Price\" = " + "\'" + totalPrice + "\'" +
 			"WHERE \"Ticket Number\" = " + ticketNumber +";";
 			
@@ -452,7 +453,7 @@ public class Database
 	}
 	
 	public void setFields(String flightType, String origin, String destination, String tripType, String airline, String schedule, String classType, String numberOfPassengers, String numberOfInfants, String numberOfAdults,
-			   String numberOfSeniorCitizens, String modeOfPayment, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String totalPrice, String ticketNumber)
+			   String numberOfSeniorCitizens, String modeOfPayment, String bankCompany, String bankAccountName, String bankAccountNumber, String bankAccountEmail, String bankAccountPhoneNumber, String totalPrice, String ticketNumber)
 	{
 		this.flightType = flightType;
 		this.origin = origin;
@@ -466,6 +467,7 @@ public class Database
 		this.numberOfAdults = numberOfAdults;
 		this.numberOfSeniorCitizens = numberOfSeniorCitizens;
 		this.modeOfPayment = modeOfPayment;
+		this.bankCompany = bankCompany;
 		this.bankAccountName = bankAccountName;
 		this.bankAccountNumber = bankAccountNumber;
 		this.bankAccountEmail = bankAccountEmail;

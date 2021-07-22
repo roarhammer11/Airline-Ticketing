@@ -1,5 +1,3 @@
-import java.awt.Graphics;
-
 import lombok.Getter;
 
 @Getter
@@ -10,10 +8,11 @@ public class Schedule extends Price
 	
 	public void setSchedule(String flightType,  String origin, String destination, String tripType, String airline, String classType, int numberOfInfants, int numberOfAdults,  int numberOfSeniorCitizen)
 	{
-		if (flightType == "Local")
+		
+		if (flightType == "LOCAL")
 		{
 			//PHILIPPINES		
-			if (airline == "Philippine Airlines")
+			if (airline == "PHILIPPINE AIRLINES")
 			{
 				if (origin == "NAIA" && destination == "MCIA")
 				{
@@ -58,7 +57,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "AirAsia Philippines")
+			else if (airline == "AIRASIA PHILIPPINES")
 			{
 				if (origin == "NAIA" && destination == "MCIA")
 				{
@@ -103,7 +102,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "Cebu Pacific")
+			else if (airline == "CEBU PACIFIC")
 			{
 				if (origin == "NAIA" && destination == "MCIA")
 				{
@@ -148,7 +147,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "Qatar Airways")
+			else if (airline == "QATAR AIRWAYS")
 			{
 				if (origin == "NAIA" && destination == "MCIA")
 				{
@@ -193,7 +192,7 @@ public class Schedule extends Price
 				}
 				
 			}
-			else if (airline == "Saudi Airlines Saudia")
+			else if (airline == "SAUDI AIRLINES SAUDIA")
 			{
 				if (origin == "NAIA" && destination == "MCIA")
 				{
@@ -243,7 +242,7 @@ public class Schedule extends Price
 		else
 		{
 			
-			if (airline == "Philippine Airlines")
+			if (airline == "PHILIPPINE AIRLINES")
 			{
 				//JAPAN
 				if (origin == "NAIA" && destination == "KIA")
@@ -373,7 +372,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "AirAsia Philippines")
+			else if (airline == "AIRASIA PHILIPPINES")
 			{
 				//JAPAN
 				if (origin == "NAIA" && destination == "KIA")
@@ -504,7 +503,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "Cebu Pacific")
+			else if (airline == "CEBU PACIFIC")
 			{
 				//JAPAN
 				if (origin == "NAIA" && destination == "KIA")
@@ -634,7 +633,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "Qatar Airways")
+			else if (airline == "QATAR AIRWAYS")
 			{
 				//JAPAN
 				if (origin == "NAIA" && destination == "KIA")
@@ -765,7 +764,7 @@ public class Schedule extends Price
 				}
 			}
 			
-			else if (airline == "Saudi Airlines Saudia")
+			else if (airline == "SAUDI AIRLINES SAUDIA")
 			{
 				//JAPAN
 				if (origin == "NAIA" && destination == "KIA")
@@ -896,11 +895,6 @@ public class Schedule extends Price
 				}
 			}
 		}
-	}
-
-	protected void paintComponent(Graphics g) {
-		// TODO Auto-generated method stub
-		
 	}
 }
 		
