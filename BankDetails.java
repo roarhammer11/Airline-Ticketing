@@ -1,109 +1,135 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import lombok.Getter;
+import resources.ImageButton;
+import resources.JComboBoxUI;
 
 @Getter
 public class BankDetails 
 {
 	private JTextField setBankAccountNameTextField, setBankAccountNumberTextField, setBankAccountEmailTextField, setBankAccountPhoneNumberTextField;
-	private JLabel setBankDetailsLabel, setBankAccountNumberTextFieldLabel,setBankAccountNameTextFieldLabel, setBankAccountEmailTextFieldLabel, setBankAccountPhoneNumberTextFieldLabel;
 	private JButton setBackButton, setSubmitButton, minimizeButton, exitButton;
+	private JComboBox<String> setBankCompany;
+	private Color skyBlue = new Color(106, 218, 255);
+	private String[] bankCompany = {"BPI", "CHINA BANK", "LAND BANK"};
+	
+	private Border lineBorder;
 	
 	// Constructor
 	public BankDetails()
-	{
-		setBankDetailsLabel = new JLabel("Bank Details");
-		setBankAccountNameTextFieldLabel = new JLabel("Account Name");
-		setBankAccountNumberTextFieldLabel = new JLabel("Account Number");
-		setBankAccountEmailTextFieldLabel = new JLabel("Email Address");
-		setBankAccountPhoneNumberTextFieldLabel = new JLabel("Phone Number");
-		
+	{	
 		setBankAccountNameTextField = new JTextField();
 		setBankAccountNumberTextField = new JTextField();
 		setBankAccountEmailTextField = new JTextField();
 		setBankAccountPhoneNumberTextField = new JTextField();
 		
-		setBackButton = new JButton("Back");
-		setSubmitButton = new JButton("Submit");
+		setBackButton = new ImageButton(new ImageIcon(getClass()
+	              .getResource("/resources/back.png"))
+	              .getImage(), 149, 30);
+		setSubmitButton = new ImageButton(new ImageIcon(getClass()
+	              .getResource("/resources/submit.png"))
+	              .getImage(), 149, 30);
 		minimizeButton = new JButton();
 		exitButton = new JButton();
 		
+		setBankCompany = new JComboBox<String>();
+		
+		 lineBorder = new LineBorder(skyBlue, 1, true);
+
 	}
 	
 	// Initialization
-	public void setBankDetails(Component component)
+	
+	public void setBankCompany()
 	{
-		setBankDetailsLabel.setLabelFor(component);
-		setBankDetailsLabel.setBounds(304, 28, 174, 35);
-		setBankDetailsLabel.setFont(new Font("Dialog", Font.BOLD, 27));
+		setBankCompany.setUI(new JComboBoxUI());
+		setBankCompany.setFocusable(false);
+		setBankCompany.setBounds(230, 263, 312, 25);
+		setBankCompany.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 20));
+		setBankCompany.setBackground(skyBlue);
+		setBankCompany.setForeground(Color.WHITE);
+		setBankCompany.setModel(new DefaultComboBoxModel<String>(bankCompany));	
 	}
 	
 	public void setBankAccountNameTextField()
 	{	
-		setBankAccountNameTextField.setBounds(432, 111, 225, 30);
+		setBankAccountNameTextField.setBorder(lineBorder);
+		setBankAccountNameTextField.setForeground(skyBlue);
+		setBankAccountNameTextField.setBounds(222, 400, 311, 26);
 		setBankAccountNameTextField.setColumns(10);		
-		setBankAccountNameTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
-		
-		setBankAccountNameTextFieldLabel.setLabelFor(setBankAccountNameTextField);
-		setBankAccountNameTextFieldLabel.setBounds(130, 111, 150, 30);
-		setBankAccountNameTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setBankAccountNameTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 20));
 	}
 	
 	public void setBankAcountNumberTextField()
 	{
-		setBankAccountNumberTextField.setBounds(432, 151, 225, 30);
+		setBankAccountNumberTextField.setBorder(lineBorder);
+		setBankAccountNumberTextField.setForeground(skyBlue);
+		setBankAccountNumberTextField.setBounds(222, 432, 311, 26);
 		setBankAccountNumberTextField.setColumns(10);
-		setBankAccountNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
-		
-		setBankAccountNumberTextFieldLabel.setLabelFor(setBankAccountNumberTextField);
-		setBankAccountNumberTextFieldLabel.setBounds(130, 151, 180, 25);
-		setBankAccountNumberTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));		
+		setBankAccountNumberTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 20));
 	}
 	
 	public void setBankAccountEmailTextField()
 	{
-		setBankAccountEmailTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		setBankAccountEmailTextField.setBorder(lineBorder);
+		setBankAccountEmailTextField.setForeground(skyBlue);
+		setBankAccountEmailTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 20));
 		setBankAccountEmailTextField.setColumns(10);
-		setBankAccountEmailTextField.setBounds(432, 191, 225, 30);
-		
-		setBankAccountEmailTextFieldLabel.setLabelFor(setBankAccountEmailTextField);
-		setBankAccountEmailTextFieldLabel.setBounds(130, 191, 150, 28);
-		setBankAccountEmailTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setBankAccountEmailTextField.setBounds(222, 465, 311, 26);
 	}
 	
 	public void setBankAccountPhoneNumberTextField()
 	{
-		setBankAccountPhoneNumberTextField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		setBankAccountPhoneNumberTextField.setBorder(lineBorder);
+		setBankAccountPhoneNumberTextField.setForeground(skyBlue);
+		setBankAccountPhoneNumberTextField.setFont(new Font("Malgun gothic semilight", Font.PLAIN, 20));
 		setBankAccountPhoneNumberTextField.setColumns(10);
-		setBankAccountPhoneNumberTextField.setBounds(432, 231, 225, 30);
-		
-		setBankAccountPhoneNumberTextFieldLabel.setLabelFor(setBankAccountPhoneNumberTextField);
-		setBankAccountPhoneNumberTextFieldLabel.setBounds(130, 231, 166, 28);
-		setBankAccountPhoneNumberTextFieldLabel.setFont(new Font("Dialog", Font.BOLD, 21));
+		setBankAccountPhoneNumberTextField.setBounds(222, 500, 311, 26);
 	}
 	
 	public void setBackButton()
 	{	
 		setBackButton.setFocusPainted(false);
-		setBackButton.setFont(new Font("Dialog", Font.BOLD, 21));
-		setBackButton.setBounds(58, 550, 98, 28);
+		setBackButton.setOpaque(false);
+		setBackButton.setContentAreaFilled(false);
+		setBackButton.setBorderPainted(false);
+		setBackButton.setBounds(14, 748, 149, 30);
 	}
 	
 	public void setSubmitButton()
 	{
+		setSubmitButton.setName("Submit");
 		setSubmitButton.setFocusPainted(false);
-		setSubmitButton.setFont(new Font("Dialog", Font.BOLD, 21));
-		setSubmitButton.setBounds(619, 550, 108, 26);
+		setSubmitButton.setOpaque(false);
+		setSubmitButton.setContentAreaFilled(false);
+		setSubmitButton.setBorderPainted(false);
+		setSubmitButton.setBounds(398, 749, 149, 30);
+	}
+	
+	public void setExitButton()
+	{
+		exitButton.setFocusPainted(false);
+		exitButton.setBounds(515, 15, 40, 35);
+		exitButton.setOpaque(true);
+		exitButton.setContentAreaFilled(true);
+		exitButton.setBackground(Color.WHITE);
+		exitButton.setBorderPainted(false);
+		exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x.png")));	
 	}
 	
 	public void setMinimizeButton()
 	{
 		minimizeButton.setFocusPainted(false);
-		minimizeButton.setBounds(719, 0, 40, 35);
+		minimizeButton.setBounds(475, 15, 40, 35);
 		minimizeButton.setOpaque(true);
 		minimizeButton.setContentAreaFilled(true);
 		minimizeButton.setBackground(Color.WHITE);
@@ -111,14 +137,100 @@ public class BankDetails
 		minimizeButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/-.png")));	
 	}
 	
-	public void setExitButton()
+	protected boolean checkStringForDigits(String s) 
 	{
-		exitButton.setFocusPainted(false);
-		exitButton.setBounds(760, 0, 40, 35);
-		exitButton.setOpaque(true);
-		exitButton.setContentAreaFilled(true);
-		exitButton.setBackground(Color.WHITE);
-		exitButton.setBorderPainted(false);
-		exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/x.png")));	
+	    if (s == null)
+	    {
+	    	return false;
+	    }
+	    int len = s.length();
+	    for (int i = 0; i < len; i++) 
+	    {
+	    	if ((Character.isDigit(s.charAt(i)) == true)) 
+	        {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	protected boolean checkStringForLetters(String s) 
+	{
+	    if (s == null)
+	    {
+	    	return false;
+	    }
+	    
+	    int len = s.length();
+	    
+	    for (int i = 0; i < len; i++) 
+	    {
+	    	if ((Character.isLetter(s.charAt(i)) == true)) 
+	        {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	protected boolean checkStringForEmailAddress(String s)
+	{
+		if (s == null)
+		{
+			return false;
+		}
+		
+		else
+		{
+			try 
+			{	
+				InternetAddress emailAddress = new InternetAddress(s);
+				emailAddress.validate();
+				return true;
+			} 
+			
+			catch (AddressException e) 
+			{
+				return false;
+			}
+		}	
+	}
+	
+	protected boolean checkPhoneNumber(String s) 
+	{
+	    if (s == null)
+	    {
+	    	return false;
+	    }
+	    
+	    else
+	    {
+	    	if (s.length() != 11)
+	    	{
+	    		return false;
+	    	}
+	    	
+	    	else if (s.charAt(0) != '0')
+	    	{
+	    		return false;
+	    	}
+	    	
+	    	else if (s.charAt(1) != '9')
+	    	{
+	    		return false;
+	    	}
+	    	
+	    	else
+	    	{
+	    		for (int i = 0; i < s.length(); i++) 
+    		    {
+    		    	if ((Character.isLetter(s.charAt(i)) == true)) 
+    		        {
+    		            return false;
+    		        }
+    		    }   		
+	    	}
+	    }
+	    return true;
 	}
 }
